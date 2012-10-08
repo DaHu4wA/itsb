@@ -5,7 +5,6 @@ using namespace std;
 
 Field::Field() {
 	south = north = west = east = NULL;
-	//TODO is this correct??
 }
 
 Field::Field(Field* south, Field* north, Field* west, Field* east) {
@@ -15,7 +14,6 @@ Field::Field(Field* south, Field* north, Field* west, Field* east) {
 	this->west = west;
 	this->east = east;
 
-	//TODO is this correct??
 }
 
 Field::~Field() {
