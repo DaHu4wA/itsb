@@ -1,27 +1,26 @@
 #include "Field.h"
-#include <iostream>
-#include <list>
 
 using namespace std;
 
 Field::Field() {
 	south = north = west = east = NULL;
+	items = new list<Item*>;
 }
 
 Field::~Field() {
 	cout << "Field died!" << endl;
-	for (list<Item*>::iterator i = items.begin(); i != items.end(); ++i) {
+	for (list<Item*>::iterator i = items->begin(); i != items->end(); ++i) {
 		delete *i;
 	}
 }
 
 void Field::addItem(Item* item) {
-	items.push_back(item);
+	items->push_back(item);
 }
 
 void Field::act() {
 	cout << "	> Field acting" << endl;
-	for (list<Item*>::iterator i = items.begin(); i != items.end(); ++i) {
+	for (list<Item*>::iterator i = items->begin(); i != items->end(); ++i) {
 		(*i)->act();
 	}
 }
@@ -32,7 +31,7 @@ Field *Field::getEast() {
 	return east;
 }
 
-list<Item*> Field::getItems() {
+list<Item*>* Field::getItems() {
 	return items;
 }
 
@@ -52,7 +51,7 @@ void Field::setEast(Field *east) {
 	this->east = east;
 }
 
-void Field::setItems(list<Item*> items) {
+void Field::setItems(list<Item*>* items) {
 	this->items = items;
 }
 
