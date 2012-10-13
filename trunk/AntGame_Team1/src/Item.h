@@ -6,11 +6,12 @@
 
 class Item {
 public:
-	Item();
+	Item(Field* currentField);
 	virtual ~Item();
 	void act();
 
 private:
+	Field* currentField;
 };
 
 #endif
