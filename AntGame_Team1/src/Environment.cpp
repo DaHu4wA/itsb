@@ -9,7 +9,12 @@ Environment::Environment() {
 }
 
 Environment::~Environment() {
-	//TODO implement me
+	int x = 0, y = 0;
+	for (x = 0; x < SIZE_X; x++) {
+		for (y = 0; y < SIZE_Y; y++) {
+			delete gameField[x][y];
+		}
+	}
 }
 
 void Environment::act() {

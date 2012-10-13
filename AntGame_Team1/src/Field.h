@@ -11,8 +11,7 @@ class Field {
 public:
 
     Field();
-    Field(Field *south, Field *north, Field *west, Field *east);
-    virtual ~Field();
+    ~Field();
 
     void addItem(Item* item);
 

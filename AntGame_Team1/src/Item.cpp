@@ -3,12 +3,11 @@
 
 using namespace std;
 Item::Item() {
-
 }
 
 Item::~Item() {
 }
 
-void Item::act(){
+void Item::act() {
 	cout << "		> Item acting" << endl;
 }
