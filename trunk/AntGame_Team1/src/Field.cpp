@@ -17,7 +17,7 @@ Field::Field(Field* south, Field* north, Field* west, Field* east) {
 }
 
 Field::~Field() {
-	//TODO implement me
+	cout << "Field died!" << endl;
 }
 
 void Field::addItem(Item* item) {

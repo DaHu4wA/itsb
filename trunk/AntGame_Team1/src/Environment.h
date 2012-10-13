@@ -15,7 +15,9 @@ public:
 	void act();
 	void addTestItems(int x, int y);
 
-	//TODO getGameField() and make gameField private ... getter for multi dimensional array ?!
+	//TODO getGameField() and make gameField private ...
+	//     getter for multi dimensional array ?!
+
 	Field* gameField[SIZE_X][SIZE_Y];
 
 private:
