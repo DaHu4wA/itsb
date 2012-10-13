@@ -25,6 +25,7 @@ public:
     Field *getWest();
 
     void setItems(list<Item*> items);
+
     void setEast(Field *east);
     void setNorth(Field *north);
     void setSouth(Field *south);
