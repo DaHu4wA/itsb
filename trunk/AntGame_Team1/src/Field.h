@@ -1,9 +1,11 @@
-#include <list>
-#include <iostream>
-#include "Item.h"
+
 
 #ifndef FIELD_H_
 #define FIELD_H_
+
+#include <list>
+#include <iostream>
+#include "Item.h"
 
 using namespace std;
 
@@ -17,13 +19,13 @@ public:
 
     void act();
 
-    list<Item*> getItems();
+    list<Item*>* getItems();
 	Field *getEast();
     Field *getNorth();
     Field *getSouth();
     Field *getWest();
 
-    void setItems(list<Item*> items);
+    void setItems(list<Item*>* items);
 
     void setEast(Field *east);
     void setNorth(Field *north);
@@ -32,7 +34,7 @@ public:
 
 private:
 
-	list<Item*> items;
+	list<Item*>* items;
 
 	Field* south;
 	Field* north;
