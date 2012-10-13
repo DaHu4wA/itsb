@@ -1,4 +1,3 @@
-
 #include "Field.h"
 
 #define SIZE_X 16
@@ -22,7 +21,7 @@ public:
 
 private:
 
-    void initField();
+	void initField();
 	void initArray();
 	void setFieldPointers();
 

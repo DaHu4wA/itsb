@@ -1,5 +1,6 @@
 #include "Field.h"
-#include  <iostream>
+#include <iostream>
+#include <list>
 
 using namespace std;
 
@@ -7,17 +8,11 @@ Field::Field() {
 	south = north = west = east = NULL;
 }
 
-Field::Field(Field* south, Field* north, Field* west, Field* east) {
-
-	this->south = south;
-	this->north = north;
-	this->west = west;
-	this->east = east;
-
-}
-
 Field::~Field() {
 	cout << "Field died!" << endl;
+	for (list<Item*>::iterator i = items.begin(); i != items.end(); ++i) {
+		delete *i;
+	}
 }
 
 void Field::addItem(Item* item) {
