@@ -29,7 +29,7 @@ void Environment::act() {
 }
 
 void Environment::addTestItems(int x, int y) {
-	Item* item = new Item();
+	Item* item = new Item(gameField[x][y]);
 	gameField[x][y]->addItem(item);
 }
 
