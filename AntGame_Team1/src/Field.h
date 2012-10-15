@@ -1,5 +1,3 @@
-
-
 #ifndef FIELD_H_
 #define FIELD_H_
 
@@ -10,13 +8,12 @@
 using namespace std;
 
 class Field {
-public:
 
+public:
     Field();
     ~Field();
 
     void addItem(Item* item);
-
     void act();
 
     list<Item*>* getItems();
@@ -40,7 +37,6 @@ private:
 	Field* north;
 	Field* west;
 	Field* east;
-
 };
 
 #endif
