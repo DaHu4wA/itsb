@@ -7,9 +7,10 @@ Environment* environment;
 
 int main(int argc, char* argv[]) {
 
+	//Instantiate environment with initialized fields and correctly set pointers
 	environment = new Environment();
 
-	environment->addTestItems(1, 1);
+	environment->addTestItems(1, 1); // Add a simple Item to field [1][1]
 	environment->addTestItems(1, 1);
 	environment->addTestItems(1, 1);
 
@@ -18,7 +19,7 @@ int main(int argc, char* argv[]) {
 
 	environment->addTestItems(15, 14);
 
-	environment->act();
+	environment->act(); // Let the whole game move 1 step
 
 	return 0;
 }

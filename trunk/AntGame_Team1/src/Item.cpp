@@ -1,6 +1,7 @@
 #include "Item.h"
 
 using namespace std;
+
 Item::Item(Field* currentField) {
 	this.currentField = currentField;
 }
