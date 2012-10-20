@@ -1,18 +1,18 @@
-//#include "Field.h"
 #include  <iostream>
 
 #ifndef ITEM_H_
 #define ITEM_H_
 
+class Field;
+
 class Item {
 public:
-	//Item(Field* currentField); not working :(
-	Item();
+	Item(); //TODO only one constructor with currentField
 	~Item();
-	void act();
+	virtual void act() = 0;
 
-private:
-	//Field* currentField;
+protected:
+	Field* currentField;
 };
 
 #endif

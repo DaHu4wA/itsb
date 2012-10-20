@@ -9,7 +9,6 @@
 class Environment {
 public:
 
-	Environment(void);
 	virtual ~Environment();
 	void act();
 	void addTestItems(int x, int y);
@@ -17,7 +16,11 @@ public:
 	//TODO getGameField() and make gameField private ...
 	Field* gameField[SIZE_X][SIZE_Y];
 
+	static Environment* Instance();
+
 private:
+	Environment();
+	static Environment* pEnvironment;
 
 	void initField();
 	void initArray();
