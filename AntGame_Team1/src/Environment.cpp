@@ -1,8 +1,13 @@
 #include "Environment.h"
 #include "Ant.h"
+#include "AntHill.h"
 #include "Food.h"
 #include "Item.h"
+#include "Item.h"
+#include "Creator.h"
 #include  <iostream>
+
+using namespace std;
 
 Environment* Environment::pEnvironment = 0;
 
@@ -27,7 +32,7 @@ Environment::~Environment() {
 	}
 }
 
-void Environment::act() {
+void Environment::actAll() {
 	cout << "> Environment acting" << endl;
 	int x = 0, y = 0;
 
@@ -40,11 +45,14 @@ void Environment::act() {
 
 void Environment::addTestItems(int x, int y) {
 
-	Item* food = new Food(); //todo constructor with gameField[x][y]
+	Item* food = Creator::Instance()->createFood();
 	gameField[x][y]->addItem(food);
 
-	Item* ant = new Ant();
+	Item* ant = Creator::Instance()->createAnt();
 	gameField[x][y]->addItem(ant);
+
+	Item* antHill = Creator::Instance()->createAntHill();
+	gameField[x][y]->addItem(antHill);
 }
 
 void Environment::initField() {
