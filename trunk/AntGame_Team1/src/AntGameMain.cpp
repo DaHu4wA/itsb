@@ -20,7 +20,7 @@ int main(int argc, char* argv[]) {
 
 	environment->addTestItems(15, 14);
 
-	environment->act(); // Let the whole game move 1 step
+	environment->actAll(); // Let the whole game move 1 step
 
 	return 0;
 }
