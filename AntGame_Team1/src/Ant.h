@@ -10,6 +10,9 @@ public:
 	Ant();
 	~Ant();
 	void act();
+
+	// private: number zur wiedererkennung
+	//			lebenszeit, in der factory zufällig gesetzt
 };
 
 }

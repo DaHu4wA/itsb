@@ -15,7 +15,14 @@ public:
 	void actAll();
 	void addTestItems(int x, int y);
 
-	Field* gameField[SIZE_X][SIZE_Y];
+	//TODO resize methode, um im default constructor eine größe angeben zu können?
+
+	Field* gameField[SIZE_X][SIZE_Y]; //TODO getter
+
+
+	// Field ** gameField;.. dann mit new Field[] .
+	// auf breite zugreifen: gameField
+	// auf höhe zugreifen: gamefield[zeile]
 
 private:
 	Environment();
