@@ -7,7 +7,7 @@ class Field;
 
 class Item {
 public:
-	Item(); //TODO only one constructor with currentField
+	Item();
 	~Item();
 	virtual void act() = 0;
 
