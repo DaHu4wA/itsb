@@ -23,9 +23,12 @@ void Field::removeItem(Item* item) {
 }
 
 void Field::act() {
-	cout << "	> Field acting" << endl;
+	//cout << "	> Field acting" << endl;
 	for (list<Item*>::iterator i = items->begin(); i != items->end(); ++i) {
-		(*i)->act();
+		if((*i) != NULL){
+			(*i)->act();
+		}
+
 	}
 }
 

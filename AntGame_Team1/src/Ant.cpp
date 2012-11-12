@@ -17,9 +17,16 @@ Ant::~Ant() {
 }
 
 void Ant::act() {
-	lifetime--;
+
+	if(lifetime > 0){
+		lifetime--;
+	}else{
+		cout << "Ant died " << lifetime << endl;
+	}
 
 	cout << "		> Ant acting, " << lifetime << " moves left!" << endl;
+
+movePosition();
 }
 
 unsigned int Ant::getLifetime() {
@@ -34,7 +41,7 @@ void Ant::setHasFood(bool hasFood) {
 	this->hasFood = hasFood;
 }
 
-void Ant::movePosition(){
+void Ant::movePosition() {
 
 	srand(time(NULL));
 	Field* movingTo = NULL;
@@ -42,30 +49,34 @@ void Ant::movePosition(){
 	int i = rand() % 4;
 
 	switch (i) {
-		case 0:
-			movingTo = currentField->getNorth();
-			break;
-		case 1:
-			movingTo = currentField->getSouth();
-			break;
-		case 2:
-			movingTo = currentField->getEast();
-			break;
-		case 3:
-			movingTo = currentField->getWest();
-			break;
-		default:
-			movingTo = NULL;
-			cout << "Ant.cpp --> rand to high! "<< i << endl;
-			break;
-	}
-			currentField->removeItem(this);
-			movingTo->addItem(this);
+	case 0:
+		movingTo = currentField->getNorth();
+		break;
+	case 1:
+		movingTo = currentField->getSouth();
+		break;
+	case 2:
+		movingTo = currentField->getEast();
+		break;
+	case 3:
+		movingTo = currentField->getWest();
+		break;
+	default:
+		movingTo = NULL;
+		cout << "Ant.cpp --> random count to high! " << i << endl;
+		break;
 	}
 
-    void Ant::setLifetime(unsigned int lifetime)
-    {
-        this->lifetime = lifetime;}
+	currentField->removeItem(this);  // HERE IS A BUG!
+	if(movingTo != NULL){
+		movingTo->addItem(this);
+	}else{
+		cout << "Ant could not move!" << endl;
+	}
 }
 
+void Ant::setLifetime(unsigned int lifetime) {
+	this->lifetime = lifetime;
+}
+}
 

@@ -11,7 +11,9 @@ public:
 	~Food();
 	void act();
 
-	void foodTaken();
+	void takeFood();
+    unsigned int getFoodCount();
+    void setFoodCount(unsigned int foodCount);
 
 private:
 	unsigned int foodCount;

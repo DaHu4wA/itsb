@@ -14,6 +14,9 @@ public:
 
 	void actAll();
 
+	void placeFoodPlace(int x, int y);
+	void placeAntHill(int x, int y);
+
 	//TODO resize methode, um im default constructor eine größe angeben zu können?
 
 	Field* gameField[SIZE_X][SIZE_Y];
@@ -29,9 +32,6 @@ private:
 	void initField();
 	void initArray();
 	void setFieldPointers();
-
-	void placeFoodPlace(int x, int y);
-	void placeAntHill(int x, int y);
 };
 
 #endif
