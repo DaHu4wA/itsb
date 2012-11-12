@@ -41,11 +41,13 @@ Food* Creator::createFood(Field* currentField) {
 }
 AntHill* Creator::createAntHill(Field* currentField) {
 
-	AntHill* hill = new AntHill(currentField);
+	srand(time(NULL));
+	int count = rand() % 25 + 25;
+
+	AntHill* hill = new AntHill(currentField, count);
 
 	currentField->addItem(hill);
-
-	hill->birthInitialAnts(25);
+	hill->birthInitialAnts();
 
 	return hill;
 }
