@@ -1,4 +1,7 @@
 #include "Item.h"
+#include "Ant.h"
+#include "AntHill.h"
+#include "Food.h"
 
 #ifndef CREATOR_H_
 #define CREATOR_H_
@@ -9,9 +12,9 @@ public:
 	static Creator* Instance();
 	virtual ~Creator();
 
-	Item* createAnt(Field* currentField);
-	Item* createFood(Field* currentField);
-	Item* createAntHill(Field* currentField);
+	Ant* createAnt(Field* currentField);
+	Food* createFood(Field* currentField);
+	AntHill* createAntHill(Field* currentField);
 
 private:
 	Creator();

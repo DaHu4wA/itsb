@@ -9,15 +9,6 @@ int main(int argc, char* argv[]) {
 
 	environment = Environment::Instance();
 
-	environment->addTestItems(1, 1);
-	environment->addTestItems(1, 1);
-	environment->addTestItems(1, 1);
-
-	environment->addTestItems(4, 2);
-	environment->addTestItems(4, 0);
-
-	environment->addTestItems(15, 14);
-
 	environment->actAll(); // Let the whole game move 1 step
 
 	return 0;

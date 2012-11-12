@@ -8,6 +8,9 @@ namespace std {
 class AntHill: public Item {
 public:
 	AntHill(Field* currentField);
+
+	void birthInitialAnts(int antCount);
+
 	~AntHill();
 	void act();
 
@@ -16,7 +19,7 @@ private:
 	int createdAntsCount;
 
 	void consumeFood();
-	void birthAnts(); //Add ants to the field where the AntHill is placed on
+	void birthAnt(); //Add ants to the field where the AntHill is placed on
 };
 
 }

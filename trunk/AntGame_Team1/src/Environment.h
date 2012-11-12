@@ -13,7 +13,6 @@ public:
 	virtual ~Environment();
 
 	void actAll();
-	void addTestItems(int x, int y);
 
 	//TODO resize methode, um im default constructor eine größe angeben zu können?
 
@@ -31,8 +30,8 @@ private:
 	void initArray();
 	void setFieldPointers();
 
-	void placeFoodPlace();
-	void placeAntHill();
+	void placeFoodPlace(int x, int y);
+	void placeAntHill(int x, int y);
 };
 
 #endif

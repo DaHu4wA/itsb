@@ -58,13 +58,10 @@ void Ant::movePosition(){
 			movingTo = NULL;
 			cout << "Ant.cpp --> rand to high! "<< i << endl;
 			break;
-
+	}
 			currentField->removeItem(this);
 			movingTo->addItem(this);
 	}
-
-
-
 }
 
-}
+
