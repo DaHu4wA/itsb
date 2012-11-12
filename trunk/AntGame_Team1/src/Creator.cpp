@@ -14,7 +14,7 @@ Creator* Creator::pCreator = 0;
 Creator* Creator::Instance() {
 
 	if (pCreator == 0) {
-		pCreator = new Creator();
+		pCreator = new Creator();	srand(time(NULL));
 	}
 	return pCreator;
 }
@@ -34,14 +34,13 @@ Ant* Creator::createAnt(Field* currentField) {
 }
 Food* Creator::createFood(Field* currentField) {
 
-	Food* food = new Food(currentField, randomLifetime());
+	Food* food = new Food(currentField, randomFoodCount());
 
 	currentField->addItem(food);
 	return food;
 }
 AntHill* Creator::createAntHill(Field* currentField) {
 
-	srand(time(NULL));
 	int count = rand() % 25 + 25;
 
 	AntHill* hill = new AntHill(currentField, count);
@@ -54,15 +53,11 @@ AntHill* Creator::createAntHill(Field* currentField) {
 
 int Creator::randomFoodCount() {
 
-	srand(time(NULL));
-
-	return rand() % 20 + 10;
+	return rand() % 40 + 10;
 }
 
 int Creator::randomLifetime() {
 
-	srand(time(NULL));
-
-	return rand() % 50 + 50;
+	return rand() % 25 + 50;
 }
 

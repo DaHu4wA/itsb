@@ -17,7 +17,7 @@ void Food::act() {
 	cout << "		> Food acting" << endl;
 }
 
-void Food::foodTaken() {
+void Food::takeFood() {
 
 	if (foodCount > 0) {
 		foodCount--;
@@ -26,4 +26,16 @@ void Food::foodTaken() {
 	}
 
 }
+
+unsigned int Food::getFoodCount()
+{
+    return foodCount;
+}
+
+void Food::setFoodCount(unsigned int foodCount)
+{
+    this->foodCount = foodCount;
+}
+
+
 

@@ -45,7 +45,7 @@ void Environment::actAll() {
 
 void Environment::placeFoodPlace(int x, int y) {
 
-	//ant = Creator::Instance()->createFoodPlace
+	Creator::Instance()->createFood(gameField[x][y]);
 
 }
 
