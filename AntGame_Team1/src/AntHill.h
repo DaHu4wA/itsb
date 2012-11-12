@@ -2,6 +2,7 @@
 #define ANTHILL_H_
 
 #include "Item.h"
+#include "Ant.h"
 
 namespace std {
 
@@ -10,6 +11,8 @@ public:
 	AntHill(Field* currentField);
 
 	void birthInitialAnts(int antCount);
+
+	void rechargeAnt(Ant* ant);
 
 	~AntHill();
 	void act();

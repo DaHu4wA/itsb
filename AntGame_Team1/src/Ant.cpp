@@ -62,6 +62,10 @@ void Ant::movePosition(){
 			currentField->removeItem(this);
 			movingTo->addItem(this);
 	}
+
+    void Ant::setLifetime(unsigned int lifetime)
+    {
+        this->lifetime = lifetime;}
 }
 
 

@@ -23,6 +23,10 @@ void AntHill::birthAnt(){
 	Creator::Instance()->createAnt(currentField);
 }
 
+void AntHill::rechargeAnt(Ant* ant){
+	ant->setLifetime(Creator::Instance()->randomLifetime());
+}
+
 
 void  AntHill::birthInitialAnts(int antCount){
 	int i = 0;

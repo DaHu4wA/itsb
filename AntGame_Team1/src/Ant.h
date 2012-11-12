@@ -13,6 +13,7 @@ public:
 	unsigned int getLifetime();
 	bool isHasFood();
 	void setHasFood(bool hasFood);
+    void setLifetime(unsigned int lifetime);
 
 private:
 	void movePosition();
