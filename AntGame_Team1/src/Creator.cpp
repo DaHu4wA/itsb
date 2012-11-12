@@ -25,14 +25,29 @@ Creator::Creator() {
 Creator::~Creator() {
 }
 
-Item* Creator::createAnt(Field* currentField) {
-	return new Ant(currentField, randomLifetime());
+Ant* Creator::createAnt(Field* currentField) {
+
+	Ant* ant = new Ant(currentField, randomLifetime());
+
+	currentField->addItem(ant);
+	return ant;
 }
-Item* Creator::createFood(Field* currentField) {
-	return new Food(currentField, randomFoodCount());
+Food* Creator::createFood(Field* currentField) {
+
+	Food* food = new Food(currentField, randomLifetime());
+
+	currentField->addItem(food);
+	return food;
 }
-Item* Creator::createAntHill(Field* currentField) {
-	return new AntHill(currentField);
+AntHill* Creator::createAntHill(Field* currentField) {
+
+	AntHill* hill = new AntHill(currentField);
+
+	currentField->addItem(hill);
+
+	hill->birthInitialAnts(25);
+
+	return hill;
 }
 
 int Creator::randomFoodCount() {

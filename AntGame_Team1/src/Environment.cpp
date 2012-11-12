@@ -43,27 +43,15 @@ void Environment::actAll() {
 	}
 }
 
-void placeFoodPlace(int x, int y) {
+void Environment::placeFoodPlace(int x, int y) {
 
-	// TODO
-
-}
-void placeAntHill(int x, int y) {
-
-	// TODO
+	//ant = Creator::Instance()->createFoodPlace
 
 }
 
-void Environment::addTestItems(int x, int y) {
+void Environment::placeAntHill(int x, int y) {
 
-	Item* food = Creator::Instance()->createFood(gameField[x][y]);
-	gameField[x][y]->addItem(food);
-
-	Item* ant = Creator::Instance()->createAnt(gameField[x][y]);
-	gameField[x][y]->addItem(ant);
-
-	Item* antHill = Creator::Instance()->createAntHill(gameField[x][y]);
-	gameField[x][y]->addItem(antHill);
+	Creator::Instance()->createAntHill(gameField[x][y]);
 }
 
 void Environment::initField() {
