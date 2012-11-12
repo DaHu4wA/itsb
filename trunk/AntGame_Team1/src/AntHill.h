@@ -8,21 +8,20 @@ namespace std {
 
 class AntHill: public Item {
 public:
-	AntHill(Field* currentField);
+	AntHill(Field* currentField, int foodAtHillCount);
 
-	void birthInitialAnts(int antCount);
+	void birthInitialAnts();
 
 	void rechargeAnt(Ant* ant);
 
 	~AntHill();
 	void act();
+    int getFoodAtHillCount();
 
 private:
 	int foodAtHillCount;
-	int createdAntsCount;
 
 	void consumeFood();
-	void birthAnt(); //Add ants to the field where the AntHill is placed on
 };
 
 }
