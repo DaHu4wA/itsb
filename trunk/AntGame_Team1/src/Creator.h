@@ -12,6 +12,8 @@ public:
 	static Creator* Instance();
 	virtual ~Creator();
 
+	int randomLifetime();
+
 	Ant* createAnt(Field* currentField);
 	Food* createFood(Field* currentField);
 	AntHill* createAntHill(Field* currentField);
@@ -21,7 +23,6 @@ private:
 	static Creator* pCreator;
 
 	int randomFoodCount();
-	int randomLifetime();
 };
 
 #endif
