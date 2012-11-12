@@ -18,6 +18,10 @@ void Field::addItem(Item* item) {
 	items->push_back(item);
 }
 
+void Field::removeItem(Item* item) {
+	items->remove(item);
+}
+
 void Field::act() {
 	cout << "	> Field acting" << endl;
 	for (list<Item*>::iterator i = items->begin(); i != items->end(); ++i) {

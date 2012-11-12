@@ -7,9 +7,14 @@ namespace std {
 
 class Food: public Item {
 public:
-	Food();
+	Food(Field* currentField, unsigned int foodCount);
 	~Food();
 	void act();
+
+	void foodTaken();
+
+private:
+	unsigned int foodCount;
 };
 
 }

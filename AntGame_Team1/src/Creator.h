@@ -9,13 +9,16 @@ public:
 	static Creator* Instance();
 	virtual ~Creator();
 
-	Item* createAnt();
-	Item* createFood();
-	Item* createAntHill();
+	Item* createAnt(Field* currentField);
+	Item* createFood(Field* currentField);
+	Item* createAntHill(Field* currentField);
 
 private:
 	Creator();
 	static Creator* pCreator;
+
+	int randomFoodCount();
+	int randomLifetime();
 };
 
 #endif
