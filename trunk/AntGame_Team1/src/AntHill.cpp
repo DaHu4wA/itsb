@@ -3,7 +3,8 @@
 
 namespace std {
 
-AntHill::AntHill() {
+AntHill::AntHill(Field* currentField) :
+		Item(currentField) {
 
 }
 

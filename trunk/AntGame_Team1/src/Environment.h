@@ -17,8 +17,7 @@ public:
 
 	//TODO resize methode, um im default constructor eine größe angeben zu können?
 
-	Field* gameField[SIZE_X][SIZE_Y]; //TODO getter
-
+	Field* gameField[SIZE_X][SIZE_Y];
 
 	// Field ** gameField;.. dann mit new Field[] .
 	// auf breite zugreifen: gameField
@@ -31,6 +30,9 @@ private:
 	void initField();
 	void initArray();
 	void setFieldPointers();
+
+	void placeFoodPlace();
+	void placeAntHill();
 };
 
 #endif
