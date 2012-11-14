@@ -13,11 +13,12 @@ public:
     Field();
     ~Field();
 
+    list<Item*>* getItems();
     void addItem(Item* item);
     void removeItem(Item* item);
+
     void act();
 
-    list<Item*>* getItems();
 	Field *getEast();
     Field *getNorth();
     Field *getSouth();

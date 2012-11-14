@@ -17,25 +17,23 @@ void Food::act() {
 	cout << "		> Food acting" << endl;
 }
 
-void Food::takeFood() {
+void Food::takeFood(Ant* ant) {
 
 	if (foodCount > 0) {
+		ant->setHasFood(true);
 		foodCount--;
 	} else {
 		cout << "NO MORE FOOD !!! " << endl;
 	}
 
+	cout << "An ant found some food!" << cout;
 }
 
-unsigned int Food::getFoodCount()
-{
-    return foodCount;
+unsigned int Food::getFoodCount() {
+	return foodCount;
 }
 
-void Food::setFoodCount(unsigned int foodCount)
-{
-    this->foodCount = foodCount;
+void Food::setFoodCount(unsigned int foodCount) {
+	this->foodCount = foodCount;
 }
-
-
 

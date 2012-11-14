@@ -17,13 +17,11 @@ public:
 	void placeFoodPlace(int x, int y);
 	void placeAntHill(int x, int y);
 
-	//TODO resize methode, um im default constructor eine größe angeben zu können?
+
+	// TODO: Flexible game field size
+	// Maybe only save the first position, and go to position x,y by using
 
 	Field* gameField[SIZE_X][SIZE_Y];
-
-	// Field ** gameField;.. dann mit new Field[] .
-	// auf breite zugreifen: gameField
-	// auf höhe zugreifen: gamefield[zeile]
 
 private:
 	Environment();

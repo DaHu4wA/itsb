@@ -1,10 +1,13 @@
 #include "Field.h"
+#include <typeinfo>
+#include "Ant.h"
 
 using namespace std;
 
 Field::Field() {
 	south = north = west = east = NULL;
 	items = new list<Item*>;
+	pheromonStrength = 0;
 }
 
 Field::~Field() {
@@ -15,6 +18,19 @@ Field::~Field() {
 }
 
 void Field::addItem(Item* item) {
+
+	Ant* ant = dynamic_cast<Ant*>(item);
+
+	if(ant != NULL) {
+		if (ant->isHasFood()) {
+			pheromonStrength = pheromonStrength + 8;
+		} else {
+			pheromonStrength = pheromonStrength + 4;
+		}
+		cout << "Ant added to field " << this << " Strength: "
+				<< pheromonStrength << endl;
+	}
+
 	items->push_back(item);
 }
 
@@ -23,9 +39,14 @@ void Field::removeItem(Item* item) {
 }
 
 void Field::act() {
+
+	if (pheromonStrength > 0) {
+		pheromonStrength--;
+	}
+
 	//cout << "	> Field acting" << endl;
 	for (list<Item*>::iterator i = items->begin(); i != items->end(); ++i) {
-		if((*i) != NULL){
+		if ((*i) != NULL) {
 			(*i)->act();
 		}
 
