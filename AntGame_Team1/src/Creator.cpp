@@ -6,6 +6,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include <typeinfo>
 
 using namespace std;
 
@@ -39,11 +40,12 @@ Food* Creator::createFood(Field* currentField) {
 	currentField->addItem(food);
 	return food;
 }
+
 AntHill* Creator::createAntHill(Field* currentField) {
 
-	int count = rand() % 25 + 25;
+	int foodAtHillCount = rand() % 25 + 40;
 
-	AntHill* hill = new AntHill(currentField, count);
+	AntHill* hill = new AntHill(currentField, foodAtHillCount);
 
 	currentField->addItem(hill);
 	hill->birthInitialAnts();
@@ -58,6 +60,6 @@ int Creator::randomFoodCount() {
 
 int Creator::randomLifetime() {
 
-	return rand() % 25 + 50;
+	return rand() % 50 + 100;
 }
 

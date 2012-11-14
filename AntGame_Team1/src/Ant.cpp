@@ -1,4 +1,5 @@
 #include "Ant.h"
+#include "Food.h"
 #include <iostream>
 #include <time.h>
 #include <stdio.h>
@@ -18,15 +19,17 @@ Ant::~Ant() {
 
 void Ant::act() {
 
-	if(lifetime > 0){
+	if (lifetime > 0) {
 		lifetime--;
-	}else{
+	} else {
+		// TODO call my own destructor?
+		// delete(this);
 		cout << "Ant died " << lifetime << endl;
 	}
-
 	cout << "		> Ant acting, " << lifetime << " moves left!" << endl;
 
-movePosition();
+	movePosition();
+	checkOwnField();
 }
 
 unsigned int Ant::getLifetime() {
@@ -39,6 +42,25 @@ bool Ant::isHasFood() {
 
 void Ant::setHasFood(bool hasFood) {
 	this->hasFood = hasFood;
+}
+
+void Ant::checkOwnField() {
+
+	for (list<Item*>::iterator i = currentField->getItems()->begin();
+			i != currentField->getItems()->end(); ++i) {
+		if ((*i) != NULL) {
+
+			Food* food = dynamic_cast<Food*>((*i));
+			if (food != NULL) {
+				food->takeFood(this);
+			}
+
+			AntHill* hill = dynamic_cast<AntHill*>((*i));
+			if (hill != NULL) {
+				hill->antVisits(this);
+			}
+		}
+	}
 }
 
 void Ant::movePosition() {
@@ -67,10 +89,11 @@ void Ant::movePosition() {
 		break;
 	}
 
-	currentField->removeItem(this);  // HERE IS A BUG!
-	if(movingTo != NULL){
+	if (movingTo != NULL) {
+		currentField->removeItem(this);
 		movingTo->addItem(this);
-	}else{
+		currentField = movingTo;
+	} else {
 		cout << "Ant could not move!" << endl;
 	}
 }

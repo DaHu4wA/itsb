@@ -17,6 +17,7 @@ public:
 
 private:
 	void movePosition();
+	void checkOwnField();
 
 	unsigned int lifetime;
 	bool hasFood;

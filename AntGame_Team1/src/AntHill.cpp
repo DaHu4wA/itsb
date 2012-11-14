@@ -19,23 +19,26 @@ void AntHill::act() {
 	cout << "		> AntHill acting" << endl;
 }
 
-void AntHill::rechargeAnt(Ant* ant){
+void AntHill::antVisits(Ant* ant) {
+	/* "recharge" ant */
 	ant->setLifetime(Creator::Instance()->randomLifetime());
+
+	if (ant->isHasFood()) {
+		foodAtHillCount++;
+		ant->setHasFood(false);
+	}
+	cout << "Ant visited the hill!" << cout;
 }
 
-void  AntHill::birthInitialAnts(){
+void AntHill::birthInitialAnts() {
 	int i = 0;
-	for(i = 0; i < foodAtHillCount; i++ ){
+	for (i = 0; i < foodAtHillCount; i++) {
 		Creator::Instance()->createAnt(currentField);
 	}
+	foodAtHillCount = 0;
 }
 
-int AntHill::getFoodAtHillCount()
-{
-    return foodAtHillCount;
+int AntHill::getFoodAtHillCount() {
+	return foodAtHillCount;
 }
-
-
-
-
 

@@ -12,7 +12,7 @@ public:
 
 	void birthInitialAnts();
 
-	void rechargeAnt(Ant* ant);
+	void antVisits(Ant* ant);
 
 	~AntHill();
 	void act();
