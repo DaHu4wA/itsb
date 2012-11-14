@@ -1,5 +1,6 @@
 #include "Ant.h"
 #include "Food.h"
+#include "AntHill.h"
 #include <iostream>
 #include <time.h>
 #include <stdio.h>
