@@ -13,6 +13,11 @@ int main(int argc, char* argv[]) {
 	environment->placeAntHill(4,4);
 
 	environment->actAll(); // Let the whole game move 1 step
+	environment->actAll();
+	environment->actAll();
+	environment->actAll();
+	environment->actAll();
+
 
 	return 0;
 }

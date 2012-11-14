@@ -27,7 +27,7 @@ void Field::addItem(Item* item) {
 		} else {
 			pheromonStrength = pheromonStrength + 4;
 		}
-		cout << "Ant added to field " << this << " Strength: "
+		cout << "Ant added to field Strength: "
 				<< pheromonStrength << endl;
 	}
 
@@ -44,7 +44,6 @@ void Field::act() {
 		pheromonStrength--;
 	}
 
-	//cout << "	> Field acting" << endl;
 	for (list<Item*>::iterator i = items->begin(); i != items->end(); ++i) {
 		if ((*i) != NULL) {
 			(*i)->act();
