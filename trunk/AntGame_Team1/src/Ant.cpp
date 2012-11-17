@@ -26,8 +26,8 @@ void Ant::act() {
 
 		cout << "		> Ant acting, lifetime: " << lifetime;
 
-		movePosition();
 		checkOwnField();
+		movePosition();
 	} else {
 		cout << "Ant has no lifetime: " << lifetime << endl;
 	}
@@ -68,6 +68,11 @@ void Ant::movePosition() {
 
 	Field* movingTo = NULL;
 
+	//bestimmung der nächsten position
+	if(!hasFood){
+
+	movedFields->push_back(currentField);
+
 	int i = rand() % 4;
 
 	switch (i) {
@@ -92,6 +97,15 @@ void Ant::movePosition() {
 		cout << "Ant.cpp --> random count to high! " << i << endl;
 		break;
 	}
+
+	}
+
+	else{
+		movingTo = movedPositions->pop_back();
+	}
+
+
+	//eigentliches move
 
 	if (movingTo != NULL) {
 		cout << " to " << movingTo << endl;
