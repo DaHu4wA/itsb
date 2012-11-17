@@ -23,14 +23,13 @@ void Ant::act() {
 
 	if (lifetime > 0) {
 		lifetime--;
-	}
-	else {
+	} else {
 		// TODO call my own destructor?
 		// delete(this);
 		cout << "Ant died " << lifetime << endl;
 	}
 
-	cout << "		> Ant acting, lifetime: " << lifetime ;
+	cout << "		> Ant acting, lifetime: " << lifetime;
 
 	movePosition();
 	checkOwnField();
@@ -76,19 +75,19 @@ void Ant::movePosition() {
 	switch (i) {
 	case 0:
 		movingTo = currentField->getNorth();
-		cout << " - Moving North" ;
+		cout << " - Moving North";
 		break;
 	case 1:
 		movingTo = currentField->getSouth();
-		cout << " - Moving South" ;
+		cout << " - Moving South";
 		break;
 	case 2:
 		movingTo = currentField->getEast();
-		cout << " - Moving East" ;
+		cout << " - Moving East";
 		break;
 	case 3:
 		movingTo = currentField->getWest();
-		cout << " - Moving West" ;
+		cout << " - Moving West";
 		break;
 	default:
 		movingTo = NULL;
@@ -100,7 +99,7 @@ void Ant::movePosition() {
 		cout << " to " << movingTo << endl;
 		movingTo->addItem(this);
 
-		//currentField->getItems()->remove(this);
+		currentField->getItems()->remove(this);
 
 		currentField = movingTo;
 	} else {

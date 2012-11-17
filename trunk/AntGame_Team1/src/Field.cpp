@@ -21,16 +21,14 @@ void Field::addItem(Item* item) {
 
 	Ant* ant = dynamic_cast<Ant*>(item);
 
-	if(ant != NULL) {
+	if (ant != NULL) {
 		if (ant->isHasFood()) {
 			pheromonStrength = pheromonStrength + 8;
 		} else {
 			pheromonStrength = pheromonStrength + 4;
 		}
-		cout << "Ant added to field Strength: "
-				<< pheromonStrength << endl;
+		cout << "Ant added to field Strength: " << pheromonStrength << endl;
 	}
-
 	items->push_back(item);
 }
 
@@ -44,11 +42,11 @@ void Field::act() {
 		pheromonStrength--;
 	}
 
-	for (list<Item*>::iterator i = items->begin(); i != items->end(); ++i) {
+	list<Item*> tempItems = *items;
+	for (list<Item*>::iterator i = tempItems.begin(); i != tempItems.end(); ++i) {
 		if ((*i) != NULL) {
 			(*i)->act();
 		}
-
 	}
 }
 
