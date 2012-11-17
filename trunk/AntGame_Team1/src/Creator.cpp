@@ -15,7 +15,8 @@ Creator* Creator::pCreator = 0;
 Creator* Creator::Instance() {
 
 	if (pCreator == 0) {
-		pCreator = new Creator();	srand(time(NULL));
+		pCreator = new Creator();
+		srand(time(NULL));
 	}
 	return pCreator;
 }
@@ -43,7 +44,7 @@ Food* Creator::createFood(Field* currentField) {
 
 AntHill* Creator::createAntHill(Field* currentField) {
 
-	int foodAtHillCount = rand() % 25 + 40;
+	int foodAtHillCount = rand() % 25 + 50;
 
 	AntHill* hill = new AntHill(currentField, foodAtHillCount);
 
