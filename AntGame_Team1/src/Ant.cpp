@@ -23,16 +23,14 @@ void Ant::act() {
 
 	if (lifetime > 0) {
 		lifetime--;
+
+		cout << "		> Ant acting, lifetime: " << lifetime;
+
+		movePosition();
+		checkOwnField();
 	} else {
-		// TODO call my own destructor?
-		// delete(this);
-		cout << "Ant died " << lifetime << endl;
+		cout << "Ant has no lifetime: " << lifetime << endl;
 	}
-
-	cout << "		> Ant acting, lifetime: " << lifetime;
-
-	movePosition();
-	checkOwnField();
 }
 
 unsigned int Ant::getLifetime() {
@@ -98,9 +96,7 @@ void Ant::movePosition() {
 	if (movingTo != NULL) {
 		cout << " to " << movingTo << endl;
 		movingTo->addItem(this);
-
 		currentField->getItems()->remove(this);
-
 		currentField = movingTo;
 	} else {
 		cout << "Ant could not move!" << endl;

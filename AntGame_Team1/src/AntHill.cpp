@@ -2,6 +2,7 @@
 #include <iostream>
 #include "Creator.h"
 #include "Ant.h"
+#include "FoodCountTooLowException.h"
 
 using namespace std;
 
@@ -31,6 +32,11 @@ void AntHill::antVisits(Ant* ant) {
 }
 
 void AntHill::birthInitialAnts() {
+
+	if(foodAtHillCount < 50){
+		throw FoodCountTooLowException(foodAtHillCount);
+	}
+
 	int i = 0;
 	for (i = 0; i < foodAtHillCount; i++) {
 		Creator::Instance()->createAnt(currentField);
