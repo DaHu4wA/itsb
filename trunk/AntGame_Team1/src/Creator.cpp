@@ -8,6 +8,9 @@
 #include <time.h>
 #include <typeinfo>
 
+/**
+ * The factory
+ */
 using namespace std;
 
 Creator* Creator::pCreator = 0;
