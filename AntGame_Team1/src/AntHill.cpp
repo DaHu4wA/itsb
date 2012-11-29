@@ -13,7 +13,6 @@ AntHill::AntHill(Field* currentField, int foodAtHillCount) :
 }
 
 AntHill::~AntHill() {
-
 }
 
 void AntHill::act() {
@@ -21,7 +20,7 @@ void AntHill::act() {
 }
 
 void AntHill::antVisits(Ant* ant) {
-	/* "recharge" ant */
+	// "recharge" ant
 	ant->setLifetime(Creator::Instance()->randomLifetime());
 
 	if (ant->isHasFood()) {
@@ -33,7 +32,7 @@ void AntHill::antVisits(Ant* ant) {
 
 void AntHill::birthInitialAnts() {
 
-	if(foodAtHillCount < 50){
+	if (foodAtHillCount < 50) {
 		throw FoodCountTooLowException(foodAtHillCount);
 	}
 

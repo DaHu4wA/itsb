@@ -1,6 +1,5 @@
 #include  <iostream>
 #include  "Environment.h"
-
 #include "FoodCountTooLowException.h"
 
 using namespace std;
@@ -20,7 +19,7 @@ int main(int argc, char* argv[]) {
 	} catch (FoodCountTooLowException& e) {
 		cout << e.what() << e.getFoodCount() << endl;
 	} catch (...) {
-		cout << "I hate C++ !" << endl;
+		cout << "Food to low to handle this" << endl;
 	}
 
 	return 0;

@@ -2,6 +2,8 @@
 #define ANT_H_
 
 #include "Item.h"
+#include <list>
+#include "Field.h"
 
 namespace std {
 
@@ -18,6 +20,8 @@ public:
 private:
 	void movePosition();
 	void checkOwnField();
+
+	list<Field*>* fieldHistory;
 
 	unsigned int lifetime;
 	bool hasFood;
