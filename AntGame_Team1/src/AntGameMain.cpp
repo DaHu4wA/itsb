@@ -19,7 +19,7 @@ int main(int argc, char* argv[]) {
 	} catch (FoodCountTooLowException& e) {
 		cout << e.what() << e.getFoodCount() << endl;
 	} catch (...) {
-		cout << "Food to low to handle this" << endl;
+		cout << "Some exception happened" << endl;
 	}
 
 	return 0;
