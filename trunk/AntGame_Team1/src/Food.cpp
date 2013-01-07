@@ -26,7 +26,10 @@ void Food::takeFood(Ant* ant) {
 		cout << "NO MORE FOOD !!! " << endl;
 	}
 
-	cout << ant->getName() <<" took sweets!" << endl;
+
+	ant->setLifetime(ant->getLifetime()+50); //TODO remove: just a test if more ants find back home
+
+	cout << ant->getName() <<" took sweets from foodplace!" << endl;
 }
 
 unsigned int Food::getFoodCount() {

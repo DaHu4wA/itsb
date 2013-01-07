@@ -53,7 +53,7 @@ Food* Creator::createFood(Field* currentField) {
 
 AntHill* Creator::createAntHill(Field* currentField) {
 
-	int foodAtHillCount = rand() % 25 + 50;
+	int foodAtHillCount = rand() % 50 + 50;
 
 	AntHill* hill = new AntHill(currentField, foodAtHillCount);
 
@@ -75,7 +75,6 @@ int Creator::randomLifetime() {
 
 void Creator::decrementAntCount() {
 	antCount--;
-	cout << antCount <<" ants"<<endl;
 }
 
 void Creator::incrementAntCount() {
@@ -90,7 +89,7 @@ char* Creator::getAntName() {
 
 	std::stringstream s;
 
-	s << "Ant" << antCount;
+	s << "Ant_Nr." << antCount;
 
 	string asd = s.str();
 
