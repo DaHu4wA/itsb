@@ -12,7 +12,13 @@ public:
 	static Creator* Instance();
 	virtual ~Creator();
 
+	bool antsAreAlive();
+	void incrementAntCount();
+	void decrementAntCount();
+
 	int randomLifetime();
+
+	char* getAntName();
 
 	Ant* createAnt(Field* currentField);
 	Food* createFood(Field* currentField);
@@ -20,6 +26,7 @@ public:
 
 private:
 	Creator();
+
 	static Creator* pCreator;
 
 	int randomFoodCount();

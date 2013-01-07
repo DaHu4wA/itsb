@@ -14,7 +14,7 @@ Food::~Food() {
 
 void Food::act() {
 
-	cout << "		> Food acting" << endl;
+//	cout << "		> Food acting" << endl;
 }
 
 void Food::takeFood(Ant* ant) {
@@ -26,7 +26,7 @@ void Food::takeFood(Ant* ant) {
 		cout << "NO MORE FOOD !!! " << endl;
 	}
 
-	cout << "An ant found some food!" << cout;
+	cout << ant->getName() <<" took sweets!" << endl;
 }
 
 unsigned int Food::getFoodCount() {

@@ -27,7 +27,7 @@ void Field::addItem(Item* item) {
 		} else {
 			pheromonStrength = pheromonStrength + 4;
 		}
-		cout << "Ant added to field Strength: " << pheromonStrength << endl;
+//		cout << "Ant added to field Strength: " << pheromonStrength << endl;
 	}
 	items->push_back(item);
 }
