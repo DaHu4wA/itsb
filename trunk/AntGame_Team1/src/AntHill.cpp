@@ -16,7 +16,7 @@ AntHill::~AntHill() {
 }
 
 void AntHill::act() {
-	cout << "		> AntHill acting" << endl;
+//	cout << "		> AntHill acting" << endl;
 }
 
 void AntHill::antVisits(Ant* ant) {
@@ -26,8 +26,10 @@ void AntHill::antVisits(Ant* ant) {
 	if (ant->isHasFood()) {
 		foodAtHillCount++;
 		ant->setHasFood(false);
+		cout << ant->getName()<< " brought some food to the hill!\n" ;
+	}else{
+//		cout << "Ant visited the hill without food\n" ;
 	}
-	cout << "Ant visited the hill!" << cout;
 }
 
 void AntHill::birthInitialAnts() {
@@ -37,7 +39,7 @@ void AntHill::birthInitialAnts() {
 	}
 
 	int i = 0;
-	for (i = 0; i < foodAtHillCount; i++) {
+	for (i = 0; i < foodAtHillCount ; i++) {
 		Creator::Instance()->createAnt(currentField);
 	}
 	foodAtHillCount = 0;

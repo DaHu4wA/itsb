@@ -16,6 +16,8 @@ public:
 	bool isHasFood();
 	void setHasFood(bool hasFood);
     void setLifetime(unsigned int lifetime);
+    void setName(char* name);
+    char* getName();
 
 private:
 	void movePosition();
@@ -24,6 +26,7 @@ private:
 	list<Field*>* fieldHistory;
 
 	unsigned int lifetime;
+	char* antName;
 	bool hasFood;
 };
 

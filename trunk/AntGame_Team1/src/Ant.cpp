@@ -6,6 +6,7 @@
 #include <time.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include "Creator.h"
 
 namespace std {
 
@@ -18,21 +19,20 @@ Ant::Ant(Field* currentField, unsigned int lifetime) :
 }
 
 Ant::~Ant() {
-	//TODO code this (delete fieldHistory etc...)
 }
 
 void Ant::act() {
 
 	if (lifetime > 0) {
-		lifetime--;
-
-		cout << "		> Ant acting, lifetime: " << lifetime;
-
 		checkOwnField();
 		movePosition();
 	} else {
-		cout << "Ant has no lifetime: " << lifetime << endl;
+		cout << antName << " died :(" << endl;
+		Creator::Instance()->decrementAntCount();
+		currentField->getItems()->remove(this);
+		delete this;
 	}
+	lifetime--;
 }
 
 unsigned int Ant::getLifetime() {
@@ -82,29 +82,24 @@ void Ant::movePosition() {
 		switch (i) {
 		case 0:
 			movingTo = currentField->getNorth();
-			cout << " - Moving North";
 			break;
 		case 1:
 			movingTo = currentField->getSouth();
-			cout << " - Moving South";
 			break;
 		case 2:
 			movingTo = currentField->getEast();
-			cout << " - Moving East";
 			break;
 		case 3:
 			movingTo = currentField->getWest();
-			cout << " - Moving West";
 			break;
 		default:
 			movingTo = NULL;
-			cout << "Ant.cpp --> random count to high! " << i << endl;
 			break;
 		}
 
 	}
 
-	// NOTE: Following the pheromones is not scope of exercise 4! Only secretion and volatization
+	// TODO Following the pheromones is not scope of exercise 4! Only secretion and volatization
 
 	else {
 		// if ant has got food, it moves back the way it went before
@@ -115,17 +110,24 @@ void Ant::movePosition() {
 	}
 
 	if (movingTo != NULL) {
-		cout << " to " << movingTo << endl;
 		movingTo->addItem(this);
 		currentField->getItems()->remove(this);
 		currentField = movingTo;
 	} else {
-		cout << "Ant could not move!" << endl;
+//		cout << "Ant could not move!" << endl;
 	}
 }
 
 void Ant::setLifetime(unsigned int lifetime) {
 	this->lifetime = lifetime;
+}
+
+void Ant::setName(char* name) {
+	this->antName = name;
+}
+
+char* Ant::getName() {
+	return this->antName;
 }
 }
 

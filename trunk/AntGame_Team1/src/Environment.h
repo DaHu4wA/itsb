@@ -17,10 +17,6 @@ public:
 	void placeFoodPlace(int x, int y);
 	void placeAntHill(int x, int y);
 
-
-	// TODO: Flexible game field size
-	// Maybe only save the first position, and go to position x,y by using
-
 	Field* gameField[SIZE_X][SIZE_Y];
 
 private:

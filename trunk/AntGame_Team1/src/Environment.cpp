@@ -33,7 +33,6 @@ Environment::~Environment() {
 }
 
 void Environment::actAll() {
-	cout << "> Environment acting" << endl;
 	int x = 0, y = 0;
 
 	for (x = 0; x < SIZE_X; x++) {
@@ -46,7 +45,6 @@ void Environment::actAll() {
 void Environment::placeFoodPlace(int x, int y) {
 
 	Creator::Instance()->createFood(gameField[x][y]);
-
 }
 
 void Environment::placeAntHill(int x, int y) {

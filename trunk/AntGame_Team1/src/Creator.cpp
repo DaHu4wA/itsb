@@ -6,14 +6,17 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include <string.h>
+#include <sstream>
 #include <typeinfo>
 
 /**
- * The factory
+ * The factory for Ants, the Hill etc.
  */
 using namespace std;
 
 Creator* Creator::pCreator = 0;
+int antCount = 0;
 
 Creator* Creator::Instance() {
 
@@ -21,6 +24,7 @@ Creator* Creator::Instance() {
 		pCreator = new Creator();
 		srand(time(NULL));
 	}
+
 	return pCreator;
 }
 
@@ -33,8 +37,10 @@ Creator::~Creator() {
 Ant* Creator::createAnt(Field* currentField) {
 
 	Ant* ant = new Ant(currentField, randomLifetime());
-
+	ant->setName(getAntName());
 	currentField->addItem(ant);
+
+	incrementAntCount();
 	return ant;
 }
 Food* Creator::createFood(Field* currentField) {
@@ -67,3 +73,30 @@ int Creator::randomLifetime() {
 	return rand() % 50 + 100;
 }
 
+void Creator::decrementAntCount() {
+	antCount--;
+	cout << antCount <<" ants"<<endl;
+}
+
+void Creator::incrementAntCount() {
+	antCount++;
+}
+
+bool Creator::antsAreAlive() {
+	return antCount > 0;
+}
+
+char* Creator::getAntName() {
+
+	std::stringstream s;
+
+	s << "Ant" << antCount;
+
+	string asd = s.str();
+
+	char *a = new char[asd.size() + 1];a
+	[asd.size()] = 0;
+	memcpy(a, asd.c_str(), asd.size());
+
+	return a;
+}
