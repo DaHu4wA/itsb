@@ -110,9 +110,9 @@ void Ant::movePosition() {
 	}
 
 	if (movingTo != NULL) {
-		movingTo->addItem(this);
 		currentField->getItems()->remove(this);
 		currentField = movingTo;
+		movingTo->addItem(this);
 	} else {
 //		cout << "Ant could not move!" << endl;
 	}
