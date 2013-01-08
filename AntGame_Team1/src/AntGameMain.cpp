@@ -7,7 +7,7 @@ using namespace std;
 
 Environment* environment;
 
-void showStats(long count);
+void showStats(Creator* c, long count);
 
 int main(int argc, char* argv[]) {
 	try {
@@ -25,7 +25,7 @@ int main(int argc, char* argv[]) {
 			environment->actAll();
 			count++;
 		}
-		showStats(count);
+		showStats(c, count);
 
 	} catch (FoodCountTooLowException& e) {
 		cout << e.what() << e.getFoodCount() << endl;
@@ -37,12 +37,12 @@ int main(int argc, char* argv[]) {
 }
 
 
-void showStats(long count){
+void showStats(Creator* c, long count){
 
 	cout << "\n----------------------------------------\n";
 	cout << "Simulation finished!   Stats:\n\n";
 	cout << "-> "<< count << " acts were made before all ants died\n";
-	cout << "-> xx ants were initially born\n";
+	cout << "-> "<< c->getInitialAntCount() <<" ants were initially born\n";
 	cout << "-> xx times ants took food\n";
 	cout << "-> xx times food has been brought to the hill\n";
 	cout << "-> xx times hill has been visited without food";

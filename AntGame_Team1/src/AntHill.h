@@ -17,7 +17,6 @@ public:
 	~AntHill();
 	void act();
     int getFoodAtHillCount();
-
 private:
 	int foodAtHillCount;
 
