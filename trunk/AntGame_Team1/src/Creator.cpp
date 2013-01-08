@@ -99,3 +99,11 @@ char* Creator::getAntName() {
 
 	return a;
 }
+
+int Creator::getInitialAntCount() {
+	return initialAntCount;
+}
+
+void Creator::setInitialAntCount(int count){
+	this->initialAntCount = count;
+}
