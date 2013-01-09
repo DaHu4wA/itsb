@@ -6,7 +6,7 @@
 using namespace std;
 
 Food::Food(Field* currentField, unsigned int foodCount) :
-		Item(currentField) { // Konstruktor der Basisklasse aufrufen
+		Item(currentField) { // Call constructor of base class
 	this->foodCount = foodCount;
 }
 
@@ -14,8 +14,7 @@ Food::~Food() {
 }
 
 void Food::act() {
-
-//	cout << "		> Food acting" << endl;
+	//food has nothing to act
 }
 
 void Food::takeFood(Ant* ant) {
@@ -28,10 +27,10 @@ void Food::takeFood(Ant* ant) {
 		cout << "NO MORE FOOD !!! " << endl;
 	}
 
+	// ant also gets some more lifetime when visiting (eats something ;) )
+	ant->setLifetime(ant->getLifetime()+50);
 
-	ant->setLifetime(ant->getLifetime()+50); //TODO remove: just a test if more ants find back home
-
-	cout << ant->getName() <<" took sweets from foodplace!" << endl;
+	cout << ant->getName() <<" took sweets from food place!" << endl;
 }
 
 unsigned int Food::getFoodCount() {

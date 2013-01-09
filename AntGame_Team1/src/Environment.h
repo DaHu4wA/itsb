@@ -16,6 +16,7 @@ public:
 
 	void placeFoodPlace(int x, int y);
 	void placeAntHill(int x, int y);
+    void reinitialize();
 
 	Field* gameField[SIZE_X][SIZE_Y];
 
@@ -23,7 +24,8 @@ private:
 	Environment();
 	static Environment* pEnvironment;
 
-	void initField();
+	void destroyEnvironment();
+    void initField();
 	void initArray();
 	void setFieldPointers();
 };

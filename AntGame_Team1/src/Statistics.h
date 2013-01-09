@@ -1,3 +1,5 @@
+#include "SimulationResult.h"
+
 #ifndef STATISTICS_H_
 #define STATISTICS_H_
 
@@ -16,10 +18,13 @@ public:
 	int getInitialAntCount();
 	int getNoFoodBroughtCount();
 
+	void resetStats();
 	void incrementFoodBroughtCount();
 	void incrementFoodTakenCount();
 	void setGameActCount(int gameActCount);
 	void incrementNoFoodBroughtCount();
+
+	std::SimulationResult* buildSimulationResult();
 
 private:
 	Statistics();
