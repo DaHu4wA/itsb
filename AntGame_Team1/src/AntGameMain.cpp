@@ -4,6 +4,7 @@
 #include "Creator.h"
 #include "FoodCountTooLowException.h"
 #include "Statistics.h"
+#include <list>
 
 using namespace std;
 
@@ -13,18 +14,42 @@ std::SimulationResult* runSimulation();
 
 int main(int argc, char* argv[]) {
 
-	std::SimulationResult* result1 = runSimulation();
-	environment->reinitialize();
-	std::SimulationResult* result2 = runSimulation();
+	list<std::SimulationResult*>* simulationResults = new list<
+			std::SimulationResult*>;
 
-	cout << "\n\n** Simulation finished! Here are some statistics: **";
-	cout << "\n\nSimulation 1:";
-	result1->showStats();
-	cout << "\n\nSimulation 2:";
-	result2->showStats();
+	int simulationCount = 0;
+
+	cout << "\n*** Welcome to the ultimate ant simulation v1.0!***\n\nHow many simulations do you want to run? \nPlease a number enter and press [return] (enter 0 to cancel): ";
+	cin >> simulationCount;
+
+	if (simulationCount == 0) {
+		cout << "\n\nSimulation aborted by user.";
+		return 0;
+	} else if (simulationCount > 1000) {
+		cout << "\n\nSimulation aborted! Simulation count too high! \n(Maximum 1000 simulations are allowed)\n";
+		return 0;
+	}
+
+	for (int x = 0; x < simulationCount; x++) {
+		simulationResults->push_back(runSimulation());
+		if (x < simulationCount - 1) {
+			environment->reinitialize();
+		}
+	}
+
+	cout << "\n\n** Simulation finished! Here are the statistics: **";
+
+	int count = 1;
+	for (list<SimulationResult*>::iterator i = (*simulationResults).begin();
+			i != (*simulationResults).end(); ++i) {
+		if ((*i) != NULL) {
+			cout << "\n\nSimulation " << count << ":";
+			(*i)->showStats();
+			count++;
+		}
+	}
 
 	cout << "\n\n (C) 2012/2013 Stefan Huber & Daniel Komohorov";
-
 	return 0;
 }
 
@@ -39,11 +64,10 @@ std::SimulationResult* runSimulation() {
 
 		environment->placeAntHill(7, 7);
 
-		Creator *c = Creator::Instance();
 		// The game continues until all ants died.
 		// To protect a loop, game stops after 10.000 runs
 		long count = 0;
-		while (c->antsAreAlive() && count < 10000) {
+		while (Statistics::Instance()->antsAreAlive() && count < 10000) {
 			environment->actAll();
 			count++;
 		}

@@ -13,11 +13,11 @@
 
 /**
  * The factory for Ants, the Hill etc.
+ * Also does the randomize things
  */
 using namespace std;
 
 Creator* Creator::pCreator = 0;
-int antCount = 0;
 
 Creator* Creator::Instance() {
 
@@ -41,7 +41,7 @@ Ant* Creator::createAnt(Field* currentField) {
 	ant->setName(getAntName());
 	currentField->addItem(ant);
 
-	incrementAntCount();
+	Statistics::Instance()->incrementCurrentAntCount();
 	return ant;
 }
 Food* Creator::createFood(Field* currentField) {
@@ -74,23 +74,11 @@ int Creator::randomLifetime() {
 	return rand() % 50 + 100;
 }
 
-void Creator::decrementAntCount() {
-	antCount--;
-}
-
-void Creator::incrementAntCount() {
-	antCount++;
-}
-
-bool Creator::antsAreAlive() {
-	return antCount > 0;
-}
-
 char* Creator::getAntName() {
 
 	std::stringstream s;
 
-	s << "Ant_Nr." << antCount;
+	s << "Ant_Nr." << Statistics::Instance()->getCurrentAntCount();
 
 	string asd = s.str();
 

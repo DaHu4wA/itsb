@@ -6,6 +6,11 @@
 class Statistics {
 public:
 
+	bool antsAreAlive();
+	int getCurrentAntCount();
+	void incrementCurrentAntCount();
+	void decrementCurrentAntCount();
+
 	static Statistics* Instance();
 	virtual ~Statistics();
 
@@ -30,6 +35,8 @@ private:
 	Statistics();
 
 	static Statistics* pStatistics;
+
+	int currentAntCount;
 
 	int gameActCount;
 	int initialAntCount;
