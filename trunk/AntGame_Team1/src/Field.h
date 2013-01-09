@@ -31,6 +31,9 @@ public:
     void setSouth(Field *south);
     void setWest(Field *west);
 
+    void incrementPheromonStrength(int incrementBy);
+    int getPheromonStrength();
+
 private:
 
 	list<Item*>* items;

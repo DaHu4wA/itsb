@@ -54,7 +54,7 @@ Food* Creator::createFood(Field* currentField) {
 
 AntHill* Creator::createAntHill(Field* currentField) {
 
-	int foodAtHillCount = rand() % 50 + 50;
+	int foodAtHillCount = rand() % 100 + 20;
 
 	AntHill* hill = new AntHill(currentField, foodAtHillCount);
 
@@ -66,12 +66,12 @@ AntHill* Creator::createAntHill(Field* currentField) {
 
 int Creator::randomFoodCount() {
 
-	return rand() % 40 + 10;
+	return rand() % 50 + 10;
 }
 
 int Creator::randomLifetime() {
 
-	return rand() % 50 + 100;
+	return rand() % 50 + 25;
 }
 
 char* Creator::getAntName() {

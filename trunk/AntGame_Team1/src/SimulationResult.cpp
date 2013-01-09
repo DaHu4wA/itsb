@@ -27,7 +27,7 @@ void SimulationResult::showStats() {
 			<< " times ants took food from food place(s)\n";
 	cout << "-> " << foodBroughtCount
 			<< " times food has been brought to the hill(s)\n";
-	cout << "-> " << noFoodBroughtCount
+	cout << "-> " << noFoodBroughtCount-initialAntCount
 			<< " times ant hill(s) have been visited without food";
 	cout << "\n-----------------------------------------------------";
 }

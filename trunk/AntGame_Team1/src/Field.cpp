@@ -22,6 +22,7 @@ Field::~Field() {
 
 void Field::addItem(Item* item) {
 
+	/**  DEPRECATED! ant puts pheromones
 	Ant* ant = dynamic_cast<Ant*>(item);
 
 	if (ant != NULL) {
@@ -30,12 +31,17 @@ void Field::addItem(Item* item) {
 		} else {
 			pheromonStrength = pheromonStrength + 4;
 		}
-	}
+	}**/
+
 	items->push_back(item);
 }
 
 void Field::removeItem(Item* item) {
 	items->remove(item);
+}
+
+void Field::incrementPheromonStrength(int incrementBy) {
+	this->pheromonStrength = this->pheromonStrength + incrementBy;
 }
 
 void Field::act() {
@@ -94,3 +100,8 @@ void Field::setSouth(Field *south) {
 void Field::setWest(Field *west) {
 	this->west = west;
 }
+
+int Field::getPheromonStrength() {
+	return pheromonStrength;
+}
+

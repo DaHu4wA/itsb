@@ -42,7 +42,7 @@ void AntHill::antVisits(Ant* ant) {
 void AntHill::birthInitialAnts() {
 	Statistics::Instance()->setInitialAntCount(foodAtHillCount);
 
-	if (foodAtHillCount < 50) {
+	if (foodAtHillCount < 20) {
 		throw FoodCountTooLowException(foodAtHillCount);
 	}
 

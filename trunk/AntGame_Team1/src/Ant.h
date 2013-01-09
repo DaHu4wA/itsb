@@ -18,14 +18,18 @@ public:
     void setLifetime(unsigned int lifetime);
     void setName(char* name);
     char* getName();
+    void setPheromones(unsigned int pheromones);
 
 private:
+    Field* checkPheromones();
+    Field* getRandomWay();
 	void movePosition();
 	void checkOwnField();
 
 	list<Field*>* fieldHistory;
 
 	unsigned int lifetime;
+	unsigned int pheromones;
 	char* antName;
 	bool hasFood;
 };
