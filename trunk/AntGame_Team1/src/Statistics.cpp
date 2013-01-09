@@ -1,4 +1,5 @@
 #include "Statistics.h"
+#include "SimulationResult.h"
 #include <iostream>
 #include <stdio.h>
 #include <stdlib.h>
@@ -22,7 +23,7 @@ Statistics* Statistics::Instance() {
 	return pStatistics;
 }
 
-Statistics::Statistics() {
+void Statistics::resetStats() {
 	this->initialAntCount = 0;
 	this->gameActCount = 0;
 	this->foodTakenCunt = 0;
@@ -30,20 +31,16 @@ Statistics::Statistics() {
 	this->noFoodBroughtCount = 0;
 }
 
-Statistics::~Statistics() {
+Statistics::Statistics() {
+	resetStats();
 }
 
-void Statistics::showStats() {
+std::SimulationResult* Statistics::buildSimulationResult() {
+	return new SimulationResult(gameActCount, initialAntCount, foodTakenCunt,
+			foodBroughtCount, noFoodBroughtCount);
+}
 
-	cout << "\n-----------------------------------------------------\n";
-	cout << "** Simulation finished! Here are some statistics: **\n\n";
-	cout << "-> " << gameActCount       << " acts were made before all ants died\n";
-	cout << "-> " << initialAntCount    << " ants were initially born\n";
-	cout << "-> " << foodTakenCunt      << " times ants took food from food place(s)\n";
-	cout << "-> " << foodBroughtCount   <<" times food has been brought to the hill(s)\n";
-	cout << "-> " << noFoodBroughtCount <<" times hill(s) have been visited without food";
-	cout << "\n-----------------------------------------------------";
-	cout << "\n (C) 2012/2013 Stefan Huber & Daniel Komohorov";
+Statistics::~Statistics() {
 }
 
 void Statistics::setInitialAntCount(int initialAntCount) {

@@ -11,7 +11,6 @@ Field::Field() {
 }
 
 Field::~Field() {
-	cout << "Field died!" << endl;
 	for (list<Item*>::iterator i = items->begin(); i != items->end(); ++i) {
 		delete *i;
 	}
@@ -27,7 +26,6 @@ void Field::addItem(Item* item) {
 		} else {
 			pheromonStrength = pheromonStrength + 4;
 		}
-//		cout << "Ant added to field Strength: " << pheromonStrength << endl;
 	}
 	items->push_back(item);
 }
@@ -43,7 +41,8 @@ void Field::act() {
 	}
 
 	list<Item*> tempItems = *items;
-	for (list<Item*>::iterator i = tempItems.begin(); i != tempItems.end(); ++i) {
+	for (list<Item*>::iterator i = tempItems.begin(); i != tempItems.end();
+			++i) {
 		if ((*i) != NULL) {
 			(*i)->act();
 		}

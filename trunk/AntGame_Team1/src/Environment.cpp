@@ -1,4 +1,5 @@
 #include "Environment.h"
+#include "Statistics.h"
 #include "Ant.h"
 #include "AntHill.h"
 #include "Food.h"
@@ -23,13 +24,29 @@ Environment::Environment() {
 	initField();
 }
 
-Environment::~Environment() {
-	int x = 0, y = 0;
-	for (x = 0; x < SIZE_X; x++) {
+void Environment::destroyEnvironment()
+{
+    int x = 0, y = 0;
+    for (x = 0; x < SIZE_X; x++) {
 		for (y = 0; y < SIZE_Y; y++) {
 			delete gameField[x][y];
 		}
 	}
+}
+
+/**
+ * Needed if simulation should run more than once
+ */
+void Environment::reinitialize()
+{
+	cout << "\n\n\n ***- REINITIALIZING ENVIRONMENT -*** \n\n\n";
+    destroyEnvironment();
+    initField();
+    Statistics::Instance()->resetStats();
+}
+
+Environment::~Environment() {
+	destroyEnvironment();
 }
 
 void Environment::actAll() {
