@@ -12,10 +12,6 @@ public:
 	static Creator* Instance();
 	virtual ~Creator();
 
-	bool antsAreAlive();
-	void incrementAntCount();
-	void decrementAntCount();
-
 	int randomLifetime();
 
 	char* getAntName();

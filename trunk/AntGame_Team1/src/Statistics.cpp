@@ -29,6 +29,7 @@ void Statistics::resetStats() {
 	this->foodTakenCunt = 0;
 	this->foodBroughtCount = 0;
 	this->noFoodBroughtCount = 0;
+	this->currentAntCount = 0;
 }
 
 Statistics::Statistics() {
@@ -41,6 +42,22 @@ std::SimulationResult* Statistics::buildSimulationResult() {
 }
 
 Statistics::~Statistics() {
+}
+
+void Statistics::decrementCurrentAntCount() {
+	currentAntCount--;
+}
+
+void Statistics::incrementCurrentAntCount() {
+	currentAntCount++;
+}
+
+int Statistics::getCurrentAntCount(){
+	return currentAntCount;
+}
+
+bool Statistics::antsAreAlive() {
+	return currentAntCount > 0;
 }
 
 void Statistics::setInitialAntCount(int initialAntCount) {

@@ -1,8 +1,12 @@
 #include "Food.h"
 #include "Statistics.h"
+#include "Creator.h"
 #include <iostream>
 #include <typeinfo>
 
+/**
+ * This represents the food hill, where ants can take food from.
+ */
 using namespace std;
 
 Food::Food(Field* currentField, unsigned int foodCount) :
@@ -27,10 +31,9 @@ void Food::takeFood(Ant* ant) {
 		cout << "NO MORE FOOD !!! " << endl;
 	}
 
-	// ant also gets some more lifetime when visiting (eats something ;) )
-	ant->setLifetime(ant->getLifetime()+50);
+	ant->setLifetime(Creator::Instance()->randomLifetime()); // "recharge" ants lifetime
 
-	cout << ant->getName() <<" took sweets from food place!" << endl;
+	cout << ant->getName() << " took sweets from food place!" << endl;
 }
 
 unsigned int Food::getFoodCount() {

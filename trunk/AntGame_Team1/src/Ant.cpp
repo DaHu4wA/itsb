@@ -2,12 +2,18 @@
 #include "Field.h"
 #include "Food.h"
 #include "AntHill.h"
+#include "Statistics.h"
 #include <iostream>
 #include <time.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include "Creator.h"
 
+/**
+ * This represents an ant.
+ * The ant knows it's lifetime, but not it's position.
+ * Ant knows a history of moved fields. When it found some food, it orients on the moved way.
+ */
 namespace std {
 
 Ant::Ant(Field* currentField, unsigned int lifetime) :
@@ -28,7 +34,7 @@ void Ant::act() {
 		movePosition();
 	} else {
 		cout << antName << " died :(" << endl;
-		Creator::Instance()->decrementAntCount();
+		Statistics::Instance()->decrementCurrentAntCount();
 		currentField->getItems()->remove(this);
 		delete this;
 	}

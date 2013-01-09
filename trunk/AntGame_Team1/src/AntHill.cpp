@@ -5,6 +5,9 @@
 #include "FoodCountTooLowException.h"
 #include "Statistics.h"
 
+/**
+ * This representents the ant hill. There can also be more hills placed in the game.
+ */
 using namespace std;
 
 AntHill::AntHill(Field* currentField, int foodAtHillCount) :
@@ -17,12 +20,11 @@ AntHill::~AntHill() {
 }
 
 void AntHill::act() {
-//	cout << "		> AntHill acting" << endl;
+	// Hill does not do anything.
 }
 
 void AntHill::antVisits(Ant* ant) {
-	// "recharge" ant
-	ant->setLifetime(Creator::Instance()->randomLifetime());
+	ant->setLifetime(Creator::Instance()->randomLifetime()); // "recharge" ants lifetime
 
 	if (ant->isHasFood()) {
 		foodAtHillCount++;
@@ -30,11 +32,13 @@ void AntHill::antVisits(Ant* ant) {
 		cout << ant->getName()<< " brought some food to the hill!\n" ;
 		Statistics::Instance()->incrementFoodBroughtCount();
 	}else{
-//		cout << "Ant visited the hill without food\n" ;
 		Statistics::Instance()->incrementNoFoodBroughtCount();
 	}
 }
 
+/**
+ * This does the initial birth of ants. One ant per food at hill is born.
+ */
 void AntHill::birthInitialAnts() {
 	Statistics::Instance()->setInitialAntCount(foodAtHillCount);
 
