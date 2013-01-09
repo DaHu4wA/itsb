@@ -12,24 +12,19 @@ Environment* environment;
 
 std::SimulationResult* runSimulation();
 
+int determineSimulationCount();
+
 int main(int argc, char* argv[]) {
 
-	list<std::SimulationResult*>* simulationResults = new list<
-			std::SimulationResult*>;
+	list<std::SimulationResult*>* simulationResults = new list<std::SimulationResult*>;
 
-	int simulationCount = 0;
-
-	cout << "\n*** Welcome to the ultimate ant simulation v1.0!***\n\nHow many simulations do you want to run? \nPlease a number enter and press [return] (enter 0 to cancel): ";
-	cin >> simulationCount;
+	int simulationCount = determineSimulationCount();
 
 	if (simulationCount == 0) {
-		cout << "\n\nSimulation aborted by user.";
-		return 0;
-	} else if (simulationCount > 1000) {
-		cout << "\n\nSimulation aborted! Simulation count too high! \n(Maximum 1000 simulations are allowed)\n";
 		return 0;
 	}
 
+	// Run the simulation x times (defined by user)
 	for (int x = 0; x < simulationCount; x++) {
 		simulationResults->push_back(runSimulation());
 		if (x < simulationCount - 1) {
@@ -39,6 +34,7 @@ int main(int argc, char* argv[]) {
 
 	cout << "\n\n** Simulation finished! Here are the statistics: **";
 
+	// Display statistics for x simulations at the end
 	int count = 1;
 	for (list<SimulationResult*>::iterator i = (*simulationResults).begin();
 			i != (*simulationResults).end(); ++i) {
@@ -82,3 +78,19 @@ std::SimulationResult* runSimulation() {
 	return NULL;
 }
 
+int determineSimulationCount() {
+	int simulationCount = 0;
+	cout
+			<< "\n*** Welcome to the ultimate ant simulation v1.0!***\n\nHow many simulations do you want to run? \nPlease a number enter and press [return] (enter 0 to cancel): ";
+	cin >> simulationCount;
+
+	if (simulationCount == 0) {
+		cout << "\n\nSimulation aborted by user.";
+		return 0;
+	} else if (simulationCount > 1000) {
+		cout
+				<< "\n\nSimulation aborted! Simulation count too high! \n(Maximum 1000 simulations are allowed)\n";
+		return 0;
+	}
+	return simulationCount;
+}

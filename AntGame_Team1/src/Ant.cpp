@@ -13,6 +13,7 @@
  * This represents an ant.
  * The ant knows it's lifetime, but not it's position.
  * Ant knows a history of moved fields. When it found some food, it orients on the moved way.
+ * Ant also follows pheromones
  */
 namespace std {
 
@@ -77,37 +78,28 @@ void Ant::movePosition() {
 
 	Field* movingTo = NULL;
 
-	//bestimmung der nächsten position
+	//determine next field ant is moving to
 	if (!hasFood) {
 
 		// add the fields to the history
 		fieldHistory->push_back(currentField);
 
+		// 75% Probability to follow pheromones
 		int i = rand() % 4;
-
-		switch (i) {
-		case 0:
-			movingTo = currentField->getNorth();
-			break;
-		case 1:
-			movingTo = currentField->getSouth();
-			break;
-		case 2:
-			movingTo = currentField->getEast();
-			break;
-		case 3:
-			movingTo = currentField->getWest();
-			break;
-		default:
-			movingTo = NULL;
-			break;
+		if (i < 3) {
+			movingTo = checkPheromones();
+		} else {
+			movingTo = getRandomWay();
 		}
 
 	}
 
-	// TODO Following the pheromones is not scope of exercise 4! Only secretion and volatization
-
 	else {
+		if (pheromones > 0) {
+			currentField->incrementPheromonStrength(pheromones);
+			pheromones = pheromones - 5;
+		}
+
 		// if ant has got food, it moves back the way it went before
 		if (!fieldHistory->empty()) {
 			movingTo = fieldHistory->back();
@@ -119,8 +111,6 @@ void Ant::movePosition() {
 		currentField->getItems()->remove(this);
 		currentField = movingTo;
 		movingTo->addItem(this);
-	} else {
-//		cout << "Ant could not move!" << endl;
 	}
 }
 
@@ -135,5 +125,73 @@ void Ant::setName(char* name) {
 char* Ant::getName() {
 	return this->antName;
 }
+
+void Ant::setPheromones(unsigned int pheromones) {
+	this->pheromones = pheromones;
+}
+
+/**
+ * Find strongest pheromones on neighbour fields
+ */
+Field* Ant::checkPheromones() {
+
+	// if strength of two fields equal -> we go to north
+	int north = currentField->getNorth() == NULL ? -1 : currentField->getNorth()->getPheromonStrength();
+	int south = currentField->getSouth() == NULL ? -1 : currentField->getSouth()->getPheromonStrength();
+	int east =  currentField->getEast()  == NULL ? -1 : currentField->getEast()->getPheromonStrength();
+	int west =  currentField->getWest()  == NULL ? -1 : currentField->getWest()->getPheromonStrength();
+
+	int result = north;
+
+	if (south > result) {
+		result = south;
+	}
+	if (east > result) {
+		result = east;
+	}
+	if (west > result) {
+		result = west;
+	}
+
+	if (result == south) {
+		return currentField->getSouth();
+	} else if (result == east) {
+		return currentField->getEast();
+	} else if (result == west) {
+		return currentField->getWest();
+	} else {
+		return currentField->getNorth();
+	}
+}
+
+/**
+ * Find a random way
+ */
+Field* Ant::getRandomWay() {
+
+	Field* movingTo = NULL;
+
+	int i = rand() % 4;
+
+	switch (i) {
+	case 0:
+		movingTo = currentField->getNorth();
+		break;
+	case 1:
+		movingTo = currentField->getSouth();
+		break;
+	case 2:
+		movingTo = currentField->getEast();
+		break;
+	case 3:
+		movingTo = currentField->getWest();
+		break;
+	default:
+		movingTo = NULL;
+		break;
+	}
+	return movingTo;
+}
+
 }
 

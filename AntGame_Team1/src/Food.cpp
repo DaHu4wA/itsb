@@ -31,7 +31,8 @@ void Food::takeFood(Ant* ant) {
 		cout << "NO MORE FOOD !!! " << endl;
 	}
 
-	ant->setLifetime(Creator::Instance()->randomLifetime()); // "recharge" ants lifetime
+	//ant->setLifetime(Creator::Instance()->randomLifetime()); // "recharge" ants lifetime
+	ant->setPheromones(100);
 
 	cout << ant->getName() << " took sweets from food place!" << endl;
 }
