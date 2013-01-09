@@ -1,5 +1,8 @@
 #include "Item.h"
 
+/**
+ * Abstract base class for all items (Ants etc)
+ */
 using namespace std;
 
 Item::Item(Field* currentField) {

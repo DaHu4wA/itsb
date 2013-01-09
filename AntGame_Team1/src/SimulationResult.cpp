@@ -3,6 +3,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+/**
+ * Container for collecting informations of a single simulation result
+ */
 using namespace std;
 
 SimulationResult::SimulationResult(int gameActCount, int initialAntCount,

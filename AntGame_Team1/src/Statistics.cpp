@@ -61,7 +61,7 @@ bool Statistics::antsAreAlive() {
 }
 
 void Statistics::setInitialAntCount(int initialAntCount) {
-	// if there is more than one hill...
+	// there might exist more than one hill....
 	this->initialAntCount = this->initialAntCount + initialAntCount;
 }
 

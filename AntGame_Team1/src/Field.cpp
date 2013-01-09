@@ -2,6 +2,10 @@
 #include <typeinfo>
 #include "Ant.h"
 
+/**
+ * Represents a field in the environment
+ * Has a list of items
+ */
 using namespace std;
 
 Field::Field() {
