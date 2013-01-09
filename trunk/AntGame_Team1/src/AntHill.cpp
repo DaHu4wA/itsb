@@ -3,6 +3,7 @@
 #include "Creator.h"
 #include "Ant.h"
 #include "FoodCountTooLowException.h"
+#include "Statistics.h"
 
 using namespace std;
 
@@ -27,13 +28,15 @@ void AntHill::antVisits(Ant* ant) {
 		foodAtHillCount++;
 		ant->setHasFood(false);
 		cout << ant->getName()<< " brought some food to the hill!\n" ;
+		Statistics::Instance()->incrementFoodBroughtCount();
 	}else{
 //		cout << "Ant visited the hill without food\n" ;
+		Statistics::Instance()->incrementNoFoodBroughtCount();
 	}
 }
 
 void AntHill::birthInitialAnts() {
-	Creator::Instance()->setInitialAntCount(foodAtHillCount);
+	Statistics::Instance()->setInitialAntCount(foodAtHillCount);
 
 	if (foodAtHillCount < 50) {
 		throw FoodCountTooLowException(foodAtHillCount);

@@ -1,4 +1,5 @@
 #include "Creator.h"
+#include "Statistics.h"
 #include "Ant.h"
 #include "AntHill.h"
 #include "Food.h"
@@ -98,12 +99,4 @@ char* Creator::getAntName() {
 	memcpy(a, asd.c_str(), asd.size());
 
 	return a;
-}
-
-int Creator::getInitialAntCount() {
-	return initialAntCount;
-}
-
-void Creator::setInitialAntCount(int count){
-	this->initialAntCount = count;
 }

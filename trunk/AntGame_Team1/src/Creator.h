@@ -17,8 +17,6 @@ public:
 	void decrementAntCount();
 
 	int randomLifetime();
-    int getInitialAntCount();
-    void setInitialAntCount(int count);
 
 	char* getAntName();
 
@@ -30,7 +28,6 @@ private:
 	Creator();
 
 	static Creator* pCreator;
-	int initialAntCount;
 	int randomFoodCount();
 };
 

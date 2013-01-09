@@ -2,30 +2,32 @@
 #include  "Environment.h"
 #include "Creator.h"
 #include "FoodCountTooLowException.h"
+#include "Statistics.h"
 
 using namespace std;
 
 Environment* environment;
-
-void showStats(Creator* c, long count);
 
 int main(int argc, char* argv[]) {
 	try {
 		environment = Environment::Instance();
 
 		environment->placeFoodPlace(10, 10);
+		environment->placeFoodPlace(2, 3);
 		environment->placeAntHill(4, 4);
 
 		Creator* c = Creator::Instance();
 
-		/* The game continues until all ants died.
-		   To protect a loop, game stops after 10.000 runs */
+		// The game continues until all ants died.
+		// To protect a loop, game stops after 10.000 runs
 		long count = 0;
 		while (c->antsAreAlive() && count < 10000) {
 			environment->actAll();
 			count++;
 		}
-		showStats(c, count);
+		Statistics::Instance()->setGameActCount(count);
+
+		Statistics::Instance()->showStats();
 
 	} catch (FoodCountTooLowException& e) {
 		cout << e.what() << e.getFoodCount() << endl;
@@ -37,15 +39,5 @@ int main(int argc, char* argv[]) {
 }
 
 
-void showStats(Creator* c, long count){
 
-	cout << "\n----------------------------------------\n";
-	cout << "Simulation finished!   Stats:\n\n";
-	cout << "-> "<< count << " acts were made before all ants died\n";
-	cout << "-> "<< c->getInitialAntCount() <<" ants were initially born\n";
-	cout << "-> xx times ants took food\n";
-	cout << "-> xx times food has been brought to the hill\n";
-	cout << "-> xx times hill has been visited without food";
-
-}
 
