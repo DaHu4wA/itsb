@@ -24,7 +24,7 @@ void AntHill::act() {
 }
 
 void AntHill::antVisits(Ant* ant) {
-	ant->setLifetime(Creator::Instance()->randomLifetime()); // "recharge" ants lifetime
+	ant->setLifetime(ant->getLifetime()+Creator::Instance()->randomLifetime()); // "recharge" ants lifetime
 
 	if (ant->isHasFood()) {
 		foodAtHillCount++;
