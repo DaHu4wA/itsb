@@ -1,4 +1,5 @@
 #include "Food.h"
+#include "Statistics.h"
 #include <iostream>
 #include <typeinfo>
 
@@ -20,6 +21,7 @@ void Food::act() {
 void Food::takeFood(Ant* ant) {
 
 	if (foodCount > 0) {
+		Statistics::Instance()->incrementFoodTakenCount();
 		ant->setHasFood(true);
 		foodCount--;
 	} else {

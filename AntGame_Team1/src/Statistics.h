@@ -1,0 +1,36 @@
+#ifndef STATISTICS_H_
+#define STATISTICS_H_
+
+class Statistics {
+public:
+
+	static Statistics* Instance();
+	virtual ~Statistics();
+
+	void showStats();
+
+	void setInitialAntCount(int initialAntCount);
+	int getFoodBroughtCount();
+	int getFoodTakenCunt();
+	int getGameActCount();
+	int getInitialAntCount();
+	int getNoFoodBroughtCount();
+
+	void incrementFoodBroughtCount();
+	void incrementFoodTakenCount();
+	void setGameActCount(int gameActCount);
+	void incrementNoFoodBroughtCount();
+
+private:
+	Statistics();
+
+	static Statistics* pStatistics;
+
+	int gameActCount;
+	int initialAntCount;
+	int foodTakenCunt;
+	int foodBroughtCount;
+	int noFoodBroughtCount;
+};
+
+#endif
