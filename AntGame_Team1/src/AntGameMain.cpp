@@ -54,6 +54,7 @@ int main(int argc, char* argv[]) {
  */
 std::SimulationResult* runSimulation() {
 	try {
+		// Ants are born before "act" was called first time
 		environment = Environment::Instance();
 		environment->placeFoodPlace(13, 13);
 		environment->placeFoodPlace(2, 3);
