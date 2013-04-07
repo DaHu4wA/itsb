@@ -23,9 +23,9 @@ import at.ac.fhsalzburg.mmtlb.mmtimage.MMTImage;
 public class MainView extends AccordionPanel {
 	private static final long serialVersionUID = 5436775872668198881L;
 
-	public static String OPEN_IMAGE_TEXT = "Open image to convert";
-	public static String CONVERT_FOLDER_TEXT = "Convert folder from jpg to png";
-	public static String SAVE_FILE_TEXT = "Save MMT-Image as jpg";
+	public static String OPEN_IMAGE_TEXT = "Choose image";
+	public static String CONVERT_FOLDER_TEXT = "Convert folder content from jpg to png";
+	public static String SAVE_FILE_TEXT = "Save as .jpg";
 
 	private JButton openFileButton;
 	private JButton convertWholeFolderToPNG;

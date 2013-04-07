@@ -8,6 +8,7 @@ import java.io.File;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.UIManager;
 
 import org.apache.log4j.Logger;
 
@@ -36,6 +37,12 @@ public class MainController extends JFrame {
 		setLayout(new BorderLayout());
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setExtendedState(JFrame.MAXIMIZED_BOTH);
+
+		try {
+			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
 		view = new MainView();
 
@@ -180,8 +187,8 @@ public class MainController extends JFrame {
 
 		view.setMMTImage(mmtImage);
 
-		view.getOpenFileButton().setEnabled(false);
-		view.getOpenFileButton().setText("Image opened.");
+		view.getOpenFileButton().setEnabled(true);
+		view.getOpenFileButton().setText(MainView.OPEN_IMAGE_TEXT);
 		view.getConvertFileButton().setEnabled(true);
 		// if (!isMaximumSizeSet())
 		// pack();
