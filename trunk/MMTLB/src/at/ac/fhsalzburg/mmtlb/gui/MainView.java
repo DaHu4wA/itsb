@@ -23,8 +23,8 @@ import at.ac.fhsalzburg.mmtlb.mmtimage.MMTImage;
 public class MainView extends AccordionPanel {
 	private static final long serialVersionUID = 5436775872668198881L;
 
-	public static String OPEN_IMAGE_TEXT = "Choose image";
-	public static String CONVERT_FOLDER_TEXT = "Convert folder content from jpg to png";
+	public static String OPEN_IMAGE_TEXT = "Open image";
+	public static String CONVERT_FOLDER_TEXT = "Convert *folder content* from .jpg to .png";
 	public static String SAVE_FILE_TEXT = "Save as .jpg";
 
 	private JButton openFileButton;
@@ -36,6 +36,7 @@ public class MainView extends AccordionPanel {
 	public MainView() {
 		super(false);
 		initialize();
+		setBackground(Color.red);
 	}
 
 	private void initialize() {
@@ -66,7 +67,7 @@ public class MainView extends AccordionPanel {
 	private JPanel createFooterPanel() {
 		JPanel footerPanel = new JPanel(new BorderLayout());
 		footerPanel.add(new JSeparator(SwingConstants.HORIZONTAL), BorderLayout.NORTH);
-		footerPanel.add(new JLabel("(C) 2013 Stefan Huber"), BorderLayout.CENTER);
+		footerPanel.add(new JLabel(" (C) 2013 Stefan Huber, ITSB-B2011-A"), BorderLayout.CENTER);
 		return footerPanel;
 	}
 

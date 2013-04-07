@@ -151,7 +151,7 @@ public class MainController extends JFrame {
 	}
 
 	private void postFileConvertSuccessMessage() {
-		JOptionPane.showMessageDialog(this, "Conversion was successful!\n\nSee result in subfolder \"" + FileImageConverter.SUBFOLDER_NAME + "\"");
+		JOptionPane.showMessageDialog(this, "Conversion finished!\n\nResults saved into subfolder *" + FileImageConverter.SUBFOLDER_NAME + "*");
 	}
 
 	private void saveFile() {
