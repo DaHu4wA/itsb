@@ -122,7 +122,6 @@ public class MainController extends JFrame {
 			LOG.debug(String.format("File selected: %s", file.getName()));
 
 			openImageFile(file);
-			// TODO maybe enhance by filtering supported file types
 
 		} else {
 			LOG.info("No file selected");
@@ -185,10 +184,17 @@ public class MainController extends JFrame {
 	private void openImageFile(File file) {
 		mmtImage = FileImageReader.read(file);
 
-		view.setMMTImage(mmtImage);
-
 		view.getOpenFileButton().setEnabled(true);
 		view.getOpenFileButton().setText(MainView.OPEN_IMAGE_TEXT);
+
+		if (mmtImage == null) {
+			JOptionPane.showMessageDialog(view, "File could not be opened! \nOnly pictures are supported!", "Error: Unsupported file type!",
+					JOptionPane.ERROR_MESSAGE);
+			return;
+		}
+
+		view.setMMTImage(mmtImage);
+
 		view.getConvertFileButton().setEnabled(true);
 		// if (!isMaximumSizeSet())
 		// pack();
