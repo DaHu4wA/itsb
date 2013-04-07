@@ -5,14 +5,14 @@ import org.apache.log4j.Logger;
 import at.ac.fhsalzburg.mmtlb.gui.MainController;
 
 /**
- * Main method for Assignment 1
+ * Main method for Assignments
  * 
  * RUN THIS TO START THE APPLICATION
  * 
  * @author Stefan Huber
  */
-public class Assignment1MainStart {
-	private static final Logger LOG = Logger.getLogger(Assignment1MainStart.class.getSimpleName());
+public class ApplicationMainStart {
+	private static final Logger LOG = Logger.getLogger(ApplicationMainStart.class.getSimpleName());
 
 	public static void main(String[] args) {
 		LOG.info("Application started");
