@@ -2,6 +2,7 @@ package at.ac.fhsalzburg.mmtlb.mmtimage;
 
 import java.awt.image.BufferedImage;
 import java.awt.image.WritableRaster;
+import java.util.Arrays;
 
 import org.apache.log4j.Logger;
 
@@ -23,6 +24,17 @@ public class MMTImage {
 		this.imageaData = new int[height * width];
 
 		LOG.debug("Height: "+height+", Width: "+width+". Array with size " + imageaData.length + " created.");
+	}
+	
+	/**
+	 * Deep copy a mmtImage
+	 */
+	public MMTImage(MMTImage other) {
+		this.height = other.height;
+		this.width = other.width;
+		this.imageaData = Arrays.copyOf(other.getImageData(), other.getImageData().length);
+
+		LOG.debug("Deep copy of MMTImage created");
 	}
 	
 	/**
