@@ -101,5 +101,5 @@ public class MMTImage {
 		position -= 1; // array starts with 0
 		return position;
 	}
-
+	
 }

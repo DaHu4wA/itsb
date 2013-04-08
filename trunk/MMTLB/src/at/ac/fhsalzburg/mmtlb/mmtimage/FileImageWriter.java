@@ -16,7 +16,7 @@ public class FileImageWriter {
 	private static final Logger LOG = Logger.getLogger(FileImageWriter.class.getSimpleName());
 
 	public static void write(MMTImage image, String filePath) {
-		LOG.debug(String.format("Writing image to %s", filePath));
+		write(image, new File(filePath), "jpg");
 	}
 
 	public static void write(MMTImage image, File file) {
@@ -33,6 +33,7 @@ public class FileImageWriter {
 	}
 
 	public static File write(MMTImage image, File file, String fileType) {
+		LOG.debug(String.format("Writing image to %s", file.getAbsoluteFile()));
 
 		try {
 			ImageIO.write(image.toBufferedImage(), fileType, file);
