@@ -5,6 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 
+import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -12,7 +13,9 @@ import javax.swing.UIManager;
 
 import org.apache.log4j.Logger;
 
+import at.ac.fhsalzburg.mmtlb.applications.ContrastStretching;
 import at.ac.fhsalzburg.mmtlb.applications.FileImageConverter;
+import at.ac.fhsalzburg.mmtlb.applications.ImageModificationType;
 import at.ac.fhsalzburg.mmtlb.mmtimage.FileImageReader;
 import at.ac.fhsalzburg.mmtlb.mmtimage.FileImageWriter;
 import at.ac.fhsalzburg.mmtlb.mmtimage.MMTImage;
@@ -29,7 +32,8 @@ public class MainController extends JFrame {
 
 	final MainView view;
 
-	MMTImage mmtImage = null;
+	MMTImage originalImage = null;
+	MMTImage currentImage = null;
 
 	public MainController() {
 		setSize(800, 600);
@@ -37,6 +41,7 @@ public class MainController extends JFrame {
 		setLayout(new BorderLayout());
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setExtendedState(JFrame.MAXIMIZED_BOTH);
+		setIconImage(new ImageIcon(MainController.class.getResource("icon.png")).getImage());
 
 		try {
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
@@ -104,6 +109,18 @@ public class MainController extends JFrame {
 			}
 		});
 
+		view.getRevertButton().addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				currentImage = new MMTImage(originalImage);
+				view.setMMTImage(currentImage);
+				view.getRevertButton().setEnabled(false);
+				repaint();
+			}
+		});
+
+		setApplicationsListeners();
+
 	}
 
 	/**
@@ -156,7 +173,7 @@ public class MainController extends JFrame {
 
 	private void saveFile() {
 
-		if (mmtImage == null) {
+		if (currentImage == null) {
 			LOG.error("Aborting - MMTImage not exists!!");
 			return;
 		}
@@ -171,7 +188,7 @@ public class MainController extends JFrame {
 		if (returnVal == JFileChooser.APPROVE_OPTION) {
 			// write file if path was selected
 			File file = fileChooser.getSelectedFile();
-			FileImageWriter.write(mmtImage, file);
+			FileImageWriter.write(currentImage, file);
 
 		} else {
 			LOG.info("No file selected");
@@ -183,22 +200,64 @@ public class MainController extends JFrame {
 	 *            that should be displayed
 	 */
 	private void openImageFile(File file) {
-		mmtImage = FileImageReader.read(file);
+		originalImage = FileImageReader.read(file);
+		currentImage = new MMTImage(originalImage);
 
 		view.getOpenFileButton().setEnabled(true);
 		view.getOpenFileButton().setText(MainView.OPEN_IMAGE_TEXT);
+		view.getApplicationsPanel().setEnabled(true);
 
-		if (mmtImage == null) {
+		if (originalImage == null) {
 			JOptionPane.showMessageDialog(view, "File could not be opened! \nOnly pictures are supported!", "Error: Unsupported file type!",
 					JOptionPane.ERROR_MESSAGE);
 			return;
 		}
 
-		view.setMMTImage(mmtImage);
+		view.setMMTImage(currentImage);
 
 		view.getConvertFileButton().setEnabled(true);
 		// if (!isMaximumSizeSet())
 		// pack();
+		repaint();
+	}
+
+	private void setApplicationsListeners() {
+
+		view.getApplicationsPanel().getBtnApply().addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+
+				ImageModificationType selected = (ImageModificationType) view.getApplicationsPanel().getModificationTypeBox().getSelectedItem();
+
+				doImageModification(selected);
+			}
+		});
+	}
+
+	private void doImageModification(ImageModificationType action) {
+
+		if (currentImage == null) {
+			JOptionPane.showMessageDialog(view, "No image opened!", "Image has to be opened", JOptionPane.ERROR_MESSAGE);
+			return;
+		}
+
+		switch (action) {
+		case CONTRAST_STRETCHING:
+			doContrastStretching();
+			break;
+
+		default:
+			JOptionPane.showMessageDialog(view, "Sorry, \nit looks like this function has not been implemented yet!", "Feature not implemented yet",
+					JOptionPane.ERROR_MESSAGE);
+			break;
+		}
+		view.getRevertButton().setEnabled(true);
+	}
+
+	private void doContrastStretching() {
+		currentImage = ContrastStretching.stretchContrast(currentImage);
+		view.setMMTImage(currentImage);
 		repaint();
 	}
 
