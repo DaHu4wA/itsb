@@ -1,8 +1,7 @@
-package at.ac.fhsalzburg.mmtlb.gui;
+package at.ac.fhsalzburg.mmtlb.gui.imagepanel;
 
 import java.awt.BorderLayout;
 
-import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 
 import at.ac.fhsalzburg.mmtlb.mmtimage.MMTImage;
@@ -24,7 +23,7 @@ public class TitledMMTImagePanel extends JPanel {
 
 	public void setImage(MMTImage mmtImage) {
 		mmtImagePanel.setImage(mmtImage);
-		setBorder(BorderFactory.createTitledBorder(mmtImage.getName()));
+		//setBorder(BorderFactory.createTitledBorder(mmtImage.getName()));
 	}
 
 }

@@ -21,6 +21,7 @@ public class ContrastStretching {
 
 	public static MMTImage stretchContrast(MMTImage image) {
 		MMTImage stretched = new MMTImage(image.getHeight(), image.getWidth());
+		stretched.setName(image.getName());
 
 		// To be faster, we calculate the values only once
 		int[] mappingValues = calculateStretchedValues(image);
@@ -33,7 +34,7 @@ public class ContrastStretching {
 	}
 
 	private static int[] calculateStretchedValues(MMTImage image) {
-		int[] mapping = new int[255];
+		int[] mapping = new int[256];
 
 		int wMin = 0;
 		int wMax = 255;

@@ -1,9 +1,10 @@
-package at.ac.fhsalzburg.mmtlb.gui;
+package at.ac.fhsalzburg.mmtlb.gui.applications;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.FlowLayout;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -13,7 +14,7 @@ import javax.swing.SwingConstants;
 import at.ac.fhsalzburg.mmtlb.gui.accordion.AccordionContentPanel;
 import at.ac.fhsalzburg.mmtlb.gui.accordion.AccordionPanel;
 import at.ac.fhsalzburg.mmtlb.gui.accordion.ColoredPanel;
-import at.ac.fhsalzburg.mmtlb.gui.applications.ApplicationsPanel;
+import at.ac.fhsalzburg.mmtlb.gui.imagepanel.TitledMMTImagePanel;
 import at.ac.fhsalzburg.mmtlb.mmtimage.MMTImage;
 
 /**
@@ -24,14 +25,20 @@ import at.ac.fhsalzburg.mmtlb.mmtimage.MMTImage;
 public class MainView extends AccordionPanel {
 	private static final long serialVersionUID = 5436775872668198881L;
 
+	public static String FILE_TITLE = "File actions";
 	public static String OPEN_IMAGE_TEXT = "Open image";
 	public static String CONVERT_FOLDER_TEXT = "Convert *folder content* from .jpg to .png";
 	public static String SAVE_FILE_TEXT = "Save current image";
+	public static String REVERT_TEXT = "Undo changes";
+
 	public ApplicationsPanel getApplicationsPanel() {
 		return applicationsPanel;
 	}
 
-	public static String REVERT_TEXT = "Revert to original";
+	private AccordionContentPanel fileActionsPanel;
+	public AccordionContentPanel getFileActionsPanel() {
+		return fileActionsPanel;
+	}
 
 	private JButton openFileButton;
 	private JButton revertButton;
@@ -48,10 +55,10 @@ public class MainView extends AccordionPanel {
 	}
 
 	private void initialize() {
-		openFileButton = new JButton(OPEN_IMAGE_TEXT);
-		revertButton = new JButton(REVERT_TEXT);
-		convertWholeFolderToPNG = new JButton(CONVERT_FOLDER_TEXT);
-		convertFileButton = new JButton(SAVE_FILE_TEXT);
+		openFileButton = new JButton(OPEN_IMAGE_TEXT, new ImageIcon(MainView.class.getResource("add.png")));
+		revertButton = new JButton(REVERT_TEXT, new ImageIcon(MainView.class.getResource("undo.png")));
+		convertWholeFolderToPNG = new JButton(CONVERT_FOLDER_TEXT, new ImageIcon(MainView.class.getResource("copy.png")));
+		convertFileButton = new JButton(SAVE_FILE_TEXT, new ImageIcon(MainView.class.getResource("save.png")));
 
 		applicationsPanel = new ApplicationsPanel();
 
@@ -59,20 +66,28 @@ public class MainView extends AccordionPanel {
 		revertButton.setEnabled(false);
 
 		// Panel to add the buttons
-		JPanel fileActionPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 10));
-		fileActionPanel.add(openFileButton);
-		fileActionPanel.add(convertFileButton);
-		fileActionPanel.add(revertButton);
+		JPanel fileActionPanel = new JPanel(new BorderLayout());
+		JPanel fileActionLeftPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 10));
+		fileActionLeftPanel.setOpaque(false);
+		JPanel fileActionRightPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT, 13, 13));
+		fileActionRightPanel.setOpaque(false);
 
-		addFoldable(new AccordionContentPanel(" File actions", new ColoredPanel(fileActionPanel), new Color(0xceff9e)), false);
-
+		fileActionLeftPanel.add(new JLabel(new ImageIcon(MainView.class.getResource("icon.png"))));
+		fileActionLeftPanel.add(openFileButton);
+		fileActionLeftPanel.add(convertFileButton);
+		fileActionRightPanel.add(revertButton);
+		
+		fileActionPanel.add(fileActionLeftPanel, BorderLayout.WEST);
+		fileActionPanel.add(fileActionRightPanel, BorderLayout.EAST);
+		
 		// Panel to add the buttons
 		JPanel folderActionPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 10));
 		folderActionPanel.add(convertWholeFolderToPNG);
 
-		addFoldable(new AccordionContentPanel(" Image converters", new ColoredPanel(folderActionPanel), new Color(0xfbf88e)), true);
-
-		addFoldable(new AccordionContentPanel(" Image modifications", new ColoredPanel(applicationsPanel), new Color(0xFFD700)), true);
+		fileActionsPanel = new AccordionContentPanel(FILE_TITLE, new ColoredPanel(fileActionPanel), new Color(0xE6E6FA));
+		addFoldable(fileActionsPanel, false);
+		addFoldable(new AccordionContentPanel("Image converters", new ColoredPanel(folderActionPanel), new Color(0xFFFACD)), true);
+		addFoldable(new AccordionContentPanel("Image modifications", new ColoredPanel(applicationsPanel), new Color(0xFFE4B5)), true);
 
 		mmtImagePanel = new TitledMMTImagePanel();
 		addContent(mmtImagePanel);
@@ -96,6 +111,7 @@ public class MainView extends AccordionPanel {
 	 */
 	public void setMMTImage(MMTImage image) {
 		mmtImagePanel.setImage(image);
+		fileActionsPanel.getSeparatorPanel().setTitle(FILE_TITLE+"    -    "+image.getName());
 		repaint();
 	}
 
