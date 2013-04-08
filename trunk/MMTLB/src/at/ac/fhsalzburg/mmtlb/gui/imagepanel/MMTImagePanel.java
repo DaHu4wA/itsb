@@ -1,4 +1,4 @@
-package at.ac.fhsalzburg.mmtlb.gui;
+package at.ac.fhsalzburg.mmtlb.gui.imagepanel;
 
 import java.awt.Dimension;
 import java.awt.Graphics;

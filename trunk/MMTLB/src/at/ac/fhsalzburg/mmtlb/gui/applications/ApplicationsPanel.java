@@ -2,6 +2,7 @@ package at.ac.fhsalzburg.mmtlb.gui.applications;
 
 import java.awt.FlowLayout;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
@@ -22,7 +23,7 @@ public class ApplicationsPanel extends JPanel {
 	public ApplicationsPanel() {
 
 		modificationTypeBox = new JComboBox<ImageModificationType>(ImageModificationType.values());
-		btnApply = new JButton("Apply");
+		btnApply = new JButton(" Apply effect", new ImageIcon(ApplicationsPanel.class.getResource("edit-picture.png")));
 
 		setLayout(new FlowLayout(FlowLayout.LEFT, 10, 10));
 

@@ -30,8 +30,9 @@ public class MMTImage {
 	 * Deep copy a mmtImage
 	 */
 	public MMTImage(MMTImage other) {
-		this.height = other.height;
-		this.width = other.width;
+		this.height = other.getHeight();
+		this.width = other.getWidth();
+		this.name = other.getName();
 		this.imageaData = Arrays.copyOf(other.getImageData(), other.getImageData().length);
 
 		LOG.debug("Deep copy of MMTImage created");

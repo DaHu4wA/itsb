@@ -16,6 +16,7 @@ import org.apache.log4j.Logger;
 import at.ac.fhsalzburg.mmtlb.applications.ContrastStretching;
 import at.ac.fhsalzburg.mmtlb.applications.FileImageConverter;
 import at.ac.fhsalzburg.mmtlb.applications.ImageModificationType;
+import at.ac.fhsalzburg.mmtlb.gui.applications.MainView;
 import at.ac.fhsalzburg.mmtlb.mmtimage.FileImageReader;
 import at.ac.fhsalzburg.mmtlb.mmtimage.FileImageWriter;
 import at.ac.fhsalzburg.mmtlb.mmtimage.MMTImage;
@@ -36,12 +37,13 @@ public class MainController extends JFrame {
 	MMTImage currentImage = null;
 
 	public MainController() {
-		setSize(800, 600);
+		setSize(800, 800);
+		//setExtendedState(JFrame.MAXIMIZED_BOTH);
 		setTitle(TITLE_TEXT);
 		setLayout(new BorderLayout());
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setExtendedState(JFrame.MAXIMIZED_BOTH);
 		setIconImage(new ImageIcon(MainController.class.getResource("icon.png")).getImage());
+		setLocationRelativeTo(null); //set centered
 
 		try {
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
@@ -201,7 +203,6 @@ public class MainController extends JFrame {
 	 */
 	private void openImageFile(File file) {
 		originalImage = FileImageReader.read(file);
-		currentImage = new MMTImage(originalImage);
 
 		view.getOpenFileButton().setEnabled(true);
 		view.getOpenFileButton().setText(MainView.OPEN_IMAGE_TEXT);
@@ -210,14 +211,14 @@ public class MainController extends JFrame {
 		if (originalImage == null) {
 			JOptionPane.showMessageDialog(view, "File could not be opened! \nOnly pictures are supported!", "Error: Unsupported file type!",
 					JOptionPane.ERROR_MESSAGE);
+			originalImage = new MMTImage(currentImage);
 			return;
 		}
-
+		
+		currentImage = new MMTImage(originalImage);
 		view.setMMTImage(currentImage);
 
 		view.getConvertFileButton().setEnabled(true);
-		// if (!isMaximumSizeSet())
-		// pack();
 		repaint();
 	}
 
