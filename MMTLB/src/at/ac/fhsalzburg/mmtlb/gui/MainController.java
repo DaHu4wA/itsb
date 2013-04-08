@@ -140,17 +140,18 @@ public class MainController extends JFrame {
 			File directory = fileChooser.getSelectedFile();
 
 			// do the real conversion
-			FileImageConverter.convertFolderFromJpgToPng(directory);
+			int count = FileImageConverter.convertFolderFromJpgToPng(directory);
 
-			postFileConvertSuccessMessage();
+			postFileConvertSuccessMessage(count);
 		} else {
 			LOG.info("No folder selected");
 		}
 		view.getConvertWholeFolderToPNG().setEnabled(true);
 	}
 
-	private void postFileConvertSuccessMessage() {
-		JOptionPane.showMessageDialog(this, "Conversion finished!\n\nResults saved into subfolder *" + FileImageConverter.SUBFOLDER_NAME + "*");
+	private void postFileConvertSuccessMessage(int count) {
+		JOptionPane.showMessageDialog(this, "Conversion finished!\n" + "\n" + count + " jpg file(s) converted." + "\nResults saved into subfolder *"
+				+ FileImageConverter.SUBFOLDER_NAME + "*", "Conversion finished!", JOptionPane.INFORMATION_MESSAGE);
 	}
 
 	private void saveFile() {

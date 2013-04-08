@@ -22,8 +22,10 @@ public class FileImageConverter {
 	 * 
 	 * @param directory
 	 *            to convert
+	 * @return count of converted files
 	 */
-	public static void convertFolderFromJpgToPng(File directory) {
+	public static int convertFolderFromJpgToPng(File directory) {
+		int convertedCount = 0;
 
 		if (!directory.isDirectory()) {
 			LOG.error("File is not a directory!!");
@@ -43,9 +45,11 @@ public class FileImageConverter {
 
 				String newFileName = f.getName().substring(0, f.getName().lastIndexOf('.')) + ".png";
 				FileImageWriter.write(image, new File(targetDir, newFileName));
+				convertedCount++;
 			}
 		}
 		LOG.info("--> Folder successfully converted. See subfolder >> " + SUBFOLDER_NAME + " << inside chosen directory");
+		return convertedCount;
 	}
 
 	/**
