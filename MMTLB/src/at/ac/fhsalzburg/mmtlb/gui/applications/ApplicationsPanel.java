@@ -8,6 +8,7 @@ import javax.swing.JComboBox;
 import javax.swing.JPanel;
 
 import at.ac.fhsalzburg.mmtlb.applications.ImageModificationType;
+import at.ac.fhsalzburg.mmtlb.gui.imagepanel.AdditionalDataPanel;
 
 /**
  * Panel for image applications that can directly be modified
@@ -19,6 +20,7 @@ public class ApplicationsPanel extends JPanel {
 
 	private JComboBox<ImageModificationType> modificationTypeBox;
 	private JButton btnApply;
+	private AdditionalDataPanel additionalDataPanel = null;
 
 	public ApplicationsPanel() {
 
@@ -30,6 +32,19 @@ public class ApplicationsPanel extends JPanel {
 		add(modificationTypeBox);
 		add(btnApply);
 		setEnabled(false);
+	}
+
+	public void addAdditionalDataPanel(AdditionalDataPanel p) {
+		if (additionalDataPanel == null) {
+			this.additionalDataPanel = p;
+			add(additionalDataPanel);
+		}
+	}
+
+	public void removeAdditionalDataPanel() {
+		remove(additionalDataPanel);
+		this.additionalDataPanel = null;
+		repaint();
 	}
 
 	public JComboBox<ImageModificationType> getModificationTypeBox() {
