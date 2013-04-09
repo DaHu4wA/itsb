@@ -250,27 +250,23 @@ public class MainController extends JFrame implements IFImageController {
 			ContrastStretching stretcher = new ContrastStretching(this, currentImage);
 			stretcher.execute();
 			break;
-			
+
 		case GAMMA_CORRECTION:
 			final GammaCorrection gammaCorr = new GammaCorrection(this, currentImage);
-			
-			final AdditionalDataPanel addData = new AdditionalDataPanel(0, 400, 100);
+
+			final AdditionalDataPanel addData = new AdditionalDataPanel(0, 1000, 100);
 			view.getApplicationsPanel().addAdditionalDataPanel(addData);
-			
+
 			addData.getGo().addActionListener(new ActionListener() {
-				
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					
-					double gamma = ((new Double((double) addData.getValue()))/100d);
-					LOG.info("Gamma: "+gamma);
+					double gamma = ((new Double((double) addData.getValue())) / 100d);
+					LOG.info("Gamma: " + gamma);
 					gammaCorr.setGamma(gamma);
 					gammaCorr.execute();
 					view.getApplicationsPanel().removeAdditionalDataPanel();
 				}
 			});
-			
-			
 			break;
 
 		default:
@@ -284,7 +280,6 @@ public class MainController extends JFrame implements IFImageController {
 	public void setCurrentImage(MMTImage newImage) {
 		currentImage = newImage;
 		view.setMMTImage(currentImage);
-		repaint();
 		view.getRevertButton().setEnabled(true);
 	}
 
