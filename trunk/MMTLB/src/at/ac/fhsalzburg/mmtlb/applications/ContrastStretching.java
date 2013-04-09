@@ -78,7 +78,6 @@ public class ContrastStretching extends AbstractImageModificationWorker {
 	@Override
 	protected void showDialogForData() {
 		// intentionally left blank
-
 	}
 
 	@Override

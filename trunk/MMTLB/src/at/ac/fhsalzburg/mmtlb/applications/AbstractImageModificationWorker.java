@@ -58,7 +58,7 @@ public abstract class AbstractImageModificationWorker extends SwingWorker<MMTIma
 		LOG.info("Image modification started");
 
 		publish(0);
-		return modifyImage(sourceImage);
+		return modifyImage(sourceImage); //TODO set progress??
 	}
 
 	@Override
