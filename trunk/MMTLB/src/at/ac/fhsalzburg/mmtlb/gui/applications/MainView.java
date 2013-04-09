@@ -8,8 +8,6 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JSeparator;
-import javax.swing.SwingConstants;
 
 import at.ac.fhsalzburg.mmtlb.gui.accordion.AccordionContentPanel;
 import at.ac.fhsalzburg.mmtlb.gui.accordion.AccordionPanel;
@@ -36,6 +34,7 @@ public class MainView extends AccordionPanel {
 	}
 
 	private AccordionContentPanel fileActionsPanel;
+
 	public AccordionContentPanel getFileActionsPanel() {
 		return fileActionsPanel;
 	}
@@ -46,6 +45,7 @@ public class MainView extends AccordionPanel {
 	private JButton convertFileButton;
 
 	private ApplicationsPanel applicationsPanel;
+	private FooterPanel footerPanel;
 
 	private TitledMMTImagePanel mmtImagePanel;
 
@@ -61,6 +61,7 @@ public class MainView extends AccordionPanel {
 		convertFileButton = new JButton(SAVE_FILE_TEXT, new ImageIcon(MainView.class.getResource("save.png")));
 
 		applicationsPanel = new ApplicationsPanel();
+		footerPanel = new FooterPanel();
 
 		convertFileButton.setEnabled(false);
 		revertButton.setEnabled(false);
@@ -76,10 +77,10 @@ public class MainView extends AccordionPanel {
 		fileActionLeftPanel.add(openFileButton);
 		fileActionLeftPanel.add(convertFileButton);
 		fileActionRightPanel.add(revertButton);
-		
+
 		fileActionPanel.add(fileActionLeftPanel, BorderLayout.WEST);
 		fileActionPanel.add(fileActionRightPanel, BorderLayout.EAST);
-		
+
 		// Panel to add the buttons
 		JPanel folderActionPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 10));
 		folderActionPanel.add(convertWholeFolderToPNG);
@@ -91,18 +92,15 @@ public class MainView extends AccordionPanel {
 
 		mmtImagePanel = new TitledMMTImagePanel();
 		addContent(mmtImagePanel);
-		setFooter(createFooterPanel());
+		setFooter(footerPanel);
+	}
+
+	public FooterPanel getFooterPanel() {
+		return footerPanel;
 	}
 
 	public JButton getRevertButton() {
 		return revertButton;
-	}
-
-	private JPanel createFooterPanel() {
-		JPanel footerPanel = new JPanel(new BorderLayout());
-		footerPanel.add(new JSeparator(SwingConstants.HORIZONTAL), BorderLayout.NORTH);
-		footerPanel.add(new JLabel(" (C) 2013 Stefan Huber, ITSB-B2011-A"), BorderLayout.CENTER);
-		return footerPanel;
 	}
 
 	/**
@@ -111,7 +109,7 @@ public class MainView extends AccordionPanel {
 	 */
 	public void setMMTImage(MMTImage image) {
 		mmtImagePanel.setImage(image);
-		fileActionsPanel.getSeparatorPanel().setTitle(FILE_TITLE+"    -    "+image.getName());
+		fileActionsPanel.getSeparatorPanel().setTitle(FILE_TITLE + "    -    " + image.getName());
 		repaint();
 	}
 
