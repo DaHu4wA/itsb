@@ -20,24 +20,23 @@ public class AdditionalDataPanel extends JPanel {
 		go = new JButton("Go!", new ImageIcon(AdditionalDataPanel.class.getResource("go.png")));
 		currVal = new JLabel("Gamma: 1.0");
 		currVal.setPreferredSize(new Dimension(75, 15));
-		
+
 		slider = new JSlider(min, max);
 		slider.setValue(defaultVal);
 		slider.setOpaque(false);
-		
+
 		slider.setMajorTickSpacing(100);
 		slider.setMinorTickSpacing(10);
-		
+
 		slider.setPaintTicks(true);
-		
-		 slider.addChangeListener(new javax.swing.event.ChangeListener() {
-             public void stateChanged(javax.swing.event.ChangeEvent e) 
-             {
-                 JSlider slider = (JSlider) e.getSource();
-                 currVal.setText("Gamma: "+(double)slider.getValue() / 100);
-             }
-         });
-		
+
+		slider.addChangeListener(new javax.swing.event.ChangeListener() {
+			public void stateChanged(javax.swing.event.ChangeEvent e) {
+				JSlider slider = (JSlider) e.getSource();
+				currVal.setText("Gamma: " + (double) slider.getValue() / 100);
+			}
+		});
+
 		add(slider);
 		add(currVal);
 		add(go);
@@ -49,6 +48,10 @@ public class AdditionalDataPanel extends JPanel {
 
 	public int getValue() {
 		return slider.getValue();
+	}
+	
+	public JSlider getSlider(){
+		return slider;
 	}
 
 }

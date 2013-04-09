@@ -48,7 +48,6 @@ public class GammaCorrection extends AbstractImageModificationWorker {
 		for (int g = 0; g < mapping.length; g++) {
 			// Determine gTilde (new gamma) for every contrast value
 			
-			//FIXME TODO not working!
 			double base = (g - wMin) / (wMax - wMin);
 			double powed = Math.pow(base, gamma);
 			mapping[g] = (int) (wMax * powed);
