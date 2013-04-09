@@ -37,21 +37,9 @@ public abstract class AbstractImageModificationWorker extends SwingWorker<MMTIma
 		this.sourceImage = sourceImage;
 		controller.setProgressBarVisible(true);
 
-		startWorking();
 	}
-
-	/**
-	 * Has to be application modal! TODO rethink this
-	 */
-	protected abstract void showDialogForData();
 
 	protected abstract MMTImage modifyImage(MMTImage sourceImage);
-
-	private void startWorking() {
-		showDialogForData();
-
-		execute();
-	}
 
 	@Override
 	protected MMTImage doInBackground() throws Exception {

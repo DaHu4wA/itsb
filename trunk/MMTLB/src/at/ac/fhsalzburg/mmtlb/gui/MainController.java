@@ -15,8 +15,10 @@ import org.apache.log4j.Logger;
 
 import at.ac.fhsalzburg.mmtlb.applications.ContrastStretching;
 import at.ac.fhsalzburg.mmtlb.applications.FileImageConverter;
+import at.ac.fhsalzburg.mmtlb.applications.GammaCorrection;
 import at.ac.fhsalzburg.mmtlb.applications.ImageModificationType;
 import at.ac.fhsalzburg.mmtlb.gui.applications.MainView;
+import at.ac.fhsalzburg.mmtlb.gui.imagepanel.AdditionalDataPanel;
 import at.ac.fhsalzburg.mmtlb.mmtimage.FileImageReader;
 import at.ac.fhsalzburg.mmtlb.mmtimage.FileImageWriter;
 import at.ac.fhsalzburg.mmtlb.mmtimage.MMTImage;
@@ -245,7 +247,30 @@ public class MainController extends JFrame implements IFImageController {
 
 		switch (action) {
 		case CONTRAST_STRETCHING:
-			new ContrastStretching(this, currentImage);
+			ContrastStretching stretcher = new ContrastStretching(this, currentImage);
+			stretcher.execute();
+			break;
+			
+		case GAMMA_CORRECTION:
+			final GammaCorrection gammaCorr = new GammaCorrection(this, currentImage);
+			
+			final AdditionalDataPanel addData = new AdditionalDataPanel(0, 400, 100);
+			view.getApplicationsPanel().addAdditionalDataPanel(addData);
+			
+			addData.getGo().addActionListener(new ActionListener() {
+				
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					
+					double gamma = ((new Double((double) addData.getValue()))/100d);
+					LOG.info("Gamma: "+gamma);
+					gammaCorr.setGamma(gamma);
+					gammaCorr.execute();
+					view.getApplicationsPanel().removeAdditionalDataPanel();
+				}
+			});
+			
+			
 			break;
 
 		default:
