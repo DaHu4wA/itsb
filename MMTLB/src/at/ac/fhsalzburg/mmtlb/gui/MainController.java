@@ -26,24 +26,24 @@ import at.ac.fhsalzburg.mmtlb.mmtimage.MMTImage;
  * 
  * @author Stefan Huber
  */
-public class MainController extends JFrame {
+public class MainController extends JFrame implements IFImageController {
 	private static final long serialVersionUID = -958626226425855658L;
 	private static final Logger LOG = Logger.getLogger(MainController.class.getSimpleName());
 	public static String TITLE_TEXT = "Da Hu4wA's Photoshop - Professional Edition";
 
 	final MainView view;
 
-	MMTImage originalImage = null;
-	MMTImage currentImage = null;
+	private MMTImage originalImage = null;
+	private MMTImage currentImage = null;
 
 	public MainController() {
 		setSize(800, 800);
-		//setExtendedState(JFrame.MAXIMIZED_BOTH);
+		// setExtendedState(JFrame.MAXIMIZED_BOTH);
 		setTitle(TITLE_TEXT);
 		setLayout(new BorderLayout());
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setIconImage(new ImageIcon(MainController.class.getResource("icon.png")).getImage());
-		setLocationRelativeTo(null); //set centered
+		setLocationRelativeTo(null); // set centered
 
 		try {
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
@@ -214,7 +214,7 @@ public class MainController extends JFrame {
 			originalImage = new MMTImage(currentImage);
 			return;
 		}
-		
+
 		currentImage = new MMTImage(originalImage);
 		view.setMMTImage(currentImage);
 
@@ -245,7 +245,7 @@ public class MainController extends JFrame {
 
 		switch (action) {
 		case CONTRAST_STRETCHING:
-			doContrastStretching();
+			new ContrastStretching(this, currentImage);
 			break;
 
 		default:
@@ -253,13 +253,24 @@ public class MainController extends JFrame {
 					JOptionPane.ERROR_MESSAGE);
 			break;
 		}
+	}
+
+	@Override
+	public void setCurrentImage(MMTImage newImage) {
+		currentImage = newImage;
+		view.setMMTImage(currentImage);
+		repaint();
 		view.getRevertButton().setEnabled(true);
 	}
 
-	private void doContrastStretching() {
-		currentImage = ContrastStretching.stretchContrast(currentImage);
-		view.setMMTImage(currentImage);
-		repaint();
+	@Override
+	public void setProgressBarVisible(boolean visible) {
+		view.getFooterPanel().showProgressBar(visible);
+	}
+
+	@Override
+	public void setProgressStatus(int progress) {
+		view.getFooterPanel().setProgress(progress);
 	}
 
 }

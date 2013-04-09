@@ -6,6 +6,7 @@ import java.io.InputStreamReader;
 
 import org.apache.log4j.Logger;
 
+import at.ac.fhsalzburg.mmtlb.gui.IFImageController;
 import at.ac.fhsalzburg.mmtlb.mmtimage.FileImageReader;
 import at.ac.fhsalzburg.mmtlb.mmtimage.FileImageWriter;
 import at.ac.fhsalzburg.mmtlb.mmtimage.MMTImage;
@@ -16,8 +17,12 @@ import at.ac.fhsalzburg.mmtlb.mmtimage.MMTImage;
  * 
  * @author Stefan Huber
  */
-public class ContrastStretching {
+public class ContrastStretching extends AbstractImageModificationWorker {
 	private static final Logger LOG = Logger.getLogger(ContrastStretching.class.getSimpleName());
+
+	public ContrastStretching(IFImageController controller, MMTImage sourceImage) {
+		super(controller, sourceImage);
+	}
 
 	public static MMTImage stretchContrast(MMTImage image) {
 		MMTImage stretched = new MMTImage(image.getHeight(), image.getWidth());
@@ -68,6 +73,17 @@ public class ContrastStretching {
 		String newPath = path.substring(0, splitIndex) + "_CS" + path.substring(splitIndex, path.length());
 		FileImageWriter.write(newImage, newPath);
 		System.out.println("Stretched image saved as: \n" + newPath);
+	}
+
+	@Override
+	protected void showDialogForData() {
+		// intentionally left blank
+
+	}
+
+	@Override
+	protected MMTImage modifyImage(MMTImage sourceImage) {
+		return stretchContrast(sourceImage);
 	}
 
 }
