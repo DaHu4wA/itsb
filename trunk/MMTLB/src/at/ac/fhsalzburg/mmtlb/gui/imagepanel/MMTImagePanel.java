@@ -3,7 +3,6 @@ package at.ac.fhsalzburg.mmtlb.gui.imagepanel;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Image;
-import java.awt.image.BufferedImage;
 
 import javax.swing.JPanel;
 
@@ -15,45 +14,50 @@ import at.ac.fhsalzburg.mmtlb.mmtimage.MMTImage;
  * @author Stefan Huber
  */
 public class MMTImagePanel extends JPanel {
-    private static final long serialVersionUID = 8105730431947916489L;
+	private static final long serialVersionUID = 8105730431947916489L;
 
-    private Image image;
-    private float scaleFactor = 1l;
+	private Image image;
+	private Image paintedImage;
+	private double scaleFactor = 1d;
+	private int width = 0;
+	private int height = 0;
 
-    public MMTImagePanel() {
-        image = null;
-    }
+	public MMTImagePanel() {
+		image = null;
+		paintedImage = null;
+	}
 
-    public MMTImagePanel(MMTImage mmtImage) {
-        setImage(mmtImage);
-    }
+	public MMTImagePanel(MMTImage mmtImage) {
+		setImage(mmtImage);
+	}
 
-    public void setImage(MMTImage mmtImage) {
-        BufferedImage image = mmtImage.toBufferedImage();
+	public void setImage(MMTImage mmtImage) {
+		image = mmtImage.toBufferedImage();
 
-        int width = Math.round((((float) mmtImage.getWidth()) * scaleFactor));
-        int height = Math.round((((float) mmtImage.getHeight()) * scaleFactor));
+		width = mmtImage.getWidth();
+		height = mmtImage.getHeight();
 
-        // int width = (int) getSize().getWidth();
-        // int height = (int) getSize().getHeight();
+		setScaleFactor(scaleFactor);
+	}
 
-        this.image = image.getScaledInstance(width, height, java.awt.Image.SCALE_SMOOTH);
+	public void setScaleFactor(final double factor) {
 
-        setPreferredSize(new Dimension(width, height));
-    }
+		scaleFactor = factor;
+		int tempWidth = (int) ((double) width * scaleFactor);
+		int tempHeight = (int) ((double) height * scaleFactor);
 
-    public void setScaleFactor(float factor) {
-        this.scaleFactor = factor;
-    }
+		paintedImage = image.getScaledInstance(tempWidth, tempHeight, java.awt.Image.SCALE_SMOOTH);
+		setPreferredSize(new Dimension(tempWidth, tempHeight));
+	}
 
-    public Image getImage() {
-        return image;
-    }
+	public Image getImage() {
+		return image;
+	}
 
-    @Override
-    protected void paintComponent(Graphics g) {
-        super.paintComponent(g);
-        g.drawImage(image, 0, 0, null);
-    }
+	@Override
+	protected void paintComponent(Graphics g) {
+		super.paintComponent(g);
+		g.drawImage(paintedImage, 0, 0, null);
+	}
 
 }

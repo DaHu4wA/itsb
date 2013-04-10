@@ -125,6 +125,12 @@ public class MainController extends JFrame implements IFImageController {
 
 		setApplicationsListeners();
 
+		view.getFooterPanel().getScaleSlider().addChangeListener(new javax.swing.event.ChangeListener() {
+			public void stateChanged(javax.swing.event.ChangeEvent e) {
+				double scale = (double) view.getFooterPanel().getScaleSlider().getValue();
+				view.getMmtImagePanel().setScale(scale/100);
+			}
+		});
 	}
 
 	/**
@@ -219,8 +225,8 @@ public class MainController extends JFrame implements IFImageController {
 
 		currentImage = new MMTImage(originalImage);
 		view.setMMTImage(currentImage);
-
 		view.getConvertFileButton().setEnabled(true);
+		view.getFooterPanel().getScaleSlider().setEnabled(true);
 		repaint();
 	}
 
