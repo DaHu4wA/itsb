@@ -11,9 +11,9 @@ import javax.swing.JSlider;
 public class AdditionalDataPanel extends JPanel {
 	private static final long serialVersionUID = 8019287358335341062L;
 
-	JSlider slider;
-	JLabel currVal;
-	JButton go;
+	private JSlider slider;
+	private JLabel currVal;
+	private JButton go;
 
 	public AdditionalDataPanel(int min, int max, int defaultVal) {
 		setOpaque(false);

@@ -43,11 +43,11 @@ public class AccordionPanel extends JPanel implements ActionListener {
         foldables = new ArrayList<AccordionContentPanel>();
         contentPane = new JPanel(new AccordionPanelLayout());
 
-        VerticalScrollPane scrollPane = new VerticalScrollPane(contentPane);
+        //VerticalScrollPane scrollPane = new VerticalScrollPane(contentPane);
 
-        scrollPane.setBorder(BorderFactory.createEmptyBorder());
+        contentPane.setBorder(BorderFactory.createEmptyBorder());
 
-        super.add(scrollPane, BorderLayout.CENTER);
+        super.add(contentPane, BorderLayout.CENTER);
     }
 
     @Deprecated
