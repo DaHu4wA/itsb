@@ -18,13 +18,13 @@ import at.ac.fhsalzburg.mmtlb.gui.imagepanel.AdditionalDataPanel;
 public class ApplicationsPanel extends JPanel {
 	private static final long serialVersionUID = 3137071099064109809L;
 
-	private JComboBox<ImageModificationType> modificationTypeBox;
+	private JComboBox modificationTypeBox;
 	private JButton btnApply;
 	private AdditionalDataPanel additionalDataPanel = null;
 
 	public ApplicationsPanel() {
 
-		modificationTypeBox = new JComboBox<ImageModificationType>(ImageModificationType.values());
+		modificationTypeBox = new JComboBox(ImageModificationType.values());
 		btnApply = new JButton(" Apply effect", new ImageIcon(ApplicationsPanel.class.getResource("edit-picture.png")));
 
 		setLayout(new FlowLayout(FlowLayout.LEFT, 10, 10));
@@ -47,11 +47,11 @@ public class ApplicationsPanel extends JPanel {
 		repaint();
 	}
 
-	public JComboBox<ImageModificationType> getModificationTypeBox() {
+	public JComboBox getModificationTypeBox() {
 		return modificationTypeBox;
 	}
 
-	public void setModificationTypeBox(JComboBox<ImageModificationType> modificationTypeBox) {
+	public void setModificationTypeBox(JComboBox modificationTypeBox) {
 		this.modificationTypeBox = modificationTypeBox;
 	}
 
