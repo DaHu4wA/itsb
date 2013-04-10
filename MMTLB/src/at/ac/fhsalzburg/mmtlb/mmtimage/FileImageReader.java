@@ -32,7 +32,7 @@ public class FileImageReader {
         try {
             BufferedImage coloredImage = ImageIO.read(file);
 
-            bufferedImage = toGrayScaleImage(coloredImage);
+            bufferedImage = toGrayScaleImage(coloredImage); // to support every image, we convert it into grayscale
         }
         catch (IOException e) {
             LOG.error("Image could not be opened!", e);
