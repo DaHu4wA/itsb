@@ -23,7 +23,14 @@ public class TitledMMTImagePanel extends JPanel {
 
 	public void setImage(MMTImage mmtImage) {
 		mmtImagePanel.setImage(mmtImage);
-		//setBorder(BorderFactory.createTitledBorder(mmtImage.getName()));
+		invalidate();
+		repaint();
+	}
+	
+	public void setScale(double scale){
+		mmtImagePanel.setScaleFactor(scale);
+		invalidate();
+		repaint();
 	}
 
 }

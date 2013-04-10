@@ -126,4 +126,8 @@ public class MainView extends AccordionPanel {
 		return convertFileButton;
 	}
 
+	public TitledMMTImagePanel getMmtImagePanel() {
+		return mmtImagePanel;
+	}
+
 }

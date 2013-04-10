@@ -28,21 +28,26 @@ public class FileImageReader {
     public static MMTImage read(File file) {
 
         BufferedImage bufferedImage = null;
+        Raster raster = null;
 
         try {
             BufferedImage coloredImage = ImageIO.read(file);
 
             bufferedImage = toGrayScaleImage(coloredImage); // to support every image, we convert it into grayscale
-        }
-        catch (IOException e) {
-            LOG.error("Image could not be opened!", e);
-        }
 
         if (bufferedImage == null) {
             return null;
         }
 
-        Raster raster = bufferedImage.getData();
+        raster = bufferedImage.getData();
+        }
+        catch (IOException e) {
+            LOG.error("Image could not be opened!", e);
+        }
+        
+        if(raster == null){
+        	return null;
+        }
 
         int width = raster.getWidth();
         int height = raster.getHeight();

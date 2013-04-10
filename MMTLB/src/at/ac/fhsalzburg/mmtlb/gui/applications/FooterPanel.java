@@ -23,9 +23,9 @@ public class FooterPanel extends JPanel {
 	private static final String TEXT = " (C) 2013 Stefan Huber, ITSB-B2011-A";
 
 	private JProgressBar progressBar;
-	private JSlider slider;
+	private JSlider scaleSlider;
 	private JLabel currVal;
-	
+
 	public FooterPanel() {
 		setLayout(new BorderLayout());
 		add(new JSeparator(SwingConstants.HORIZONTAL), BorderLayout.NORTH);
@@ -33,30 +33,41 @@ public class FooterPanel extends JPanel {
 		add(new JLabel(TEXT), BorderLayout.CENTER);
 
 		initProgressBar();
-		
-		slider = new JSlider(0, 200); //TODO 
-        slider.setValue(100);
-        slider.setOpaque(false);
-        slider.setMajorTickSpacing(100);
-        slider.setMinorTickSpacing(10);
-        slider.setPaintTicks(true);
-        slider.setPreferredSize(new Dimension(180, 15));
-		
-        currVal = new JLabel("Scale: 1.0");
-        currVal.setPreferredSize(new Dimension(75, 15));
-        
-        JPanel scalePanel = new JPanel(new FlowLayout());
-        scalePanel.add(slider);
-        scalePanel.add(currVal);
-        add(scalePanel, BorderLayout.WEST);
-        
+
+		scaleSlider = new JSlider(10, 300);
+		scaleSlider.setValue(100);
+		scaleSlider.setOpaque(false);
+		scaleSlider.setMajorTickSpacing(100);
+		scaleSlider.setMinorTickSpacing(10);
+		scaleSlider.setPaintTicks(true);
+		scaleSlider.setPreferredSize(new Dimension(180, 15));
+		scaleSlider.setEnabled(false);
+
+		currVal = new JLabel("Scale: 1.0");
+		currVal.setPreferredSize(new Dimension(75, 15));
+
+		JPanel scalePanel = new JPanel(new FlowLayout());
+		scalePanel.add(scaleSlider);
+		scalePanel.add(currVal);
+		add(scalePanel, BorderLayout.WEST);
+
 		progressBar.setPreferredSize(new Dimension(170, 15));
 		add(new BorderPanel(progressBar), BorderLayout.EAST);
+
+		scaleSlider.addChangeListener(new javax.swing.event.ChangeListener() {
+			public void stateChanged(javax.swing.event.ChangeEvent e) {
+				double scale = (double) scaleSlider.getValue();
+				currVal.setText("Scale: " + (scale / 100));
+			}
+		});
+	}
+
+	public JSlider getScaleSlider() {
+		return scaleSlider;
 	}
 
 	private void initProgressBar() {
 		progressBar = new JProgressBar(0, 100);
-//		progressBar.setVisible(false);
 	}
 
 	public void setProgress(int progress) {
@@ -69,7 +80,7 @@ public class FooterPanel extends JPanel {
 	}
 
 	public void showProgressBar(boolean show) {
-		//progressBar.setVisible(show);
+		// progressBar.setVisible(show);
 		progressBar.setStringPainted(show);
 		progressBar.setValue(0);
 		repaint();
