@@ -3,6 +3,8 @@ package at.ac.fhsalzburg.mmtlb.gui;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.io.File;
 
 import javax.swing.ImageIcon;
@@ -19,6 +21,7 @@ import at.ac.fhsalzburg.mmtlb.applications.GammaCorrection;
 import at.ac.fhsalzburg.mmtlb.applications.ImageModificationType;
 import at.ac.fhsalzburg.mmtlb.gui.applications.MainView;
 import at.ac.fhsalzburg.mmtlb.gui.imagepanel.AdditionalDataPanel;
+import at.ac.fhsalzburg.mmtlb.gui.imagepanel.NoAdditionalDataPanel;
 import at.ac.fhsalzburg.mmtlb.mmtimage.FileImageReader;
 import at.ac.fhsalzburg.mmtlb.mmtimage.FileImageWriter;
 import at.ac.fhsalzburg.mmtlb.mmtimage.MMTImage;
@@ -45,7 +48,7 @@ public class MainController extends JFrame implements IFImageController {
 		setLayout(new BorderLayout());
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setIconImage(new ImageIcon(MainController.class.getResource("icon.png")).getImage());
-		setLocationRelativeTo(null); // set centered
+		setLocationRelativeTo(null); // set window centered to screen
 
 		try {
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
@@ -128,7 +131,7 @@ public class MainController extends JFrame implements IFImageController {
 		view.getFooterPanel().getScaleSlider().addChangeListener(new javax.swing.event.ChangeListener() {
 			public void stateChanged(javax.swing.event.ChangeEvent e) {
 				double scale = (double) view.getFooterPanel().getScaleSlider().getValue();
-				view.getMmtImagePanel().setScale(scale/100);
+				view.getMmtImagePanel().setScale(scale / 100);
 			}
 		});
 	}
@@ -191,7 +194,7 @@ public class MainController extends JFrame implements IFImageController {
 		JFileChooser fileChooser = new JFileChooser();
 		fileChooser.setDialogTitle("Save converted image");
 		fileChooser.setDialogType(JFileChooser.SAVE_DIALOG);
-		fileChooser.setSelectedFile(new File("result-assignm1-" + System.currentTimeMillis() + ".jpg"));
+		fileChooser.setSelectedFile(new File(currentImage.getName() +"_modified" + ".jpg"));
 
 		int returnVal = fileChooser.showSaveDialog(this);
 
@@ -227,50 +230,77 @@ public class MainController extends JFrame implements IFImageController {
 		view.setMMTImage(currentImage);
 		view.getConvertFileButton().setEnabled(true);
 		view.getFooterPanel().getScaleSlider().setEnabled(true);
+
+		setModificationDataPanel(ImageModificationType.CONTRAST_STRETCHING);
+
 		repaint();
 	}
 
 	private void setApplicationsListeners() {
 
-		view.getApplicationsPanel().getBtnApply().addActionListener(new ActionListener() {
+		view.getApplicationsPanel().getModificationTypeBox().addItemListener(new ItemListener() {
 
 			@Override
-			public void actionPerformed(ActionEvent e) {
-
-				ImageModificationType selected = (ImageModificationType) view.getApplicationsPanel().getModificationTypeBox().getSelectedItem();
-
-				doImageModification(selected);
+			public void itemStateChanged(ItemEvent e) {
+				if (e.getStateChange() == ItemEvent.SELECTED) {
+					ImageModificationType selectedType = (ImageModificationType) e.getItem();
+					setModificationDataPanel(selectedType);
+				}
 			}
 		});
+
+		// view.getApplicationsPanel().getBtnApply().addActionListener(new
+		// ActionListener() {
+		//
+		// @Override
+		// public void actionPerformed(ActionEvent e) {
+		//
+		// ImageModificationType selected = (ImageModificationType)
+		// view.getApplicationsPanel().getModificationTypeBox().getSelectedItem();
+		//
+		// addModificationDataPanel(selected);
+		// }
+		// });
 	}
 
-	private void doImageModification(ImageModificationType action) {
+	private void setModificationDataPanel(ImageModificationType action) {
 
 		if (currentImage == null) {
 			JOptionPane.showMessageDialog(view, "No image opened!", "Image has to be opened", JOptionPane.ERROR_MESSAGE);
 			return;
 		}
 
+		 view.getApplicationsPanel().removeAdditionalDataPanel();
+
 		switch (action) {
+
 		case CONTRAST_STRETCHING:
-			ContrastStretching stretcher = new ContrastStretching(this, currentImage);
-			stretcher.execute();
+
+			final NoAdditionalDataPanel go = new NoAdditionalDataPanel();
+			view.getApplicationsPanel().setAdditionalDataPanel(go);
+
+			go.getGo().addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					ContrastStretching stretcher = new ContrastStretching(MainController.this, currentImage);
+					stretcher.execute();
+				}
+			});
 			break;
 
 		case GAMMA_CORRECTION:
-			final GammaCorrection gammaCorr = new GammaCorrection(this, currentImage);
 
 			final AdditionalDataPanel addData = new AdditionalDataPanel(0, 1000, 100);
-			view.getApplicationsPanel().addAdditionalDataPanel(addData);
+			view.getApplicationsPanel().setAdditionalDataPanel(addData);
 
 			addData.getGo().addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
+					GammaCorrection gammaCorr = new GammaCorrection(MainController.this, currentImage);
 					double gamma = ((new Double((double) addData.getValue())) / 100d);
 					LOG.info("Gamma: " + gamma);
 					gammaCorr.setGamma(gamma);
 					gammaCorr.execute();
-					view.getApplicationsPanel().removeAdditionalDataPanel();
 				}
 			});
 			break;
@@ -280,6 +310,7 @@ public class MainController extends JFrame implements IFImageController {
 					JOptionPane.ERROR_MESSAGE);
 			break;
 		}
+
 	}
 
 	@Override
