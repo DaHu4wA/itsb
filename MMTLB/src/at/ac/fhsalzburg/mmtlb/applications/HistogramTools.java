@@ -6,7 +6,9 @@ import java.io.InputStreamReader;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
+import at.ac.fhsalzburg.mmtlb.gui.IFImageController;
 import at.ac.fhsalzburg.mmtlb.mmtimage.FileImageReader;
+import at.ac.fhsalzburg.mmtlb.mmtimage.FileImageWriter;
 import at.ac.fhsalzburg.mmtlb.mmtimage.MMTImage;
 
 /**
@@ -16,8 +18,13 @@ import at.ac.fhsalzburg.mmtlb.mmtimage.MMTImage;
  * 
  * @author Stefan Huber
  */
-public class HistogramTools {
-	//private static final Logger LOG = Logger.getLogger(HistogramTools.class.getSimpleName());
+public class HistogramTools extends AbstractImageModificationWorker {
+	// private static final Logger LOG =
+	// Logger.getLogger(HistogramTools.class.getSimpleName());
+
+	public HistogramTools(IFImageController controller, MMTImage sourceImage) {
+		super(controller, sourceImage);
+	}
 
 	public static int[] getHistogram(MMTImage image) {
 
@@ -89,6 +96,39 @@ public class HistogramTools {
 		return gMax;
 	}
 
+	public static MMTImage performHistogramEqualitzation(MMTImage image) {
+		MMTImage result = new MMTImage(image.getHeight(), image.getWidth());
+
+		int[] mappedValues = getMappedGrayValues(image);
+
+		for (int i = 0; i < image.getImageData().length; i++) {
+			result.getImageData()[i] = mappedValues[image.getImageData()[i]];
+		}
+
+		return result;
+	}
+
+	private static int[] getMappedGrayValues(MMTImage image) {
+		int[] result = new int[256];
+
+		BigDecimal[] normHist = getNormalizedHistogram(image);
+		BigDecimal wMax = new BigDecimal(255);
+		System.out.println(String.format("Wmax of original: %d", wMax.intValue()));
+
+		for (int i = 0; i < result.length; i++) {
+
+			BigDecimal sum = BigDecimal.ZERO;
+
+			for (int x = 0; x < i; x++) {
+				sum = sum.add(normHist[x]);
+			}
+
+			result[i] = (sum.multiply(wMax)).intValue();
+		}
+
+		return result;
+	}
+
 	public static void main(String[] args) throws IOException {
 
 		System.out.println("Histogram determination, text version");
@@ -102,9 +142,22 @@ public class HistogramTools {
 		int hist[] = getHistogram(image);
 		System.out.println("Here is the histogram (grayValue: count):\n");
 		for (int i = 0; i < hist.length; i++) {
-			//System.out.println(String.format("%d: %d", i, hist[i]));
 			System.out.println(String.format("%d", hist[i]));
 		}
+
+		MMTImage enhanced = performHistogramEqualitzation(image);
+
+		FileImageWriter.write(enhanced, path);
+		int splitIndex = path.lastIndexOf('.');
+		String newPath = path.substring(0, splitIndex) + "_HE" + path.substring(splitIndex, path.length());
+		FileImageWriter.write(enhanced, newPath);
+		System.out.println("Histogram Equalization image saved as: \n" + newPath);
+
+	}
+
+	@Override
+	protected MMTImage modifyImage(MMTImage sourceImage) {
+		return performHistogramEqualitzation(sourceImage);
 	}
 
 }

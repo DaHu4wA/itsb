@@ -3,6 +3,8 @@ package at.ac.fhsalzburg.mmtlb.gui.applications;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -10,6 +12,7 @@ import javax.swing.JProgressBar;
 import javax.swing.JSeparator;
 import javax.swing.JSlider;
 import javax.swing.SwingConstants;
+import javax.swing.Timer;
 
 import at.ac.fhsalzburg.mmtlb.gui.accordion.BorderPanel;
 
@@ -21,6 +24,13 @@ import at.ac.fhsalzburg.mmtlb.gui.accordion.BorderPanel;
 public class FooterPanel extends JPanel {
 	private static final long serialVersionUID = 7788538411831753473L;
 	private static final String TEXT = " (C) 2013 Stefan Huber, ITSB-B2011-A";
+	
+	Timer resetProgressTimer = new Timer(2000, new ActionListener() {
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			showProgressBar(false);
+		}
+	});
 
 	private JProgressBar progressBar;
 	private JSlider scaleSlider;
@@ -75,6 +85,12 @@ public class FooterPanel extends JPanel {
 			progressBar.setValue(0);
 			return;
 		}
+		
+		if (progress == 100 && !resetProgressTimer.isRunning()) {
+			resetProgressTimer.setRepeats(false);
+			resetProgressTimer.start();
+		}
+		
 		progressBar.setValue(progress);
 		repaint();
 	}
