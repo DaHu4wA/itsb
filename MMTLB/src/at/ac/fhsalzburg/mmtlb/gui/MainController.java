@@ -22,6 +22,7 @@ import at.ac.fhsalzburg.mmtlb.applications.HistogramTools;
 import at.ac.fhsalzburg.mmtlb.applications.ImageModificationType;
 import at.ac.fhsalzburg.mmtlb.gui.applications.MainView;
 import at.ac.fhsalzburg.mmtlb.gui.imagepanel.AdditionalDataPanel;
+import at.ac.fhsalzburg.mmtlb.gui.imagepanel.ImagePreviewFileChooser;
 import at.ac.fhsalzburg.mmtlb.gui.imagepanel.NoAdditionalDataPanel;
 import at.ac.fhsalzburg.mmtlb.mmtimage.FileImageReader;
 import at.ac.fhsalzburg.mmtlb.mmtimage.FileImageWriter;
@@ -145,6 +146,11 @@ public class MainController extends JFrame implements IFImageController {
 	 */
 	private void openImageFile() {
 		JFileChooser fileChooser = new JFileChooser();
+		
+		ImagePreviewFileChooser preview = new ImagePreviewFileChooser(fileChooser);
+		fileChooser.addPropertyChangeListener(preview);
+		fileChooser.setAccessory(preview);
+		
 		fileChooser.setDialogTitle("Choose an image to open");
 		fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
 		int returnVal = fileChooser.showOpenDialog(this);
