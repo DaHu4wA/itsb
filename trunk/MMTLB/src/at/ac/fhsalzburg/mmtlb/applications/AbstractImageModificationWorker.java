@@ -1,12 +1,9 @@
 package at.ac.fhsalzburg.mmtlb.applications;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import javax.swing.SwingWorker;
-import javax.swing.Timer;
 
 import org.apache.log4j.Logger;
 
@@ -20,14 +17,6 @@ import at.ac.fhsalzburg.mmtlb.mmtimage.MMTImage;
  */
 public abstract class AbstractImageModificationWorker extends SwingWorker<MMTImage, Integer> {
 	private static final Logger LOG = Logger.getLogger(AbstractImageModificationWorker.class.getSimpleName());
-
-	Timer resetProgressTimer = new Timer(2000, new ActionListener() {
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			LOG.info("progress reset");
-			controller.setProgressBarVisible(false);
-		}
-	});
 
 	private final IFImageController controller;
 	private final MMTImage sourceImage;
@@ -70,9 +59,5 @@ public abstract class AbstractImageModificationWorker extends SwingWorker<MMTIma
 
 	private void finalizeProgressBar() {
 		controller.setProgressStatus(100);
-		if (!resetProgressTimer.isRunning()) {
-			resetProgressTimer.setRepeats(false);
-			resetProgressTimer.start();
-		}
 	}
 }

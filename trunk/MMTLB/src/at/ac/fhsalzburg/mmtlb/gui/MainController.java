@@ -18,6 +18,7 @@ import org.apache.log4j.Logger;
 import at.ac.fhsalzburg.mmtlb.applications.ContrastStretching;
 import at.ac.fhsalzburg.mmtlb.applications.FileImageConverter;
 import at.ac.fhsalzburg.mmtlb.applications.GammaCorrection;
+import at.ac.fhsalzburg.mmtlb.applications.HistogramTools;
 import at.ac.fhsalzburg.mmtlb.applications.ImageModificationType;
 import at.ac.fhsalzburg.mmtlb.gui.applications.MainView;
 import at.ac.fhsalzburg.mmtlb.gui.imagepanel.AdditionalDataPanel;
@@ -194,7 +195,7 @@ public class MainController extends JFrame implements IFImageController {
 		JFileChooser fileChooser = new JFileChooser();
 		fileChooser.setDialogTitle("Save converted image");
 		fileChooser.setDialogType(JFileChooser.SAVE_DIALOG);
-		fileChooser.setSelectedFile(new File(currentImage.getName() +"_modified" + ".jpg"));
+		fileChooser.setSelectedFile(new File(currentImage.getName() + "_modified" + ".jpg"));
 
 		int returnVal = fileChooser.showSaveDialog(this);
 
@@ -270,13 +271,13 @@ public class MainController extends JFrame implements IFImageController {
 			return;
 		}
 
-		 view.getApplicationsPanel().removeAdditionalDataPanel();
+		view.getApplicationsPanel().removeAdditionalDataPanel();
 
 		switch (action) {
 
 		case CONTRAST_STRETCHING:
 
-			final NoAdditionalDataPanel go = new NoAdditionalDataPanel();
+			NoAdditionalDataPanel go = new NoAdditionalDataPanel();
 			view.getApplicationsPanel().setAdditionalDataPanel(go);
 
 			go.getGo().addActionListener(new ActionListener() {
@@ -301,6 +302,19 @@ public class MainController extends JFrame implements IFImageController {
 					LOG.info("Gamma: " + gamma);
 					gammaCorr.setGamma(gamma);
 					gammaCorr.execute();
+				}
+			});
+			break;
+
+		case HISTOGRAM_EQUALIZATION:
+			NoAdditionalDataPanel go2 = new NoAdditionalDataPanel();
+			view.getApplicationsPanel().setAdditionalDataPanel(go2);
+
+			go2.getGo().addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					HistogramTools hist = new HistogramTools(MainController.this, currentImage);
+					hist.execute();
 				}
 			});
 			break;
