@@ -1,4 +1,4 @@
-package at.ac.fhsalzburg.mmtlb.applications;
+package at.ac.fhsalzburg.mmtlb.applications.tools;
 
 import java.io.File;
 

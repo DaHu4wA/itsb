@@ -17,15 +17,15 @@ import org.apache.log4j.Logger;
 
 import at.ac.fhsalzburg.mmtlb.applications.AveragingFilter;
 import at.ac.fhsalzburg.mmtlb.applications.ContrastStretching;
-import at.ac.fhsalzburg.mmtlb.applications.FileImageConverter;
 import at.ac.fhsalzburg.mmtlb.applications.GammaCorrection;
 import at.ac.fhsalzburg.mmtlb.applications.HistogramEqualization;
 import at.ac.fhsalzburg.mmtlb.applications.ImageModificationType;
-import at.ac.fhsalzburg.mmtlb.gui.applications.MainView;
-import at.ac.fhsalzburg.mmtlb.gui.imagepanel.AdditionalIntDataPanel;
-import at.ac.fhsalzburg.mmtlb.gui.imagepanel.AdditionalSliderDataPanel;
-import at.ac.fhsalzburg.mmtlb.gui.imagepanel.ImagePreviewFileChooser;
-import at.ac.fhsalzburg.mmtlb.gui.imagepanel.NoAdditionalDataPanel;
+import at.ac.fhsalzburg.mmtlb.applications.MedianFilter;
+import at.ac.fhsalzburg.mmtlb.applications.tools.FileImageConverter;
+import at.ac.fhsalzburg.mmtlb.gui.applications.AdditionalIntDataPanel;
+import at.ac.fhsalzburg.mmtlb.gui.applications.AdditionalSliderDataPanel;
+import at.ac.fhsalzburg.mmtlb.gui.applications.NoAdditionalDataPanel;
+import at.ac.fhsalzburg.mmtlb.gui.panels.ImagePreviewFileChooser;
 import at.ac.fhsalzburg.mmtlb.mmtimage.FileImageReader;
 import at.ac.fhsalzburg.mmtlb.mmtimage.FileImageWriter;
 import at.ac.fhsalzburg.mmtlb.mmtimage.MMTImage;
@@ -222,11 +222,11 @@ public class MainController extends JFrame implements IFImageController {
 	 *            that should be displayed
 	 */
 	private void openImageFile(File file) {
-		
-		if(originalImage != null){
+
+		if (originalImage != null) {
 			setModificationDataPanel(ImageModificationType.CONTRAST_STRETCHING);
 		}
-		
+
 		originalImage = FileImageReader.read(file);
 
 		view.getOpenFileButton().setEnabled(true);
@@ -242,12 +242,17 @@ public class MainController extends JFrame implements IFImageController {
 
 		currentImage = new MMTImage(originalImage);
 		view.setMMTImage(currentImage);
-		view.getConvertFileButton().setEnabled(true);
-		view.getFooterPanel().getScaleSlider().setEnabled(true);
+		enableFunctions();
 
 		setModificationDataPanel(ImageModificationType.CONTRAST_STRETCHING);
 
 		repaint();
+	}
+
+	public void enableFunctions() {
+		view.getConvertFileButton().setEnabled(true);
+		view.getFooterPanel().getScaleSlider().setEnabled(true);
+		view.getApplicationsPanel().getModificationTypeBox().setEnabled(true);
 	}
 
 	private void setApplicationsListeners() {
@@ -262,19 +267,6 @@ public class MainController extends JFrame implements IFImageController {
 				}
 			}
 		});
-
-		// view.getApplicationsPanel().getBtnApply().addActionListener(new
-		// ActionListener() {
-		//
-		// @Override
-		// public void actionPerformed(ActionEvent e) {
-		//
-		// ImageModificationType selected = (ImageModificationType)
-		// view.getApplicationsPanel().getModificationTypeBox().getSelectedItem();
-		//
-		// addModificationDataPanel(selected);
-		// }
-		// });
 	}
 
 	private void setModificationDataPanel(ImageModificationType action) {
@@ -333,7 +325,7 @@ public class MainController extends JFrame implements IFImageController {
 			break;
 
 		case AVERAGING_FILTER:
-			Integer[] items = { 3, 5, 7, 9, 11, 13, 15, 17, 19, 23, 27, 31, 33 };
+			Integer[] items = { 3, 5, 7, 9, 11, 13, 15, 17, 19, 23, 27, 31, 33, 51 };
 			final AdditionalIntDataPanel goAverage = new AdditionalIntDataPanel(items, 3);
 			view.getApplicationsPanel().setAdditionalDataPanel(goAverage);
 
@@ -343,6 +335,21 @@ public class MainController extends JFrame implements IFImageController {
 					AveragingFilter average = new AveragingFilter(MainController.this, currentImage);
 					average.setRaster(goAverage.getValue());
 					average.execute();
+				}
+			});
+			break;
+
+		case MEDIAN_FILTER:
+			Integer[] values = { 3, 5, 7, 9, 11, 13 };
+			final AdditionalIntDataPanel medianPanel = new AdditionalIntDataPanel(values, 3);
+			view.getApplicationsPanel().setAdditionalDataPanel(medianPanel);
+
+			medianPanel.getGo().addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					MedianFilter medianFilter = new MedianFilter(MainController.this, currentImage);
+					medianFilter.setRaster(medianPanel.getValue());
+					medianFilter.execute();
 				}
 			});
 			break;
