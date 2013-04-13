@@ -152,7 +152,6 @@ public class HistogramEqualization extends AbstractImageModificationWorker {
 		String newPath = path.substring(0, splitIndex) + "_HE" + path.substring(splitIndex, path.length());
 		FileImageWriter.write(enhanced, newPath);
 		System.out.println("Histogram Equalization image saved as: \n" + newPath);
-
 	}
 
 	@Override

@@ -12,7 +12,7 @@ import at.ac.fhsalzburg.mmtlb.mmtimage.FileImageWriter;
 import at.ac.fhsalzburg.mmtlb.mmtimage.MMTImage;
 
 /**
- * This class will applie contrast stretching to an {@link MMTImage} and returns
+ * This class will apply contrast stretching to an {@link MMTImage} and returns
  * a NEW {@link MMTImage} with stretched contrast
  * 
  * @author Stefan Huber

@@ -47,11 +47,11 @@ public class GammaCorrection extends AbstractImageModificationWorker {
 
 		for (int g = 0; g < mapping.length; g++) {
 			// Determine gTilde (new gamma) for every contrast value
-			
+
 			double base = (g - wMin) / (wMax - wMin);
 			double powed = Math.pow(base, gamma);
 			mapping[g] = new Long(Math.round(wMax * powed)).intValue();
-			
+
 			LOG.info("gamma for " + g + ": " + mapping[g]);
 		}
 
