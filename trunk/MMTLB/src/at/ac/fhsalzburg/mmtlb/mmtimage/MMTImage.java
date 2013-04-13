@@ -14,18 +14,18 @@ import org.apache.log4j.Logger;
 public class MMTImage {
 	private static final Logger LOG = Logger.getLogger(MMTImage.class.getSimpleName());
 
-	private int[] imageaData;
+	private int[] imageData;
 	private String name;
 	private int height, width;
 
 	public MMTImage(int height, int width) {
 		this.height = height;
 		this.width = width;
-		this.imageaData = new int[height * width];
+		this.imageData = new int[height * width];
 
-		LOG.debug("Height: "+height+", Width: "+width+". Array with size " + imageaData.length + " created.");
+		LOG.debug("Height: " + height + ", Width: " + width + ". Array with size " + imageData.length + " created.");
 	}
-	
+
 	/**
 	 * Deep copy a mmtImage
 	 */
@@ -33,11 +33,11 @@ public class MMTImage {
 		this.height = other.getHeight();
 		this.width = other.getWidth();
 		this.name = other.getName();
-		this.imageaData = Arrays.copyOf(other.getImageData(), other.getImageData().length);
+		this.imageData = Arrays.copyOf(other.getImageData(), other.getImageData().length);
 
 		LOG.debug("Deep copy of MMTImage created");
 	}
-	
+
 	/**
 	 * @returns the {@link MMTImage} as BufferedImage
 	 */
@@ -52,7 +52,7 @@ public class MMTImage {
 	 * @returns the pixel value for specific position
 	 */
 	public int getPixel(int i) {
-		return imageaData[i];
+		return imageData[i];
 	}
 
 	/**
@@ -64,11 +64,11 @@ public class MMTImage {
 	 *            the y Position starting from 0
 	 */
 	public int getPixel2D(int xPos, int yPos) {
-		return imageaData[getArrayIndexOf(xPos, yPos)];
+		return imageData[getArrayIndexOf(xPos, yPos)];
 	}
 
 	public void setPixel2D(int xPos, int yPos, int value) {
-		imageaData[getArrayIndexOf(xPos, yPos)] = value;
+		imageData[getArrayIndexOf(xPos, yPos)] = value;
 	}
 
 	/**
@@ -80,7 +80,7 @@ public class MMTImage {
 	 *            the value to set
 	 */
 	public void setPixel1D(int i, int value) {
-		imageaData[i] = value;
+		imageData[i] = value;
 	}
 
 	public String getName() {
@@ -92,7 +92,7 @@ public class MMTImage {
 	}
 
 	public int[] getImageData() {
-		return imageaData;
+		return imageData;
 	}
 
 	public int getHeight() {
@@ -109,10 +109,12 @@ public class MMTImage {
 	private int getArrayIndexOf(int xPos, int yPos) {
 
 		int position = 0;
-		position += width * (yPos - 1); // add the width for every row
+		if (yPos > 0) {
+			position += width * yPos; // add the width for every row
+		}
 		position += xPos; // go to the correct column
-		position -= 1; // array starts with 0
+		//position -= 1; // array starts with 0
 		return position;
 	}
-	
+
 }

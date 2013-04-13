@@ -44,8 +44,8 @@ public class ContrastStretching extends AbstractImageModificationWorker {
 		int wMin = 0;
 		int wMax = 255;
 
-		int gMin = HistogramTools.getLowestGrayValue(image);
-		int gMax = HistogramTools.getHighestGrayValue(image);
+		int gMin = HistogramEqualization.getLowestGrayValue(image);
+		int gMax = HistogramEqualization.getHighestGrayValue(image);
 
 		LOG.info(String.format("Original image: minGray: %d, maxGray: %d", gMin, gMax));
 
