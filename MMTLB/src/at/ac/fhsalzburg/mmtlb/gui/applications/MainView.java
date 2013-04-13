@@ -110,7 +110,7 @@ public class MainView extends AccordionPanel {
 	 */
 	public void setMMTImage(MMTImage image) {
 		mmtImagePanel.setImage(image);
-		fileActionsPanel.getSeparatorPanel().setTitle(FILE_TITLE + "    -    " + image.getName());
+		fileActionsPanel.getSeparatorPanel().setTitle(FILE_TITLE + "    -    " + image.getName() + "      "+image.getWidth()+ "x"+image.getHeight());
 		repaint();
 	}
 

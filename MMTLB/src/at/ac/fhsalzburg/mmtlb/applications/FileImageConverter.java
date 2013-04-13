@@ -26,9 +26,10 @@ public class FileImageConverter {
 	 */
 	public static int convertFolderFromJpgToPng(File directory) {
 		int convertedCount = 0;
-
+		
 		if (!directory.isDirectory()) {
 			LOG.error("File is not a directory!!");
+			return 0;
 		}
 		System.out.println(directory.getAbsoluteFile());
 		File targetDir = new File(directory.getAbsoluteFile() + "\\" + SUBFOLDER_NAME + "\\");
@@ -44,7 +45,7 @@ public class FileImageConverter {
 				MMTImage image = FileImageReader.read(f);
 
 				String newFileName = f.getName().substring(0, f.getName().lastIndexOf('.')) + ".png";
-				FileImageWriter.write(image, new File(targetDir, newFileName));
+				FileImageWriter.write(image, new File(targetDir, newFileName), "png");
 				convertedCount++;
 			}
 		}

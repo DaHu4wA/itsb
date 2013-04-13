@@ -18,11 +18,11 @@ import at.ac.fhsalzburg.mmtlb.mmtimage.MMTImage;
  * 
  * @author Stefan Huber
  */
-public class HistogramTools extends AbstractImageModificationWorker {
+public class HistogramEqualization extends AbstractImageModificationWorker {
 	// private static final Logger LOG =
 	// Logger.getLogger(HistogramTools.class.getSimpleName());
 
-	public HistogramTools(IFImageController controller, MMTImage sourceImage) {
+	public HistogramEqualization(IFImageController controller, MMTImage sourceImage) {
 		super(controller, sourceImage);
 	}
 
@@ -98,6 +98,7 @@ public class HistogramTools extends AbstractImageModificationWorker {
 
 	public static MMTImage performHistogramEqualitzation(MMTImage image) {
 		MMTImage result = new MMTImage(image.getHeight(), image.getWidth());
+		result.setName(image.getName());
 
 		int[] mappedValues = getMappedGrayValues(image);
 
@@ -147,7 +148,6 @@ public class HistogramTools extends AbstractImageModificationWorker {
 
 		MMTImage enhanced = performHistogramEqualitzation(image);
 
-		FileImageWriter.write(enhanced, path);
 		int splitIndex = path.lastIndexOf('.');
 		String newPath = path.substring(0, splitIndex) + "_HE" + path.substring(splitIndex, path.length());
 		FileImageWriter.write(enhanced, newPath);

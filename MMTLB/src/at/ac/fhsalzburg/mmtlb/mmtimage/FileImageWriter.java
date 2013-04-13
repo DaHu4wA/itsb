@@ -16,20 +16,11 @@ public class FileImageWriter {
 	private static final Logger LOG = Logger.getLogger(FileImageWriter.class.getSimpleName());
 
 	public static void write(MMTImage image, String filePath) {
-		write(image, new File(filePath), "jpg");
+		write(image, new File(filePath));
 	}
 
 	public static void write(MMTImage image, File file) {
 		write(image, file, "jpg");
-	}
-
-	public static File writeToTempFile(MMTImage image) {
-		try {
-			return write(image, File.createTempFile("TempImage", ".jpg"), "jpg");
-		} catch (IOException e) {
-			LOG.error("Error creating temp file!", e);
-			return null;
-		}
 	}
 
 	public static File write(MMTImage image, File file, String fileType) {
@@ -44,4 +35,12 @@ public class FileImageWriter {
 		return file;
 	}
 
+	public static File writeToTempFile(MMTImage image) {
+		try {
+			return write(image, File.createTempFile("TempImage", ".jpg"), "jpg");
+		} catch (IOException e) {
+			LOG.error("Error creating temp file!", e);
+			return null;
+		}
+	}
 }

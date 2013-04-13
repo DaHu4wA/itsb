@@ -9,14 +9,15 @@ import javax.swing.*;
 
 /**
  * created by:
- * http://niravjavadeveloper.blogspot.co.at/2011/05/image-preview-in-jfilechooser_19.html
+ * http://niravjavadeveloper.blogspot.co.at/2011/05/image-preview-in-
+ * jfilechooser_19.html
  */
 public class ImagePreviewFileChooser extends JPanel implements PropertyChangeListener {
 	private static final long serialVersionUID = 9037688411878902475L;
 	private static final Color backgroundColout = new Color(0xEEEEEE);
 	private JFileChooser jfc;
 	private Image img;
-	
+
 	public ImagePreviewFileChooser(JFileChooser jfc) {
 		this.jfc = jfc;
 		Dimension sz = new Dimension(200, 200);
@@ -51,6 +52,10 @@ public class ImagePreviewFileChooser extends JPanel implements PropertyChangeLis
 			int w = img.getWidth(null);
 			int h = img.getHeight(null);
 			int side = Math.max(w, h);
+
+			int ow = w;
+			int oh = h;
+
 			double scale = 200.0 / (double) side;
 			w = (int) (scale * (double) w);
 			h = (int) (scale * (double) h);
@@ -58,11 +63,12 @@ public class ImagePreviewFileChooser extends JPanel implements PropertyChangeLis
 			g.drawImage(img, 0, 0, w, h, null);
 
 			// draw the image dimensions
-			String dim = w + " x " + h;
+			String dim = ow + " x " + oh;
 			g.setColor(Color.black);
 			g.drawString(dim, 31, 196);
 			g.setColor(Color.white);
 			g.drawString(dim, 30, 195);
+
 		} else {
 			// print a message
 			g.setColor(Color.black);

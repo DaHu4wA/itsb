@@ -8,16 +8,16 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
 
-public class AdditionalDataPanel extends JPanel {
+public class AdditionalSliderDataPanel extends JPanel {
 	private static final long serialVersionUID = 8019287358335341062L;
 
 	private JSlider slider;
 	private JLabel currVal;
 	private JButton go;
 
-	public AdditionalDataPanel(int min, int max, int defaultVal) {
+	public AdditionalSliderDataPanel(int min, int max, int defaultVal) {
 		setOpaque(false);
-		go = new JButton("Go!", new ImageIcon(AdditionalDataPanel.class.getResource("go.png")));
+		go = new JButton("Go!", new ImageIcon(AdditionalSliderDataPanel.class.getResource("go.png")));
 		currVal = new JLabel("Gamma: 1.0");
 		currVal.setPreferredSize(new Dimension(75, 15));
 

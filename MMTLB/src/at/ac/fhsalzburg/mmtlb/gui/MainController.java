@@ -15,13 +15,15 @@ import javax.swing.UIManager;
 
 import org.apache.log4j.Logger;
 
+import at.ac.fhsalzburg.mmtlb.applications.AveragingFilter;
 import at.ac.fhsalzburg.mmtlb.applications.ContrastStretching;
 import at.ac.fhsalzburg.mmtlb.applications.FileImageConverter;
 import at.ac.fhsalzburg.mmtlb.applications.GammaCorrection;
-import at.ac.fhsalzburg.mmtlb.applications.HistogramTools;
+import at.ac.fhsalzburg.mmtlb.applications.HistogramEqualization;
 import at.ac.fhsalzburg.mmtlb.applications.ImageModificationType;
 import at.ac.fhsalzburg.mmtlb.gui.applications.MainView;
-import at.ac.fhsalzburg.mmtlb.gui.imagepanel.AdditionalDataPanel;
+import at.ac.fhsalzburg.mmtlb.gui.imagepanel.AdditionalIntDataPanel;
+import at.ac.fhsalzburg.mmtlb.gui.imagepanel.AdditionalSliderDataPanel;
 import at.ac.fhsalzburg.mmtlb.gui.imagepanel.ImagePreviewFileChooser;
 import at.ac.fhsalzburg.mmtlb.gui.imagepanel.NoAdditionalDataPanel;
 import at.ac.fhsalzburg.mmtlb.mmtimage.FileImageReader;
@@ -146,11 +148,11 @@ public class MainController extends JFrame implements IFImageController {
 	 */
 	private void openImageFile() {
 		JFileChooser fileChooser = new JFileChooser();
-		
+
 		ImagePreviewFileChooser preview = new ImagePreviewFileChooser(fileChooser);
 		fileChooser.addPropertyChangeListener(preview);
 		fileChooser.setAccessory(preview);
-		
+
 		fileChooser.setDialogTitle("Choose an image to open");
 		fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
 		int returnVal = fileChooser.showOpenDialog(this);
@@ -220,6 +222,11 @@ public class MainController extends JFrame implements IFImageController {
 	 *            that should be displayed
 	 */
 	private void openImageFile(File file) {
+		
+		if(originalImage != null){
+			setModificationDataPanel(ImageModificationType.CONTRAST_STRETCHING);
+		}
+		
 		originalImage = FileImageReader.read(file);
 
 		view.getOpenFileButton().setEnabled(true);
@@ -297,7 +304,7 @@ public class MainController extends JFrame implements IFImageController {
 
 		case GAMMA_CORRECTION:
 
-			final AdditionalDataPanel addData = new AdditionalDataPanel(0, 1000, 100);
+			final AdditionalSliderDataPanel addData = new AdditionalSliderDataPanel(0, 1000, 100);
 			view.getApplicationsPanel().setAdditionalDataPanel(addData);
 
 			addData.getGo().addActionListener(new ActionListener() {
@@ -319,8 +326,23 @@ public class MainController extends JFrame implements IFImageController {
 			go2.getGo().addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					HistogramTools hist = new HistogramTools(MainController.this, currentImage);
+					HistogramEqualization hist = new HistogramEqualization(MainController.this, currentImage);
 					hist.execute();
+				}
+			});
+			break;
+
+		case AVERAGING_FILTER:
+			Integer[] items = { 3, 5, 7, 9, 11, 13, 15, 17, 19, 23, 27, 31, 33 };
+			final AdditionalIntDataPanel goAverage = new AdditionalIntDataPanel(items, 3);
+			view.getApplicationsPanel().setAdditionalDataPanel(goAverage);
+
+			goAverage.getGo().addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					AveragingFilter average = new AveragingFilter(MainController.this, currentImage);
+					average.setRaster(goAverage.getValue());
+					average.execute();
 				}
 			});
 			break;
