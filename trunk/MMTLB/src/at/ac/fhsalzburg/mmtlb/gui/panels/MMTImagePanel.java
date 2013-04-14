@@ -37,10 +37,10 @@ public class MMTImagePanel extends JPanel {
 		width = mmtImage.getWidth();
 		height = mmtImage.getHeight();
 
-		setScaleFactor(scaleFactor);
+		setScale(scaleFactor);
 	}
 
-	public void setScaleFactor(final double factor) {
+	public void setScale(final double factor) {
 
 		scaleFactor = factor;
 		int tempWidth = (int) ((double) width * scaleFactor);
@@ -48,6 +48,8 @@ public class MMTImagePanel extends JPanel {
 
 		paintedImage = image.getScaledInstance(tempWidth, tempHeight, java.awt.Image.SCALE_SMOOTH);
 		setPreferredSize(new Dimension(tempWidth, tempHeight));
+		invalidate();
+		repaint();
 	}
 
 	public Image getImage() {
