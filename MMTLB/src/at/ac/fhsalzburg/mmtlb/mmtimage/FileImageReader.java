@@ -17,58 +17,57 @@ import org.apache.log4j.Logger;
  * @author Stefan Huber
  */
 public class FileImageReader {
-    private static final Logger LOG = Logger.getLogger(FileImageReader.class.getSimpleName());
+	private static final Logger LOG = Logger.getLogger(FileImageReader.class.getSimpleName());
 
-    public static MMTImage read(String filePath) {
-        LOG.debug(String.format("Opening file %s", filePath));
+	public static MMTImage read(String filePath) {
+		LOG.debug(String.format("Opening file %s", filePath));
 
-        return read(new File(filePath));
-    }
+		return read(new File(filePath));
+	}
 
-    public static MMTImage read(File file) {
+	public static MMTImage read(File file) {
 
-        BufferedImage bufferedImage = null;
-        Raster raster = null;
+		BufferedImage bufferedImage = null;
+		Raster raster = null;
 
-        try {
-            BufferedImage coloredImage = ImageIO.read(file);
+		try {
+			BufferedImage coloredImage = ImageIO.read(file);
 
-            bufferedImage = toGrayScaleImage(coloredImage); // to support every image, we convert it into grayscale
+			bufferedImage = toGrayScaleImage(coloredImage);
 
-        if (bufferedImage == null) {
-            return null;
-        }
+			if (bufferedImage == null) {
+				return null;
+			}
 
-        raster = bufferedImage.getData();
-        }
-        catch (IOException e) {
-            LOG.error("Image could not be opened!", e);
-        }
-        
-        if(raster == null){
-        	return null;
-        }
+			raster = bufferedImage.getData();
+		} catch (IOException e) {
+			LOG.error("Image could not be opened!", e);
+		}
 
-        int width = raster.getWidth();
-        int height = raster.getHeight();
+		if (raster == null) {
+			return null;
+		}
 
-        MMTImage image = new MMTImage(height, width);
+		int width = raster.getWidth();
+		int height = raster.getHeight();
 
-        raster.getPixels(0, 0, width, height, image.getImageData());
-        image.setName(file.getName().substring(0, file.getName().lastIndexOf('.')));
-        return image;
-    }
+		MMTImage image = new MMTImage(height, width);
 
-    /**
-     * Converts an image into a grayscaled image
-     * 
-     * @param coloredImage
-     * @return image converted to grayscale
-     */
-    private static BufferedImage toGrayScaleImage(BufferedImage coloredImage) {
-        ColorSpace cs = ColorSpace.getInstance(ColorSpace.CS_GRAY);
-        ColorConvertOp op = new ColorConvertOp(cs, null);
-        return op.filter(coloredImage, null);
-    }
+		raster.getPixels(0, 0, width, height, image.getImageData());
+		image.setName(file.getName().substring(0, file.getName().lastIndexOf('.')));
+		return image;
+	}
+
+	/**
+	 * Converts an image into a grayscaled image
+	 * 
+	 * @param coloredImage
+	 * @return image converted to grayscale
+	 */
+	private static BufferedImage toGrayScaleImage(BufferedImage coloredImage) {
+		ColorSpace cs = ColorSpace.getInstance(ColorSpace.CS_GRAY);
+		ColorConvertOp op = new ColorConvertOp(cs, null);
+		return op.filter(coloredImage, null);
+	}
 
 }
