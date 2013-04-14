@@ -5,6 +5,7 @@ import java.awt.FlowLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 /**
@@ -12,19 +13,20 @@ import javax.swing.JPanel;
  * 
  * @author Stefan Huber
  */
-public class AdditionalIntDataPanel extends JPanel {
+public class RasterSizePanel extends JPanel {
 	private static final long serialVersionUID = 8019287358335341062L;
 
 	private JComboBox<Integer> values;
 	private JButton go;
 
-	public AdditionalIntDataPanel(Integer[] items, Integer defaulValue) {
+	public RasterSizePanel(Integer[] items, Integer defaulValue) {
 		setOpaque(false);
 		setLayout(new FlowLayout(FlowLayout.LEFT, 10, 10));
-		go = new JButton("Go!", new ImageIcon(AdditionalIntDataPanel.class.getResource("go.png")));
+		go = new JButton("Go!", new ImageIcon(RasterSizePanel.class.getResource("go.png")));
 
 		values = new JComboBox<Integer>(items);
 		values.setSelectedItem(defaulValue);
+		add(new JLabel("Raster: "));
 		add(values);
 		add(go);
 	}

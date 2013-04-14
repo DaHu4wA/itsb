@@ -6,7 +6,8 @@ public enum ImageModificationType {
 	GAMMA_CORRECTION, //
 	HISTOGRAM_EQUALIZATION, //
 	AVERAGING_FILTER, //
-	MEDIAN_FILTER
+	MEDIAN_FILTER, //
+	LAPLACIAN_FILTER, //
 	;
 
 }

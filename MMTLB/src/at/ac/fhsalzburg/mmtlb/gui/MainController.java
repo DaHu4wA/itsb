@@ -15,16 +15,20 @@ import javax.swing.UIManager;
 
 import org.apache.log4j.Logger;
 
-import at.ac.fhsalzburg.mmtlb.applications.AveragingFilter;
 import at.ac.fhsalzburg.mmtlb.applications.ContrastStretching;
 import at.ac.fhsalzburg.mmtlb.applications.GammaCorrection;
 import at.ac.fhsalzburg.mmtlb.applications.HistogramEqualization;
 import at.ac.fhsalzburg.mmtlb.applications.ImageModificationType;
-import at.ac.fhsalzburg.mmtlb.applications.MedianFilter;
+import at.ac.fhsalzburg.mmtlb.applications.filters.AveragingFilter;
+import at.ac.fhsalzburg.mmtlb.applications.filters.LaplacianFilter;
+import at.ac.fhsalzburg.mmtlb.applications.filters.LaplacianFilterType;
+import at.ac.fhsalzburg.mmtlb.applications.filters.MedianFilter;
 import at.ac.fhsalzburg.mmtlb.applications.tools.FileImageConverter;
-import at.ac.fhsalzburg.mmtlb.gui.applications.AdditionalIntDataPanel;
+import at.ac.fhsalzburg.mmtlb.gui.applications.AdditionalComboBoxDataPanel;
+import at.ac.fhsalzburg.mmtlb.gui.applications.RasterSizePanel;
 import at.ac.fhsalzburg.mmtlb.gui.applications.AdditionalSliderDataPanel;
 import at.ac.fhsalzburg.mmtlb.gui.applications.NoAdditionalDataPanel;
+import at.ac.fhsalzburg.mmtlb.gui.comparation.ImageComparator;
 import at.ac.fhsalzburg.mmtlb.gui.panels.ImagePreviewFileChooser;
 import at.ac.fhsalzburg.mmtlb.mmtimage.FileImageReader;
 import at.ac.fhsalzburg.mmtlb.mmtimage.FileImageWriter;
@@ -126,7 +130,17 @@ public class MainController extends JFrame implements IFImageController {
 				currentImage = new MMTImage(originalImage);
 				view.setMMTImage(currentImage);
 				view.getRevertButton().setEnabled(false);
+				view.getCompareButton().setEnabled(false);
 				repaint();
+			}
+		});
+
+		view.getCompareButton().addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				double scale = (double) view.getFooterPanel().getScaleSlider().getValue();
+				ImageComparator c = new ImageComparator(MainController.this, currentImage, originalImage, scale / 100);
+				c.setVisible(true);
 			}
 		});
 
@@ -326,7 +340,7 @@ public class MainController extends JFrame implements IFImageController {
 
 		case AVERAGING_FILTER:
 			Integer[] items = { 3, 5, 7, 9, 11, 13, 15, 17, 19, 23, 27, 31, 33, 51 };
-			final AdditionalIntDataPanel goAverage = new AdditionalIntDataPanel(items, 3);
+			final RasterSizePanel goAverage = new RasterSizePanel(items, 3);
 			view.getApplicationsPanel().setAdditionalDataPanel(goAverage);
 
 			goAverage.getGo().addActionListener(new ActionListener() {
@@ -341,7 +355,7 @@ public class MainController extends JFrame implements IFImageController {
 
 		case MEDIAN_FILTER:
 			Integer[] values = { 3, 5, 7, 9, 11, 13 };
-			final AdditionalIntDataPanel medianPanel = new AdditionalIntDataPanel(values, 3);
+			final RasterSizePanel medianPanel = new RasterSizePanel(values, 3);
 			view.getApplicationsPanel().setAdditionalDataPanel(medianPanel);
 
 			medianPanel.getGo().addActionListener(new ActionListener() {
@@ -350,6 +364,20 @@ public class MainController extends JFrame implements IFImageController {
 					MedianFilter medianFilter = new MedianFilter(MainController.this, currentImage);
 					medianFilter.setRaster(medianPanel.getValue());
 					medianFilter.execute();
+				}
+			});
+			break;
+
+		case LAPLACIAN_FILTER:
+			final AdditionalComboBoxDataPanel comboPanel = new AdditionalComboBoxDataPanel(LaplacianFilterType.values(), LaplacianFilterType.FOUR_NEIGHBOURHOOD);
+			view.getApplicationsPanel().setAdditionalDataPanel(comboPanel);
+
+			comboPanel.getGo().addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					LaplacianFilter lapl = new LaplacianFilter(MainController.this, currentImage);
+					lapl.setFilterType((LaplacianFilterType) comboPanel.getValue());
+					lapl.execute();
 				}
 			});
 			break;
@@ -367,6 +395,7 @@ public class MainController extends JFrame implements IFImageController {
 		currentImage = newImage;
 		view.setMMTImage(currentImage);
 		view.getRevertButton().setEnabled(true);
+		view.getCompareButton().setEnabled(true);
 	}
 
 	@Override

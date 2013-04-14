@@ -1,9 +1,10 @@
-package at.ac.fhsalzburg.mmtlb.applications;
+package at.ac.fhsalzburg.mmtlb.applications.filters;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
+import at.ac.fhsalzburg.mmtlb.applications.AbstractImageModificationWorker;
 import at.ac.fhsalzburg.mmtlb.applications.tools.SurroudingPixelHelper;
 import at.ac.fhsalzburg.mmtlb.gui.IFImageController;
 import at.ac.fhsalzburg.mmtlb.mmtimage.FileImageReader;
@@ -11,39 +12,39 @@ import at.ac.fhsalzburg.mmtlb.mmtimage.FileImageWriter;
 import at.ac.fhsalzburg.mmtlb.mmtimage.MMTImage;
 
 /**
- * Applies an averaging filter to a {@link MMTImage}
+ * Applies an median filter to a {@link MMTImage}
  * 
  * @author Stefan Huber
  */
-public class AveragingFilter extends AbstractImageModificationWorker {
+public class MedianFilter extends AbstractImageModificationWorker {
 
 	private int raster = 3; // default size
 
-	public AveragingFilter(IFImageController controller, MMTImage sourceImage) {
+	public MedianFilter(IFImageController controller, MMTImage sourceImage) {
 		super(controller, sourceImage);
 	}
 
 	@Override
 	protected MMTImage modifyImage(MMTImage sourceImage) {
-		return performAveraging(sourceImage, raster);
+		return performMedianFilter(sourceImage, raster);
 	}
 
 	/**
-	 * Performs average filter
+	 * Performs median filter
 	 * 
 	 * @param image
-	 *            the image to average
+	 *            the image to apply median filter to
 	 * @param rasterSize
 	 *            UNEVEN (3x3, 5x5 etc) value
-	 * @return a new averaged image
+	 * @return a new median filtered image
 	 */
-	public static MMTImage performAveraging(MMTImage image, int rasterSize) {
+	public static MMTImage performMedianFilter(MMTImage image, int rasterSize) {
 		MMTImage result = new MMTImage(image.getHeight(), image.getWidth());
 		result.setName(image.getName());
 
 		for (int y = 0; y < image.getHeight(); y++) {
 			for (int x = 0; x < image.getWidth(); x++) {
-				result.setPixel2D(x, y, SurroudingPixelHelper.getAverageValueForPosition(image, rasterSize, x, y));
+				result.setPixel2D(x, y, SurroudingPixelHelper.getMedianValueForPosition(image, rasterSize, x, y));
 			}
 		}
 		return result;
@@ -59,7 +60,7 @@ public class AveragingFilter extends AbstractImageModificationWorker {
 
 	public static void main(String[] args) throws IOException {
 
-		System.out.println("Averaging filter, text version");
+		System.out.println("Median filter, text version");
 		System.out.println("Enter the full path to a picture: ");
 
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -71,12 +72,12 @@ public class AveragingFilter extends AbstractImageModificationWorker {
 
 		MMTImage image = FileImageReader.read(path);
 
-		MMTImage enhanced = performAveraging(image, new Integer(rast));
+		MMTImage enhanced = performMedianFilter(image, new Integer(rast));
 
 		int splitIndex = path.lastIndexOf('.');
-		String newPath = path.substring(0, splitIndex) + "_AV" + path.substring(splitIndex, path.length());
+		String newPath = path.substring(0, splitIndex) + "_MF" + path.substring(splitIndex, path.length());
 		FileImageWriter.write(enhanced, newPath);
-		System.out.println("Averaged image saved as: \n" + newPath);
+		System.out.println("Median filtered image saved as: \n" + newPath);
 	}
 
 }

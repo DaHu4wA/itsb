@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import at.ac.fhsalzburg.mmtlb.applications.filters.LaplacianFilterType;
 import at.ac.fhsalzburg.mmtlb.mmtimage.MMTImage;
 
 /**
@@ -90,6 +91,58 @@ public class SurroudingPixelHelper {
 		}
 		Arrays.sort(vals);
 		return (int) vals[(vals.length - 1) / 2];
+	}
+
+	public static int getLaplacianValueForPosition(MMTImage originalImage, LaplacianFilterType filterType, int xPos, int yPos) {
+
+		int neighbourGraySum = 0;
+		int factor = 0;
+
+		if (!isOutOfSpace(originalImage, xPos + 1, yPos)) {
+			factor++;
+			neighbourGraySum += originalImage.getPixel2D(xPos + 1, yPos) * -1;
+		}
+		if (!isOutOfSpace(originalImage, xPos, yPos + 1)) {
+			factor++;
+			neighbourGraySum += originalImage.getPixel2D(xPos, yPos + 1) * -1;
+		}
+		if (!isOutOfSpace(originalImage, xPos - 1, yPos)) {
+			factor++;
+			neighbourGraySum += originalImage.getPixel2D(xPos - 1, yPos) * -1;
+		}
+		if (!isOutOfSpace(originalImage, xPos, yPos - 1)) {
+			factor++;
+			neighbourGraySum += originalImage.getPixel2D(xPos, yPos - 1) * -1;
+		}
+
+		if (LaplacianFilterType.EIGHT_NEIGHBOURHOOD == filterType) {
+
+			if (!isOutOfSpace(originalImage, xPos + 1, yPos + 1)) {
+				factor++;
+				neighbourGraySum += originalImage.getPixel2D(xPos + 1, yPos + 1) * -1;
+			}
+			if (!isOutOfSpace(originalImage, xPos + 1, yPos - 1)) {
+				factor++;
+				neighbourGraySum += originalImage.getPixel2D(xPos + 1, yPos - 1) * -1;
+			}
+			if (!isOutOfSpace(originalImage, xPos - 1, yPos + 1)) {
+				factor++;
+				neighbourGraySum += originalImage.getPixel2D(xPos - 1, yPos + 1) * -1;
+			}
+			if (!isOutOfSpace(originalImage, xPos - 1, yPos - 1)) {
+				factor++;
+				neighbourGraySum += originalImage.getPixel2D(xPos - 1, yPos - 1) * -1;
+			}
+
+		}
+
+		int result = originalImage.getPixel2D(xPos, yPos) * factor;
+		result = result + neighbourGraySum;
+
+		result = result < 0 ? 0 : result;
+		result = result > 255 ? 255 : result;
+
+		return result;
 	}
 
 	private static boolean isOutOfSpace(MMTImage originalImage, int x, int y) {
