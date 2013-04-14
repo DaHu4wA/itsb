@@ -12,7 +12,7 @@ import javax.swing.JScrollPane;
 
 import at.ac.fhsalzburg.mmtlb.gui.panels.ApplicationsPanel;
 import at.ac.fhsalzburg.mmtlb.gui.panels.FooterPanel;
-import at.ac.fhsalzburg.mmtlb.gui.panels.TitledMMTImagePanel;
+import at.ac.fhsalzburg.mmtlb.gui.panels.MMTImagePanel;
 import at.ac.fhsalzburg.mmtlb.gui.panels.accordion.AccordionContentPanel;
 import at.ac.fhsalzburg.mmtlb.gui.panels.accordion.AccordionPanel;
 import at.ac.fhsalzburg.mmtlb.gui.panels.accordion.ColoredPanel;
@@ -30,6 +30,7 @@ public class MainView extends AccordionPanel {
 	public static String OPEN_IMAGE_TEXT = "Open image";
 	public static String CONVERT_FOLDER_TEXT = "Convert *folder content* from .jpg to .png";
 	public static String SAVE_FILE_TEXT = "Save current image";
+	public static String COMPARE_TEXT = "Compare images";
 	public static String REVERT_TEXT = "Undo changes";
 
 	public ApplicationsPanel getApplicationsPanel() {
@@ -44,13 +45,14 @@ public class MainView extends AccordionPanel {
 
 	private JButton openFileButton;
 	private JButton revertButton;
+	private JButton compareButton;
 	private JButton convertWholeFolderToPNG;
 	private JButton convertFileButton;
 
 	private ApplicationsPanel applicationsPanel;
 	private FooterPanel footerPanel;
 
-	private TitledMMTImagePanel mmtImagePanel;
+	private MMTImagePanel mmtImagePanel;
 
 	public MainView() {
 		super(false);
@@ -59,6 +61,7 @@ public class MainView extends AccordionPanel {
 
 	private void initialize() {
 		openFileButton = new JButton(OPEN_IMAGE_TEXT, new ImageIcon(MainView.class.getResource("add.png")));
+		compareButton = new JButton(COMPARE_TEXT, new ImageIcon(MainView.class.getResource("compare.png")));
 		revertButton = new JButton(REVERT_TEXT, new ImageIcon(MainView.class.getResource("undo.png")));
 		convertWholeFolderToPNG = new JButton(CONVERT_FOLDER_TEXT, new ImageIcon(MainView.class.getResource("copy.png")));
 		convertFileButton = new JButton(SAVE_FILE_TEXT, new ImageIcon(MainView.class.getResource("save.png")));
@@ -68,6 +71,7 @@ public class MainView extends AccordionPanel {
 
 		convertFileButton.setEnabled(false);
 		revertButton.setEnabled(false);
+		compareButton.setEnabled(false);
 
 		// Panel to add the buttons
 		JPanel fileActionPanel = new JPanel(new BorderLayout());
@@ -79,6 +83,7 @@ public class MainView extends AccordionPanel {
 		fileActionLeftPanel.add(new JLabel(new ImageIcon(MainView.class.getResource("icon.png"))));
 		fileActionLeftPanel.add(openFileButton);
 		fileActionLeftPanel.add(convertFileButton);
+		fileActionRightPanel.add(compareButton);
 		fileActionRightPanel.add(revertButton);
 
 		fileActionPanel.add(fileActionLeftPanel, BorderLayout.WEST);
@@ -93,7 +98,7 @@ public class MainView extends AccordionPanel {
 		addFoldable(new AccordionContentPanel("Image converters", new ColoredPanel(folderActionPanel), new Color(0xFFFACD)), true);
 		addFoldable(new AccordionContentPanel("Image modifications", new ColoredPanel(applicationsPanel), new Color(0xFFE4B5)), true);
 
-		mmtImagePanel = new TitledMMTImagePanel();
+		mmtImagePanel = new MMTImagePanel();
 		addContent(new JScrollPane(mmtImagePanel, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED));
 		setFooter(footerPanel);
 	}
@@ -128,8 +133,12 @@ public class MainView extends AccordionPanel {
 		return convertFileButton;
 	}
 
-	public TitledMMTImagePanel getMmtImagePanel() {
+	public MMTImagePanel getMmtImagePanel() {
 		return mmtImagePanel;
+	}
+
+	public JButton getCompareButton() {
+		return compareButton;
 	}
 
 }
