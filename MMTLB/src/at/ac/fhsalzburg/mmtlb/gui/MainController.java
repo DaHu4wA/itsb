@@ -25,6 +25,7 @@ import at.ac.fhsalzburg.mmtlb.applications.filters.LaplacianFilterType;
 import at.ac.fhsalzburg.mmtlb.applications.filters.MedianFilter;
 import at.ac.fhsalzburg.mmtlb.applications.filters.SobelFilter;
 import at.ac.fhsalzburg.mmtlb.applications.tools.FileImageConverter;
+import at.ac.fhsalzburg.mmtlb.applications.tools.MMTImageCombiner;
 import at.ac.fhsalzburg.mmtlb.gui.applications.AdditionalComboBoxDataPanel;
 import at.ac.fhsalzburg.mmtlb.gui.applications.RasterSizePanel;
 import at.ac.fhsalzburg.mmtlb.gui.applications.AdditionalSliderDataPanel;
@@ -130,8 +131,7 @@ public class MainController extends JFrame implements IFImageController {
 			public void actionPerformed(ActionEvent e) {
 				currentImage = new MMTImage(originalImage);
 				view.setMMTImage(currentImage);
-				view.getRevertButton().setEnabled(false);
-				view.getCompareButton().setEnabled(false);
+				enableRevertCompare(false);
 				repaint();
 			}
 		});
@@ -282,6 +282,16 @@ public class MainController extends JFrame implements IFImageController {
 				}
 			}
 		});
+
+		view.getApplicationsPanel().getImageCombinationPanel().getOk().addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				Double factor = view.getApplicationsPanel().getImageCombinationPanel().getFactor();
+				MMTImageCombiner combiner = new MMTImageCombiner(MainController.this, originalImage, currentImage, factor);
+				combiner.execute();
+			}
+		});
 	}
 
 	private void setModificationDataPanel(ImageModificationType action) {
@@ -406,8 +416,7 @@ public class MainController extends JFrame implements IFImageController {
 	public void setCurrentImage(MMTImage newImage) {
 		currentImage = newImage;
 		view.setMMTImage(currentImage);
-		view.getRevertButton().setEnabled(true);
-		view.getCompareButton().setEnabled(true);
+		enableRevertCompare(true);
 	}
 
 	@Override
@@ -418,6 +427,13 @@ public class MainController extends JFrame implements IFImageController {
 	@Override
 	public void setProgressStatus(int progress) {
 		view.getFooterPanel().setProgress(progress);
+	}
+
+
+	public void enableRevertCompare(boolean enabled) {
+		view.getRevertButton().setEnabled(enabled);
+		view.getCompareButton().setEnabled(enabled);
+		view.getApplicationsPanel().getImageCombinationPanel().setEnabled(enabled);
 	}
 
 }
