@@ -24,27 +24,40 @@ public abstract class AbstractImageModificationWorker extends SwingWorker<MMTIma
 	public AbstractImageModificationWorker(IFImageController controller, MMTImage sourceImage) {
 		this.controller = controller;
 		this.sourceImage = sourceImage;
-		controller.setProgressBarVisible(true);
-
+		if (controller != null) {
+			controller.setProgressBarVisible(true);
+		}
 	}
 
 	protected abstract MMTImage modifyImage(MMTImage sourceImage);
+
+	protected void publishProgress(MMTImage originalImage, int currentPosition) {
+		int progress = (int) (((double) currentPosition) / ((double) originalImage.getImageData().length) * 100);
+		if (progress % 5 == 0) {
+			publish(progress);
+		}
+	}
 
 	@Override
 	protected MMTImage doInBackground() throws Exception {
 		LOG.info("Image modification started");
 
 		publish(0);
-		return modifyImage(sourceImage); //TODO set progress??
+		return modifyImage(sourceImage);
 	}
 
 	@Override
 	protected void process(List<Integer> chunks) {
-		controller.setProgressStatus(chunks.get(0));
+		if (controller != null) {
+			controller.setProgressStatus(chunks.get(0));
+		}
 	}
 
 	@Override
 	protected void done() {
+		if (controller == null) {
+			return;
+		}
 		try {
 			LOG.info("Image modification finished");
 			MMTImage result = get();
@@ -58,6 +71,8 @@ public abstract class AbstractImageModificationWorker extends SwingWorker<MMTIma
 	}
 
 	private void finalizeProgressBar() {
-		controller.setProgressStatus(100);
+		if (controller != null) {
+			controller.setProgressStatus(100);
+		}
 	}
 }

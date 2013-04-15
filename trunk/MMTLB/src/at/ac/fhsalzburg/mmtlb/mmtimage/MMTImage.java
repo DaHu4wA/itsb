@@ -107,14 +107,7 @@ public class MMTImage {
 	 * @returns the index of the 1D data array for a specific 2D-coordinate
 	 */
 	private int getArrayIndexOf(int xPos, int yPos) {
-
-		int position = 0;
-		if (yPos > 0) {
-			position += width * yPos; // add the width for every row
-		}
-		position += xPos; // go to the correct column
-		//position -= 1; // array starts with 0
-		return position;
+		return xPos + yPos*width;
 	}
 
 }

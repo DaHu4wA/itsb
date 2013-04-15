@@ -34,12 +34,13 @@ public class LaplacianFilter extends AbstractImageModificationWorker {
 	 * 
 	 * 4-neighourhood laplacian
 	 */
-	public static MMTImage performLaplacian(MMTImage image, LaplacianFilterType filterType) {
+	public MMTImage performLaplacian(MMTImage image, LaplacianFilterType filterType) {
 		MMTImage result = new MMTImage(image.getHeight(), image.getWidth());
 		result.setName(image.getName());
 
 		for (int y = 0; y < image.getHeight(); y++) {
 			for (int x = 0; x < image.getWidth(); x++) {
+				publishProgress(image, x + y * image.getWidth());
 				result.setPixel2D(x, y, SurroudingPixelHelper.getLaplacianValueForPosition(image, filterType, x, y));
 			}
 		}
@@ -56,7 +57,7 @@ public class LaplacianFilter extends AbstractImageModificationWorker {
 
 		MMTImage image = FileImageReader.read(path);
 
-		MMTImage enhanced = performLaplacian(image, LaplacianFilterType.FOUR_NEIGHBOURHOOD);
+		MMTImage enhanced = new LaplacianFilter(null, null).performLaplacian(image, LaplacianFilterType.FOUR_NEIGHBOURHOOD);
 
 		int splitIndex = path.lastIndexOf('.');
 		String newPath = path.substring(0, splitIndex) + "_L4F" + path.substring(splitIndex, path.length());

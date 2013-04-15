@@ -25,7 +25,7 @@ public class GammaCorrection extends AbstractImageModificationWorker {
 		super(controller, sourceImage);
 	}
 
-	public static MMTImage correctGamma(MMTImage image, double gamma) {
+	public MMTImage correctGamma(MMTImage image, double gamma) {
 		MMTImage stretched = new MMTImage(image.getHeight(), image.getWidth());
 		stretched.setName(image.getName());
 
@@ -34,6 +34,7 @@ public class GammaCorrection extends AbstractImageModificationWorker {
 
 		for (int i = 0; i < image.getImageData().length; i++) {
 			// map all values from old to corrected gray value
+			publishProgress(image, i);
 			stretched.getImageData()[i] = mappingValues[image.getImageData()[i]];
 		}
 		return stretched;
@@ -77,7 +78,7 @@ public class GammaCorrection extends AbstractImageModificationWorker {
 		String gammaString = gammaReader.readLine();
 		Double gamma = Double.valueOf(gammaString);
 
-		MMTImage newImage = correctGamma(image, gamma);
+		MMTImage newImage = new GammaCorrection(null, null).correctGamma(image, gamma);
 
 		int splitIndex = path.lastIndexOf('.');
 		String newPath = path.substring(0, splitIndex) + "_GC_gamma" + path.substring(splitIndex, path.length());

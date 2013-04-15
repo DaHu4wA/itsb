@@ -38,12 +38,13 @@ public class MedianFilter extends AbstractImageModificationWorker {
 	 *            UNEVEN (3x3, 5x5 etc) value
 	 * @return a new median filtered image
 	 */
-	public static MMTImage performMedianFilter(MMTImage image, int rasterSize) {
+	public MMTImage performMedianFilter(MMTImage image, int rasterSize) {
 		MMTImage result = new MMTImage(image.getHeight(), image.getWidth());
 		result.setName(image.getName());
 
 		for (int y = 0; y < image.getHeight(); y++) {
 			for (int x = 0; x < image.getWidth(); x++) {
+				publishProgress(image, x + y * image.getWidth());
 				result.setPixel2D(x, y, SurroudingPixelHelper.getMedianValueForPosition(image, rasterSize, x, y));
 			}
 		}
@@ -72,7 +73,7 @@ public class MedianFilter extends AbstractImageModificationWorker {
 
 		MMTImage image = FileImageReader.read(path);
 
-		MMTImage enhanced = performMedianFilter(image, new Integer(rast));
+		MMTImage enhanced = new MedianFilter(null, null).performMedianFilter(image, new Integer(rast));
 
 		int splitIndex = path.lastIndexOf('.');
 		String newPath = path.substring(0, splitIndex) + "_MF" + path.substring(splitIndex, path.length());

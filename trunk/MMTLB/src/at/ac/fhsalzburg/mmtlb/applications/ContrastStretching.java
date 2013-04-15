@@ -6,6 +6,7 @@ import java.io.InputStreamReader;
 
 import org.apache.log4j.Logger;
 
+import at.ac.fhsalzburg.mmtlb.applications.tools.HistogramTools;
 import at.ac.fhsalzburg.mmtlb.gui.IFImageController;
 import at.ac.fhsalzburg.mmtlb.mmtimage.FileImageReader;
 import at.ac.fhsalzburg.mmtlb.mmtimage.FileImageWriter;
@@ -24,7 +25,7 @@ public class ContrastStretching extends AbstractImageModificationWorker {
 		super(controller, sourceImage);
 	}
 
-	public static MMTImage stretchContrast(MMTImage image) {
+	public MMTImage stretchContrast(MMTImage image) {
 		MMTImage stretched = new MMTImage(image.getHeight(), image.getWidth());
 		stretched.setName(image.getName());
 
@@ -33,6 +34,9 @@ public class ContrastStretching extends AbstractImageModificationWorker {
 
 		for (int i = 0; i < image.getImageData().length; i++) {
 			// map all values from old to stretched gray value
+
+			publishProgress(image, i);
+
 			stretched.getImageData()[i] = mappingValues[image.getImageData()[i]];
 		}
 		return stretched;
@@ -44,8 +48,8 @@ public class ContrastStretching extends AbstractImageModificationWorker {
 		int wMin = 0;
 		int wMax = 255;
 
-		int gMin = HistogramEqualization.getLowestGrayValue(image);
-		int gMax = HistogramEqualization.getHighestGrayValue(image);
+		int gMin = HistogramTools.getLowestGrayValue(image);
+		int gMax = HistogramTools.getHighestGrayValue(image);
 
 		LOG.info(String.format("Original image: minGray: %d, maxGray: %d", gMin, gMax));
 
@@ -66,8 +70,7 @@ public class ContrastStretching extends AbstractImageModificationWorker {
 		String path = br.readLine();
 
 		MMTImage image = FileImageReader.read(path);
-
-		MMTImage newImage = stretchContrast(image);
+		MMTImage newImage = new ContrastStretching(null, null).modifyImage(image);
 
 		int splitIndex = path.lastIndexOf('.');
 		String newPath = path.substring(0, splitIndex) + "_CS" + path.substring(splitIndex, path.length());
