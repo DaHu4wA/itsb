@@ -38,12 +38,13 @@ public class AveragingFilter extends AbstractImageModificationWorker {
 	 *            UNEVEN (3x3, 5x5 etc) value
 	 * @return a new averaged image
 	 */
-	public static MMTImage performAveraging(MMTImage image, int rasterSize) {
+	public MMTImage performAveraging(MMTImage image, int rasterSize) {
 		MMTImage result = new MMTImage(image.getHeight(), image.getWidth());
 		result.setName(image.getName());
 
 		for (int y = 0; y < image.getHeight(); y++) {
 			for (int x = 0; x < image.getWidth(); x++) {
+				publishProgress(image, x + y * image.getWidth());
 				result.setPixel2D(x, y, SurroudingPixelHelper.getAverageValueForPosition(image, rasterSize, x, y));
 			}
 		}
@@ -72,7 +73,7 @@ public class AveragingFilter extends AbstractImageModificationWorker {
 
 		MMTImage image = FileImageReader.read(path);
 
-		MMTImage enhanced = performAveraging(image, new Integer(rast));
+		MMTImage enhanced = new AveragingFilter(null, null).performAveraging(image, new Integer(rast));
 
 		int splitIndex = path.lastIndexOf('.');
 		String newPath = path.substring(0, splitIndex) + "_AF" + path.substring(splitIndex, path.length());

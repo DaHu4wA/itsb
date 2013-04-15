@@ -4,8 +4,8 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 
+import at.ac.fhsalzburg.mmtlb.applications.tools.HistogramTools;
 import at.ac.fhsalzburg.mmtlb.gui.IFImageController;
 import at.ac.fhsalzburg.mmtlb.mmtimage.FileImageReader;
 import at.ac.fhsalzburg.mmtlb.mmtimage.FileImageWriter;
@@ -26,83 +26,14 @@ public class HistogramEqualization extends AbstractImageModificationWorker {
 		super(controller, sourceImage);
 	}
 
-	public static int[] getHistogram(MMTImage image) {
-
-		// We have a counter for every gray value (from 0 to 255).
-		// Per java definition, all values of an array are zero per default, so
-		// no further initializing is needed
-		int[] hist = new int[256];
-
-		// Iterate over all pixels
-		for (int i = 0; i < image.getImageData().length; i++) {
-			// +1 for the grayValue of the current position
-			hist[image.getImageData()[i]]++;
-		}
-
-		return hist;
-	}
-
-	public static BigDecimal[] getNormalizedHistogram(MMTImage image) {
-		int[] hist = getHistogram(image);
-		BigDecimal[] normalized = new BigDecimal[hist.length];
-		BigDecimal n = BigDecimal.ZERO;
-
-		// count all occurences
-		for (int i = 0; i < hist.length; i++) {
-			n = n.add(new BigDecimal(hist[i]));
-		}
-
-		// divide single values through n
-		for (int i = 0; i < hist.length; i++) {
-			BigDecimal value = new BigDecimal("0.00000000");
-			value = value.add(new BigDecimal(hist[i]));
-			normalized[i] = value.divide(n, RoundingMode.HALF_UP);
-		}
-
-		return normalized;
-	}
-
-	/**
-	 * @returns the lowest gray value contained
-	 */
-	public static int getLowestGrayValue(MMTImage image) {
-		int gMin = 0;
-		int[] hist = getHistogram(image);
-
-		for (int i = 0; i < hist.length; i++) {
-			if (hist[i] == 0) {
-				gMin = i;
-			} else {
-				break; // lowest found
-			}
-		}
-		return gMin;
-	}
-
-	/**
-	 * @returns the highest gray value of the image
-	 */
-	public static int getHighestGrayValue(MMTImage image) {
-		int gMax = 255;
-		int[] hist = getHistogram(image);
-
-		for (int i = (hist.length - 1); i >= 0; i--) {
-			if (hist[i] == 0) {
-				gMax = i;
-			} else {
-				break; // highest found
-			}
-		}
-		return gMax;
-	}
-
-	public static MMTImage performHistogramEqualitzation(MMTImage image) {
+	public MMTImage performHistogramEqualitzation(MMTImage image) {
 		MMTImage result = new MMTImage(image.getHeight(), image.getWidth());
 		result.setName(image.getName());
 
 		int[] mappedValues = getMappedGrayValues(image);
 
 		for (int i = 0; i < image.getImageData().length; i++) {
+			publishProgress(image, i);
 			result.getImageData()[i] = mappedValues[image.getImageData()[i]];
 		}
 
@@ -112,7 +43,7 @@ public class HistogramEqualization extends AbstractImageModificationWorker {
 	private static int[] getMappedGrayValues(MMTImage image) {
 		int[] result = new int[256];
 
-		BigDecimal[] normHist = getNormalizedHistogram(image);
+		BigDecimal[] normHist = HistogramTools.getNormalizedHistogram(image);
 		BigDecimal wMax = new BigDecimal(255);
 		System.out.println(String.format("Wmax of original: %d", wMax.intValue()));
 
@@ -140,13 +71,13 @@ public class HistogramEqualization extends AbstractImageModificationWorker {
 
 		MMTImage image = FileImageReader.read(path);
 
-		int hist[] = getHistogram(image);
+		int hist[] = HistogramTools.getHistogram(image);
 		System.out.println("Here is the histogram (grayValue: count):\n");
 		for (int i = 0; i < hist.length; i++) {
 			System.out.println(String.format("%d", hist[i]));
 		}
 
-		MMTImage enhanced = performHistogramEqualitzation(image);
+		MMTImage enhanced = new HistogramEqualization(null, null).performHistogramEqualitzation(image);
 
 		int splitIndex = path.lastIndexOf('.');
 		String newPath = path.substring(0, splitIndex) + "_HE" + path.substring(splitIndex, path.length());
