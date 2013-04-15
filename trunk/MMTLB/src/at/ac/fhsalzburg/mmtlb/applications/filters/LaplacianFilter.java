@@ -29,11 +29,6 @@ public class LaplacianFilter extends AbstractImageModificationWorker {
 		return performLaplacian(sourceImage, filterType);
 	}
 
-	/**
-	 * TODO comment
-	 * 
-	 * 4-neighourhood laplacian
-	 */
 	public MMTImage performLaplacian(MMTImage image, LaplacianFilterType filterType) {
 		MMTImage result = new MMTImage(image.getHeight(), image.getWidth());
 		result.setName(image.getName());
@@ -109,10 +104,26 @@ public class LaplacianFilter extends AbstractImageModificationWorker {
 
 		MMTImage image = FileImageReader.read(path);
 
-		MMTImage enhanced = new LaplacianFilter(null, null).performLaplacian(image, LaplacianFilterType.FOUR_NEIGHBOURHOOD);
+		System.out.println("Enter \"4\" or \"8\" to select filter type: ");
+		String type = br.readLine();
+
+		int t = new Integer(type);
+		LaplacianFilterType fType = null;
+
+		if (t == 4) {
+			fType = LaplacianFilterType.FOUR_NEIGHBOURHOOD;
+		}
+		if (t == 8) {
+			fType = LaplacianFilterType.EIGHT_NEIGHBOURHOOD;
+		} else {
+			System.err.println("Invalid argument! exiting...");
+			return;
+		}
+
+		MMTImage enhanced = new LaplacianFilter(null, null).performLaplacian(image, fType);
 
 		int splitIndex = path.lastIndexOf('.');
-		String newPath = path.substring(0, splitIndex) + "_LAPL4F" + path.substring(splitIndex, path.length());
+		String newPath = path.substring(0, splitIndex) + "_LAPL" + path.substring(splitIndex, path.length());
 		FileImageWriter.write(enhanced, newPath);
 		System.out.println("Laplacian image saved as: \n" + newPath);
 	}
