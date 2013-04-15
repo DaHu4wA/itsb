@@ -18,7 +18,7 @@ import at.ac.fhsalzburg.mmtlb.mmtimage.MMTImage;
  */
 public class LaplacianFilter extends AbstractImageModificationWorker {
 
-	private LaplacianFilterType filterType = null; // default size
+	private LaplacianFilterType filterType = null;
 
 	public LaplacianFilter(IFImageController controller, MMTImage sourceImage) {
 		super(controller, sourceImage);
@@ -41,9 +41,61 @@ public class LaplacianFilter extends AbstractImageModificationWorker {
 		for (int y = 0; y < image.getHeight(); y++) {
 			for (int x = 0; x < image.getWidth(); x++) {
 				publishProgress(image, x + y * image.getWidth());
-				result.setPixel2D(x, y, SurroudingPixelHelper.getLaplacianValueForPosition(image, filterType, x, y));
+				result.setPixel2D(x, y, getLaplacianValueForPosition(image, filterType, x, y));
 			}
 		}
+		return result;
+	}
+
+	private static int getLaplacianValueForPosition(MMTImage originalImage, LaplacianFilterType filterType, int xPos, int yPos) {
+
+		int neighbourGraySum = 0;
+		int factor = 0;
+
+		if (!SurroudingPixelHelper.isOutOfSpace(originalImage, xPos + 1, yPos)) {
+			factor++;
+			neighbourGraySum += originalImage.getPixel2D(xPos + 1, yPos) * -1;
+		}
+		if (!SurroudingPixelHelper.isOutOfSpace(originalImage, xPos, yPos + 1)) {
+			factor++;
+			neighbourGraySum += originalImage.getPixel2D(xPos, yPos + 1) * -1;
+		}
+		if (!SurroudingPixelHelper.isOutOfSpace(originalImage, xPos - 1, yPos)) {
+			factor++;
+			neighbourGraySum += originalImage.getPixel2D(xPos - 1, yPos) * -1;
+		}
+		if (!SurroudingPixelHelper.isOutOfSpace(originalImage, xPos, yPos - 1)) {
+			factor++;
+			neighbourGraySum += originalImage.getPixel2D(xPos, yPos - 1) * -1;
+		}
+
+		if (LaplacianFilterType.EIGHT_NEIGHBOURHOOD == filterType) {
+
+			if (!SurroudingPixelHelper.isOutOfSpace(originalImage, xPos + 1, yPos + 1)) {
+				factor++;
+				neighbourGraySum += originalImage.getPixel2D(xPos + 1, yPos + 1) * -1;
+			}
+			if (!SurroudingPixelHelper.isOutOfSpace(originalImage, xPos + 1, yPos - 1)) {
+				factor++;
+				neighbourGraySum += originalImage.getPixel2D(xPos + 1, yPos - 1) * -1;
+			}
+			if (!SurroudingPixelHelper.isOutOfSpace(originalImage, xPos - 1, yPos + 1)) {
+				factor++;
+				neighbourGraySum += originalImage.getPixel2D(xPos - 1, yPos + 1) * -1;
+			}
+			if (!SurroudingPixelHelper.isOutOfSpace(originalImage, xPos - 1, yPos - 1)) {
+				factor++;
+				neighbourGraySum += originalImage.getPixel2D(xPos - 1, yPos - 1) * -1;
+			}
+
+		}
+
+		int result = originalImage.getPixel2D(xPos, yPos) * factor;
+		result = result + neighbourGraySum;
+
+		result = result < 0 ? 0 : result;
+		result = result > 255 ? 255 : result;
+
 		return result;
 	}
 
@@ -60,7 +112,7 @@ public class LaplacianFilter extends AbstractImageModificationWorker {
 		MMTImage enhanced = new LaplacianFilter(null, null).performLaplacian(image, LaplacianFilterType.FOUR_NEIGHBOURHOOD);
 
 		int splitIndex = path.lastIndexOf('.');
-		String newPath = path.substring(0, splitIndex) + "_L4F" + path.substring(splitIndex, path.length());
+		String newPath = path.substring(0, splitIndex) + "_LAPL4F" + path.substring(splitIndex, path.length());
 		FileImageWriter.write(enhanced, newPath);
 		System.out.println("Laplacian image saved as: \n" + newPath);
 	}

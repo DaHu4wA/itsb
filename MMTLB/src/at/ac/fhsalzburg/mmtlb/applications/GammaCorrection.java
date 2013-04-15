@@ -81,7 +81,7 @@ public class GammaCorrection extends AbstractImageModificationWorker {
 		MMTImage newImage = new GammaCorrection(null, null).correctGamma(image, gamma);
 
 		int splitIndex = path.lastIndexOf('.');
-		String newPath = path.substring(0, splitIndex) + "_GC_gamma" + path.substring(splitIndex, path.length());
+		String newPath = path.substring(0, splitIndex) + "_GAMMACORR" + path.substring(splitIndex, path.length());
 		FileImageWriter.write(newImage, newPath);
 		System.out.println("Gamma corrected image saved as: \n" + newPath);
 	}

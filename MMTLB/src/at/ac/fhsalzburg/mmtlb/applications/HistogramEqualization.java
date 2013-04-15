@@ -80,7 +80,7 @@ public class HistogramEqualization extends AbstractImageModificationWorker {
 		MMTImage enhanced = new HistogramEqualization(null, null).performHistogramEqualitzation(image);
 
 		int splitIndex = path.lastIndexOf('.');
-		String newPath = path.substring(0, splitIndex) + "_HE" + path.substring(splitIndex, path.length());
+		String newPath = path.substring(0, splitIndex) + "_HISTEQU" + path.substring(splitIndex, path.length());
 		FileImageWriter.write(enhanced, newPath);
 		System.out.println("Histogram Equalization image saved as: \n" + newPath);
 	}
