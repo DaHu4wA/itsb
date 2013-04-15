@@ -40,6 +40,9 @@ public class SobelFilter extends AbstractImageModificationWorker {
 		return result;
 	}
 
+	/**
+	 * Calculates the Sobel filter value for a specific position
+	 */
 	private int getValue(MMTImage image, int x, int y) {
 		double filtered = Math.sqrt(Math.pow(getHval(image, x, y), 2) + Math.pow(getVval(image, x, y), 2));
 

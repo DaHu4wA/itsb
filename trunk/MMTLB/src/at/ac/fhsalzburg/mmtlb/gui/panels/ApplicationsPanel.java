@@ -1,5 +1,6 @@
 package at.ac.fhsalzburg.mmtlb.gui.panels;
 
+import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 
 import javax.swing.JComboBox;
@@ -18,27 +19,34 @@ public class ApplicationsPanel extends JPanel {
 	@SuppressWarnings("rawtypes")
 	private JComboBox modificationTypeBox;
 	private JPanel additionalDataPanel = null;
+	JPanel modificationPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 10));
+	
+	private ImageCombinationPanel imageCombinationPanel;
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public ApplicationsPanel() {
 
 		modificationTypeBox = new JComboBox(ImageModificationType.values());
+		imageCombinationPanel = new ImageCombinationPanel();
 
-		setLayout(new FlowLayout(FlowLayout.LEFT, 10, 10));
+		setLayout(new BorderLayout(10,10));
 		modificationTypeBox.setEnabled(false);
 
-		add(modificationTypeBox);
+		
+		modificationPanel.add(modificationTypeBox);
+		add(modificationPanel, BorderLayout.WEST);
+		add(imageCombinationPanel, BorderLayout.EAST);
 		setEnabled(false);
 	}
 
 	public void setAdditionalDataPanel(JPanel p) {
 
 		if (additionalDataPanel != null) {
-			remove(additionalDataPanel);
+			modificationPanel.remove(additionalDataPanel);
 		}
 
 		this.additionalDataPanel = p;
-		add(additionalDataPanel);
+		modificationPanel.add(additionalDataPanel, BorderLayout.CENTER);
 		revalidate();
 	}
 
@@ -46,7 +54,7 @@ public class ApplicationsPanel extends JPanel {
 		if (additionalDataPanel == null) {
 			return;
 		}
-		remove(additionalDataPanel);
+		modificationPanel.remove(additionalDataPanel);
 		this.additionalDataPanel = null;
 		repaint();
 	}
@@ -59,5 +67,9 @@ public class ApplicationsPanel extends JPanel {
 	@SuppressWarnings("rawtypes")
 	public void setModificationTypeBox(JComboBox modificationTypeBox) {
 		this.modificationTypeBox = modificationTypeBox;
+	}
+
+	public ImageCombinationPanel getImageCombinationPanel() {
+		return imageCombinationPanel;
 	}
 }
