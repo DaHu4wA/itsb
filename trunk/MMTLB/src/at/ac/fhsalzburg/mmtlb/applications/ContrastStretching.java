@@ -73,7 +73,7 @@ public class ContrastStretching extends AbstractImageModificationWorker {
 		MMTImage newImage = new ContrastStretching(null, null).modifyImage(image);
 
 		int splitIndex = path.lastIndexOf('.');
-		String newPath = path.substring(0, splitIndex) + "_CS" + path.substring(splitIndex, path.length());
+		String newPath = path.substring(0, splitIndex) + "_CONSTR" + path.substring(splitIndex, path.length());
 		FileImageWriter.write(newImage, newPath);
 		System.out.println("Stretched image saved as: \n" + newPath);
 	}

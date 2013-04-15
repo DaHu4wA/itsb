@@ -23,6 +23,7 @@ import at.ac.fhsalzburg.mmtlb.applications.filters.AveragingFilter;
 import at.ac.fhsalzburg.mmtlb.applications.filters.LaplacianFilter;
 import at.ac.fhsalzburg.mmtlb.applications.filters.LaplacianFilterType;
 import at.ac.fhsalzburg.mmtlb.applications.filters.MedianFilter;
+import at.ac.fhsalzburg.mmtlb.applications.filters.SobelFilter;
 import at.ac.fhsalzburg.mmtlb.applications.tools.FileImageConverter;
 import at.ac.fhsalzburg.mmtlb.gui.applications.AdditionalComboBoxDataPanel;
 import at.ac.fhsalzburg.mmtlb.gui.applications.RasterSizePanel;
@@ -295,7 +296,6 @@ public class MainController extends JFrame implements IFImageController {
 		switch (action) {
 
 		case CONTRAST_STRETCHING:
-
 			NoAdditionalDataPanel go = new NoAdditionalDataPanel();
 			view.getApplicationsPanel().setAdditionalDataPanel(go);
 
@@ -309,7 +309,6 @@ public class MainController extends JFrame implements IFImageController {
 			break;
 
 		case GAMMA_CORRECTION:
-
 			final AdditionalSliderDataPanel addData = new AdditionalSliderDataPanel(0, 1000, 100);
 			view.getApplicationsPanel().setAdditionalDataPanel(addData);
 
@@ -378,6 +377,19 @@ public class MainController extends JFrame implements IFImageController {
 					LaplacianFilter lapl = new LaplacianFilter(MainController.this, currentImage);
 					lapl.setFilterType((LaplacianFilterType) comboPanel.getValue());
 					lapl.execute();
+				}
+			});
+			break;
+
+		case SOBEL_FILTER:
+			NoAdditionalDataPanel sobelPanel = new NoAdditionalDataPanel();
+			view.getApplicationsPanel().setAdditionalDataPanel(sobelPanel);
+
+			sobelPanel.getGo().addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					SobelFilter sobel = new SobelFilter(MainController.this, currentImage);
+					sobel.execute();
 				}
 			});
 			break;
