@@ -84,7 +84,7 @@ public class MainController extends JFrame implements IFImageController {
 			}
 		});
 
-		view.getConvertFileButton().addActionListener(new ActionListener() {
+		view.getSaveButton().addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -256,7 +256,7 @@ public class MainController extends JFrame implements IFImageController {
 	}
 
 	public void enableFunctions() {
-		view.getConvertFileButton().setEnabled(true);
+		view.getSaveButton().setEnabled(true);
 		view.getFooterPanel().getScaleSlider().setEnabled(true);
 		view.getApplicationsPanel().getModificationTypeBox().setEnabled(true);
 	}

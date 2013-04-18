@@ -1,6 +1,8 @@
 package at.ac.fhsalzburg.mmtlb.gui.applications;
 
 import java.awt.FlowLayout;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -26,8 +28,24 @@ public class RasterSizePanel extends JPanel {
 
 		values = new JComboBox<Integer>(items);
 		values.setSelectedItem(defaulValue);
-		add(new JLabel("Raster: "));
-		add(values);
+
+		JLabel label = new JLabel("Raster: ");
+		final JLabel label2 = new JLabel(defaulValue+"x"+defaulValue);
+		JPanel rasterPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 5, 0));
+		rasterPanel.setOpaque(false);
+		rasterPanel.add(label);
+		rasterPanel.add(values);
+		
+		values.addItemListener(new ItemListener() {
+			@Override
+			public void itemStateChanged(ItemEvent e) {
+				if(e.getItem() != null && e.getItem() instanceof Integer)
+				label2.setText(""+e.getItem()+"x"+e.getItem());
+			}
+		});
+		
+		add(rasterPanel);
+		add(label2);
 		add(go);
 	}
 

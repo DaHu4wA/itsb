@@ -27,12 +27,21 @@ import at.ac.fhsalzburg.mmtlb.mmtimage.MMTImage;
 public class MainView extends AccordionPanel {
 	private static final long serialVersionUID = 5436775872668198881L;
 
-	public static String FILE_TITLE = "File actions";
-	public static String OPEN_IMAGE_TEXT = "Open image";
-	public static String CONVERT_FOLDER_TEXT = "Convert *folder content* from .jpg to .png";
-	public static String SAVE_FILE_TEXT = "Save current image";
-	public static String COMPARE_TEXT = "Compare images";
-	public static String REVERT_TEXT = "Undo changes";
+	public static String FILE_TITLE = "File Actions";
+	
+	public static String OPEN_IMAGE_TEXT = "Open Image";
+	public static String OPEN_IMAGE_TEXT_TOOLTIP = "Open a image file";
+	
+	public static String CONVERT_FOLDER_TEXT = "Convert *Folder Content* From .jpg To .png";
+	
+	public static String SAVE_FILE_TEXT = "Save Current Image";
+	public static String SAVE_FILE_TEXT_TOOLTOP = "Save image currently shown";
+	
+	public static String COMPARE_TEXT = "Compare";
+	public static String COMPARE_TEXT_TOOLTIP = "Compare current image with the original (using scale from current image)";
+	
+	public static String REVERT_TEXT = "Undo";
+	public static String REVERT_TEXT_TOOLTIP = "Undo last change";
 
 	public ApplicationsPanel getApplicationsPanel() {
 		return applicationsPanel;
@@ -48,7 +57,7 @@ public class MainView extends AccordionPanel {
 	private JButton revertButton;
 	private JButton compareButton;
 	private JButton convertWholeFolderToPNG;
-	private JButton convertFileButton;
+	private JButton saveButton;
 
 	private ApplicationsPanel applicationsPanel;
 	private FooterPanel footerPanel;
@@ -62,15 +71,23 @@ public class MainView extends AccordionPanel {
 
 	private void initialize() {
 		openFileButton = new JButton(OPEN_IMAGE_TEXT, new ImageIcon(MainView.class.getResource("add.png")));
+		openFileButton.setToolTipText(OPEN_IMAGE_TEXT_TOOLTIP);
+		
 		compareButton = new JButton(COMPARE_TEXT, new ImageIcon(MainView.class.getResource("compare.png")));
+		compareButton.setToolTipText(COMPARE_TEXT_TOOLTIP);
+		
 		revertButton = new JButton(REVERT_TEXT, new ImageIcon(MainView.class.getResource("undo.png")));
+		revertButton.setToolTipText(REVERT_TEXT_TOOLTIP);
+		
 		convertWholeFolderToPNG = new JButton(CONVERT_FOLDER_TEXT, new ImageIcon(MainView.class.getResource("copy.png")));
-		convertFileButton = new JButton(SAVE_FILE_TEXT, new ImageIcon(MainView.class.getResource("save.png")));
+		
+		saveButton = new JButton(SAVE_FILE_TEXT, new ImageIcon(MainView.class.getResource("save.png")));
+		saveButton.setToolTipText(SAVE_FILE_TEXT_TOOLTOP);
 
 		applicationsPanel = new ApplicationsPanel();
 		footerPanel = new FooterPanel();
 
-		convertFileButton.setEnabled(false);
+		saveButton.setEnabled(false);
 		revertButton.setEnabled(false);
 		compareButton.setEnabled(false);
 
@@ -83,7 +100,7 @@ public class MainView extends AccordionPanel {
 
 		fileActionLeftPanel.add(new JLabel(new ImageIcon(MainView.class.getResource("icon.png"))));
 		fileActionLeftPanel.add(openFileButton);
-		fileActionLeftPanel.add(convertFileButton);
+		fileActionLeftPanel.add(saveButton);
 		fileActionRightPanel.add(compareButton);
 		fileActionRightPanel.add(revertButton);
 
@@ -130,8 +147,8 @@ public class MainView extends AccordionPanel {
 		return convertWholeFolderToPNG;
 	}
 
-	public JButton getConvertFileButton() {
-		return convertFileButton;
+	public JButton getSaveButton() {
+		return saveButton;
 	}
 
 	public MMTImagePanel getMmtImagePanel() {
