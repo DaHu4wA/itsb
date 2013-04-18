@@ -33,11 +33,11 @@ public class FileImageReader {
 		try {
 			BufferedImage coloredImage = ImageIO.read(file);
 
-			bufferedImage = toGrayScaleImage(coloredImage);
-
-			if (bufferedImage == null) {
+			if (coloredImage == null) {
 				return null;
 			}
+
+			bufferedImage = toGrayScaleImage(coloredImage);
 
 			raster = bufferedImage.getData();
 		} catch (IOException e) {

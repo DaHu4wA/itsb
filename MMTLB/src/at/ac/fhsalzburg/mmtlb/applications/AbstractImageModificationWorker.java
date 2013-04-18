@@ -41,8 +41,6 @@ public abstract class AbstractImageModificationWorker extends SwingWorker<MMTIma
 	@Override
 	protected MMTImage doInBackground() throws Exception {
 		LOG.info("Image modification started");
-
-		publish(0);
 		return modifyImage(sourceImage);
 	}
 

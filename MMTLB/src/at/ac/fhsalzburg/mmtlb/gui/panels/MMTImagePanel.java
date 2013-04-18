@@ -18,14 +18,14 @@ public class MMTImagePanel extends JPanel {
 	private static final long serialVersionUID = 8105730431947916489L;
 
 	private Image image;
-	private Image paintedImage;
+	// private Image paintedImage;
 	private double scaleFactor = 1d;
 	private int width = 0;
 	private int height = 0;
 
 	public MMTImagePanel() {
 		image = null;
-		paintedImage = null;
+		// paintedImage = null;
 		setBackground(Color.white);
 	}
 
@@ -49,8 +49,6 @@ public class MMTImagePanel extends JPanel {
 		int tempWidth = (int) (width * scaleFactor);
 		int tempHeight = (int) (height * scaleFactor);
 
-		// TODO replace this shit (see filthy rich clients book)
-		paintedImage = image.getScaledInstance(tempWidth, tempHeight, java.awt.Image.SCALE_SMOOTH);
 		setPreferredSize(new Dimension(tempWidth, tempHeight));
 		invalidate();
 		repaint();
@@ -63,7 +61,13 @@ public class MMTImagePanel extends JPanel {
 	@Override
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		g.drawImage(paintedImage, 0, 0, null);
+
+		int w = 0, h = 0;
+		if (image != null) {
+			w = (int) (scaleFactor * image.getWidth(null));
+			h = (int) (scaleFactor * image.getHeight(null));
+		}
+		g.drawImage(image, 5, 5, w + 5, h + 5, Color.white, null);
 	}
 
 }
