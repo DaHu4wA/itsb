@@ -49,6 +49,7 @@ public class MMTImagePanel extends JPanel {
 		int tempWidth = (int) (width * scaleFactor);
 		int tempHeight = (int) (height * scaleFactor);
 
+		// TODO replace this shit (see filthy rich clients book)
 		paintedImage = image.getScaledInstance(tempWidth, tempHeight, java.awt.Image.SCALE_SMOOTH);
 		setPreferredSize(new Dimension(tempWidth, tempHeight));
 		invalidate();
