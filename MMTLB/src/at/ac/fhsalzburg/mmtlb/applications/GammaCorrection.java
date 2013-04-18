@@ -21,6 +21,10 @@ public class GammaCorrection extends AbstractImageModificationWorker {
 
 	private double gamma = 1d;
 
+	public GammaCorrection() {
+		super(null, null);
+	}
+
 	public GammaCorrection(IFImageController controller, MMTImage sourceImage) {
 		super(controller, sourceImage);
 	}
@@ -74,11 +78,10 @@ public class GammaCorrection extends AbstractImageModificationWorker {
 		MMTImage image = FileImageReader.read(path);
 
 		System.out.println("Enter a new gamma value: ");
-		BufferedReader gammaReader = new BufferedReader(new InputStreamReader(System.in));
-		String gammaString = gammaReader.readLine();
+		String gammaString = br.readLine();
 		Double gamma = Double.valueOf(gammaString);
 
-		MMTImage newImage = new GammaCorrection(null, null).correctGamma(image, gamma);
+		MMTImage newImage = new GammaCorrection().correctGamma(image, gamma);
 
 		int splitIndex = path.lastIndexOf('.');
 		String newPath = path.substring(0, splitIndex) + "_GAMMACORR" + path.substring(splitIndex, path.length());

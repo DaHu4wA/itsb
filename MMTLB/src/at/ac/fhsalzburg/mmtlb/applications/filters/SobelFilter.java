@@ -17,6 +17,10 @@ import at.ac.fhsalzburg.mmtlb.mmtimage.MMTImage;
  * @author Stefan Huber
  */
 public class SobelFilter extends AbstractImageModificationWorker {
+	
+	public SobelFilter() {
+		super(null, null);
+	}
 
 	public SobelFilter(IFImageController controller, MMTImage sourceImage) {
 		super(controller, sourceImage);
@@ -126,7 +130,7 @@ public class SobelFilter extends AbstractImageModificationWorker {
 
 		MMTImage image = FileImageReader.read(path);
 
-		MMTImage enhanced = new SobelFilter(null, null).performSobel(image);
+		MMTImage enhanced = new SobelFilter().performSobel(image);
 
 		int splitIndex = path.lastIndexOf('.');
 		String newPath = path.substring(0, splitIndex) + "_SOBEL" + path.substring(splitIndex, path.length());

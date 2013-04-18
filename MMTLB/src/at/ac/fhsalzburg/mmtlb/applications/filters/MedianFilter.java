@@ -23,6 +23,10 @@ public class MedianFilter extends AbstractImageModificationWorker {
 
 	private int raster = 3; // default size
 
+	public MedianFilter() {
+		super(null, null);
+	}
+	
 	public MedianFilter(IFImageController controller, MMTImage sourceImage) {
 		super(controller, sourceImage);
 	}
@@ -111,12 +115,11 @@ public class MedianFilter extends AbstractImageModificationWorker {
 		String path = br.readLine();
 
 		System.out.println("Raster size: Please enter an UNEVEN number, at least 3: ");
-		BufferedReader br2 = new BufferedReader(new InputStreamReader(System.in));
-		String rast = br2.readLine();
+		String rast = br.readLine();
 
 		MMTImage image = FileImageReader.read(path);
 
-		MMTImage enhanced = new MedianFilter(null, null).performMedianFilter(image, new Integer(rast));
+		MMTImage enhanced = new MedianFilter().performMedianFilter(image, new Integer(rast));
 
 		int splitIndex = path.lastIndexOf('.');
 		String newPath = path.substring(0, splitIndex) + "_MEDIAN" + path.substring(splitIndex, path.length());
