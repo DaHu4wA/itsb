@@ -119,7 +119,7 @@ public class MainController extends JFrame implements IFImageController {
 			}
 		});
 
-		view.getRevertButton().addActionListener(new ActionListener() {
+		view.getUndoButton().addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 
@@ -128,11 +128,11 @@ public class MainController extends JFrame implements IFImageController {
 				changeHistory.remove(lastIndex);
 
 				view.setMMTImage(currentImage);
-				repaint();
 
-				if (changeHistory.isEmpty()) {
-					enableRevertCompare(false);
+				if (changeHistory.size() <= 1) {
+					enableUndoAndCompare(false);
 				}
+				repaint();
 			}
 		});
 
@@ -257,6 +257,7 @@ public class MainController extends JFrame implements IFImageController {
 			return;
 		}
 
+		changeHistory.clear();
 		currentImage = new MMTImage(openedImage);
 		changeHistory.add(openedImage);
 		view.setMMTImage(currentImage);
@@ -356,7 +357,7 @@ public class MainController extends JFrame implements IFImageController {
 
 		currentImage = newImage;
 		view.setMMTImage(currentImage);
-		enableRevertCompare(true);
+		enableUndoAndCompare(true);
 	}
 
 	private void addToHistory() {
@@ -384,8 +385,8 @@ public class MainController extends JFrame implements IFImageController {
 		view.getFooterPanel().setProgress(progress);
 	}
 
-	public void enableRevertCompare(boolean enabled) {
-		view.getRevertButton().setEnabled(enabled);
+	public void enableUndoAndCompare(boolean enabled) {
+		view.getUndoButton().setEnabled(enabled);
 		view.getCompareButton().setEnabled(enabled);
 		view.getApplicationsPanel().getImageCombinationPanel().setEnabled(enabled);
 	}

@@ -18,14 +18,10 @@ public class MMTImagePanel extends JPanel {
 	private static final long serialVersionUID = 8105730431947916489L;
 
 	private Image image;
-	// private Image paintedImage;
 	private double scaleFactor = 1d;
-	private int width = 0;
-	private int height = 0;
 
 	public MMTImagePanel() {
 		image = null;
-		// paintedImage = null;
 		setBackground(Color.white);
 	}
 
@@ -36,21 +32,17 @@ public class MMTImagePanel extends JPanel {
 
 	public void setImage(MMTImage mmtImage) {
 		image = mmtImage.toBufferedImage();
-
-		width = mmtImage.getWidth();
-		height = mmtImage.getHeight();
-
 		setScale(scaleFactor);
 	}
 
 	public void setScale(final double factor) {
 
 		scaleFactor = factor;
-		int tempWidth = (int) (width * scaleFactor);
-		int tempHeight = (int) (height * scaleFactor);
+		int tempWidth = (int) (image.getWidth(null) * scaleFactor);
+		int tempHeight = (int) (image.getHeight(null) * scaleFactor);
 
-		setPreferredSize(new Dimension(tempWidth, tempHeight));
 		invalidate();
+		setPreferredSize(new Dimension(tempWidth + 10, tempHeight + 10));
 		repaint();
 	}
 
@@ -67,7 +59,7 @@ public class MMTImagePanel extends JPanel {
 			w = (int) (scaleFactor * image.getWidth(null));
 			h = (int) (scaleFactor * image.getHeight(null));
 		}
-		g.drawImage(image, 5, 5, w + 5, h + 5, Color.white, null);
+		g.drawImage(image, 5, 5, w, h, Color.white, null);
 	}
 
 }

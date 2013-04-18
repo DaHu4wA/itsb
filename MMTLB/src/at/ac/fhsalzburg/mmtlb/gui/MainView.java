@@ -125,7 +125,7 @@ public class MainView extends AccordionPanel {
 		return footerPanel;
 	}
 
-	public JButton getRevertButton() {
+	public JButton getUndoButton() {
 		return revertButton;
 	}
 

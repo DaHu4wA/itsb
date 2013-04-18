@@ -1,6 +1,7 @@
 package at.ac.fhsalzburg.mmtlb.gui.panels;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
@@ -40,7 +41,9 @@ public class FooterPanel extends JPanel {
 		setLayout(new BorderLayout());
 		add(new JSeparator(SwingConstants.HORIZONTAL), BorderLayout.NORTH);
 
-		add(new JLabel(TEXT), BorderLayout.CENTER);
+		JLabel copyright = new JLabel(TEXT);
+		copyright.setForeground(Color.gray);
+		add(copyright, BorderLayout.CENTER);
 
 		initProgressBar();
 
