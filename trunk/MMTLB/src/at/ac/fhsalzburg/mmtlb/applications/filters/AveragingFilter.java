@@ -19,6 +19,10 @@ import at.ac.fhsalzburg.mmtlb.mmtimage.MMTImage;
 public class AveragingFilter extends AbstractImageModificationWorker {
 
 	private int raster = 3; // default size
+	
+	public AveragingFilter() {
+		super(null, null);
+	}
 
 	public AveragingFilter(IFImageController controller, MMTImage sourceImage) {
 		super(controller, sourceImage);
@@ -107,12 +111,11 @@ public class AveragingFilter extends AbstractImageModificationWorker {
 		String path = br.readLine();
 
 		System.out.println("Raster size: Please enter an UNEVEN number, at least 3: ");
-		BufferedReader br2 = new BufferedReader(new InputStreamReader(System.in));
-		String rast = br2.readLine();
+		String rast = br.readLine();
 
 		MMTImage image = FileImageReader.read(path);
 
-		MMTImage enhanced = new AveragingFilter(null, null).performAveraging(image, new Integer(rast));
+		MMTImage enhanced = new AveragingFilter().performAveraging(image, new Integer(rast));
 
 		int splitIndex = path.lastIndexOf('.');
 		String newPath = path.substring(0, splitIndex) + "_AVERA" + path.substring(splitIndex, path.length());

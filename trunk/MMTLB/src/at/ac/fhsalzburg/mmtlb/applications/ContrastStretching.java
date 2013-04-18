@@ -21,6 +21,10 @@ import at.ac.fhsalzburg.mmtlb.mmtimage.MMTImage;
 public class ContrastStretching extends AbstractImageModificationWorker {
 	private static final Logger LOG = Logger.getLogger(ContrastStretching.class.getSimpleName());
 
+	public ContrastStretching() {
+		super(null, null);
+	}
+
 	public ContrastStretching(IFImageController controller, MMTImage sourceImage) {
 		super(controller, sourceImage);
 	}
@@ -70,7 +74,7 @@ public class ContrastStretching extends AbstractImageModificationWorker {
 		String path = br.readLine();
 
 		MMTImage image = FileImageReader.read(path);
-		MMTImage newImage = new ContrastStretching(null, null).modifyImage(image);
+		MMTImage newImage = new ContrastStretching().modifyImage(image);
 
 		int splitIndex = path.lastIndexOf('.');
 		String newPath = path.substring(0, splitIndex) + "_CONSTR" + path.substring(splitIndex, path.length());

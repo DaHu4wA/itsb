@@ -19,6 +19,10 @@ import at.ac.fhsalzburg.mmtlb.mmtimage.MMTImage;
 public class LaplacianFilter extends AbstractImageModificationWorker {
 
 	private LaplacianFilterType filterType = null;
+	
+	public LaplacianFilter() {
+		super(null, null);
+	}
 
 	public LaplacianFilter(IFImageController controller, MMTImage sourceImage) {
 		super(controller, sourceImage);
@@ -120,7 +124,7 @@ public class LaplacianFilter extends AbstractImageModificationWorker {
 			return;
 		}
 
-		MMTImage enhanced = new LaplacianFilter(null, null).performLaplacian(image, fType);
+		MMTImage enhanced = new LaplacianFilter().performLaplacian(image, fType);
 
 		int splitIndex = path.lastIndexOf('.');
 		String newPath = path.substring(0, splitIndex) + "_LAPL" + path.substring(splitIndex, path.length());

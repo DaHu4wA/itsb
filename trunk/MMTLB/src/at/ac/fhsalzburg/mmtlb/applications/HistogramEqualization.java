@@ -19,8 +19,10 @@ import at.ac.fhsalzburg.mmtlb.mmtimage.MMTImage;
  * @author Stefan Huber
  */
 public class HistogramEqualization extends AbstractImageModificationWorker {
-	// private static final Logger LOG =
-	// Logger.getLogger(HistogramTools.class.getSimpleName());
+
+	public HistogramEqualization() {
+		super(null, null);
+	}
 
 	public HistogramEqualization(IFImageController controller, MMTImage sourceImage) {
 		super(controller, sourceImage);
@@ -77,7 +79,7 @@ public class HistogramEqualization extends AbstractImageModificationWorker {
 			System.out.println(String.format("%d", hist[i]));
 		}
 
-		MMTImage enhanced = new HistogramEqualization(null, null).performHistogramEqualitzation(image);
+		MMTImage enhanced = new HistogramEqualization().performHistogramEqualitzation(image);
 
 		int splitIndex = path.lastIndexOf('.');
 		String newPath = path.substring(0, splitIndex) + "_HISTEQU" + path.substring(splitIndex, path.length());
