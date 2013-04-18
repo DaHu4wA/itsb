@@ -19,7 +19,7 @@ import at.ac.fhsalzburg.mmtlb.mmtimage.MMTImage;
 public class AveragingFilter extends AbstractImageModificationWorker {
 
 	private int raster = 3; // default size
-	
+
 	public AveragingFilter() {
 		super(null, null);
 	}

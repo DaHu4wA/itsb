@@ -1,5 +1,6 @@
 package at.ac.fhsalzburg.mmtlb.gui.panels;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Image;
@@ -25,10 +26,12 @@ public class MMTImagePanel extends JPanel {
 	public MMTImagePanel() {
 		image = null;
 		paintedImage = null;
+		setBackground(Color.white);
 	}
 
 	public MMTImagePanel(MMTImage mmtImage) {
 		setImage(mmtImage);
+		setBackground(Color.white);
 	}
 
 	public void setImage(MMTImage mmtImage) {
@@ -43,8 +46,8 @@ public class MMTImagePanel extends JPanel {
 	public void setScale(final double factor) {
 
 		scaleFactor = factor;
-		int tempWidth = (int) ((double) width * scaleFactor);
-		int tempHeight = (int) ((double) height * scaleFactor);
+		int tempWidth = (int) (width * scaleFactor);
+		int tempHeight = (int) (height * scaleFactor);
 
 		paintedImage = image.getScaledInstance(tempWidth, tempHeight, java.awt.Image.SCALE_SMOOTH);
 		setPreferredSize(new Dimension(tempWidth, tempHeight));

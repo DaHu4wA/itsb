@@ -9,6 +9,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.ScrollPaneConstants;
 
 import at.ac.fhsalzburg.mmtlb.gui.panels.ApplicationsPanel;
 import at.ac.fhsalzburg.mmtlb.gui.panels.FooterPanel;
@@ -99,7 +100,7 @@ public class MainView extends AccordionPanel {
 		addFoldable(new AccordionContentPanel("Image modifications", new ColoredPanel(applicationsPanel), new Color(0xFFE4B5)), true);
 
 		mmtImagePanel = new MMTImagePanel();
-		addContent(new JScrollPane(mmtImagePanel, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED));
+		addContent(new JScrollPane(mmtImagePanel, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED));
 		setFooter(footerPanel);
 	}
 
@@ -117,7 +118,7 @@ public class MainView extends AccordionPanel {
 	 */
 	public void setMMTImage(MMTImage image) {
 		mmtImagePanel.setImage(image);
-		fileActionsPanel.getSeparatorPanel().setTitle(FILE_TITLE + "    -    " + image.getName() + "      "+image.getWidth()+ "x"+image.getHeight());
+		fileActionsPanel.getSeparatorPanel().setTitle(FILE_TITLE + "    -    " + image.getName() + "      " + image.getWidth() + "x" + image.getHeight());
 		repaint();
 	}
 

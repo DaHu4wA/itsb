@@ -12,24 +12,13 @@ import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
+import javax.swing.WindowConstants;
 
 import org.apache.log4j.Logger;
 
-import at.ac.fhsalzburg.mmtlb.applications.ContrastStretching;
-import at.ac.fhsalzburg.mmtlb.applications.GammaCorrection;
-import at.ac.fhsalzburg.mmtlb.applications.HistogramEqualization;
 import at.ac.fhsalzburg.mmtlb.applications.ImageModificationType;
-import at.ac.fhsalzburg.mmtlb.applications.filters.AveragingFilter;
-import at.ac.fhsalzburg.mmtlb.applications.filters.LaplacianFilter;
-import at.ac.fhsalzburg.mmtlb.applications.filters.LaplacianFilterType;
-import at.ac.fhsalzburg.mmtlb.applications.filters.MedianFilter;
-import at.ac.fhsalzburg.mmtlb.applications.filters.SobelFilter;
 import at.ac.fhsalzburg.mmtlb.applications.tools.FileImageConverter;
 import at.ac.fhsalzburg.mmtlb.applications.tools.MMTImageCombiner;
-import at.ac.fhsalzburg.mmtlb.gui.applications.AdditionalComboBoxDataPanel;
-import at.ac.fhsalzburg.mmtlb.gui.applications.RasterSizePanel;
-import at.ac.fhsalzburg.mmtlb.gui.applications.AdditionalSliderDataPanel;
-import at.ac.fhsalzburg.mmtlb.gui.applications.NoAdditionalDataPanel;
 import at.ac.fhsalzburg.mmtlb.gui.comparation.ImageComparator;
 import at.ac.fhsalzburg.mmtlb.gui.panels.ImagePreviewFileChooser;
 import at.ac.fhsalzburg.mmtlb.mmtimage.FileImageReader;
@@ -48,6 +37,8 @@ public class MainController extends JFrame implements IFImageController {
 
 	final MainView view;
 
+	private final ImageModificationHelper modificationHelper;
+
 	private MMTImage originalImage = null;
 	private MMTImage currentImage = null;
 
@@ -56,7 +47,7 @@ public class MainController extends JFrame implements IFImageController {
 		// setExtendedState(JFrame.MAXIMIZED_BOTH);
 		setTitle(TITLE_TEXT);
 		setLayout(new BorderLayout());
-		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		setIconImage(new ImageIcon(MainController.class.getResource("icon.png")).getImage());
 		setLocationRelativeTo(null); // set window centered to screen
 
@@ -67,10 +58,9 @@ public class MainController extends JFrame implements IFImageController {
 		}
 
 		view = new MainView();
-
 		setContentPane(view);
 		addButtonListeners();
-
+		modificationHelper = new ImageModificationHelper(this);
 		setVisible(true);
 	}
 
@@ -139,7 +129,7 @@ public class MainController extends JFrame implements IFImageController {
 		view.getCompareButton().addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				double scale = (double) view.getFooterPanel().getScaleSlider().getValue();
+				double scale = view.getFooterPanel().getScaleSlider().getValue();
 				ImageComparator c = new ImageComparator(MainController.this, currentImage, originalImage, scale / 100);
 				c.setVisible(true);
 			}
@@ -148,8 +138,9 @@ public class MainController extends JFrame implements IFImageController {
 		setApplicationsListeners();
 
 		view.getFooterPanel().getScaleSlider().addChangeListener(new javax.swing.event.ChangeListener() {
+			@Override
 			public void stateChanged(javax.swing.event.ChangeEvent e) {
-				double scale = (double) view.getFooterPanel().getScaleSlider().getValue();
+				double scale = view.getFooterPanel().getScaleSlider().getValue();
 				view.getMmtImagePanel().setScale(scale / 100);
 			}
 		});
@@ -304,109 +295,40 @@ public class MainController extends JFrame implements IFImageController {
 		view.getApplicationsPanel().removeAdditionalDataPanel();
 
 		switch (action) {
-
 		case CONTRAST_STRETCHING:
-			NoAdditionalDataPanel go = new NoAdditionalDataPanel();
-			view.getApplicationsPanel().setAdditionalDataPanel(go);
-
-			go.getGo().addActionListener(new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					ContrastStretching stretcher = new ContrastStretching(MainController.this, currentImage);
-					stretcher.execute();
-				}
-			});
+			modificationHelper.applyContrastStretching();
 			break;
 
 		case GAMMA_CORRECTION:
-			final AdditionalSliderDataPanel addData = new AdditionalSliderDataPanel(0, 1000, 100);
-			view.getApplicationsPanel().setAdditionalDataPanel(addData);
-
-			addData.getGo().addActionListener(new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					GammaCorrection gammaCorr = new GammaCorrection(MainController.this, currentImage);
-					double gamma = ((new Double((double) addData.getValue())) / 100d);
-					LOG.info("Gamma: " + gamma);
-					gammaCorr.setGamma(gamma);
-					gammaCorr.execute();
-				}
-			});
+			modificationHelper.applyGammaCorrection();
 			break;
 
 		case HISTOGRAM_EQUALIZATION:
-			NoAdditionalDataPanel go2 = new NoAdditionalDataPanel();
-			view.getApplicationsPanel().setAdditionalDataPanel(go2);
-
-			go2.getGo().addActionListener(new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					HistogramEqualization hist = new HistogramEqualization(MainController.this, currentImage);
-					hist.execute();
-				}
-			});
+			modificationHelper.applyHistogramEqualization();
 			break;
 
 		case AVERAGING_FILTER:
-			Integer[] items = { 3, 5, 7, 9, 11, 13, 15, 17, 19, 23, 27, 31, 33, 51 };
-			final RasterSizePanel goAverage = new RasterSizePanel(items, 3);
-			view.getApplicationsPanel().setAdditionalDataPanel(goAverage);
-
-			goAverage.getGo().addActionListener(new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					AveragingFilter average = new AveragingFilter(MainController.this, currentImage);
-					average.setRaster(goAverage.getValue());
-					average.execute();
-				}
-			});
+			modificationHelper.applyAveragingFilter();
 			break;
 
 		case MEDIAN_FILTER:
-			Integer[] values = { 3, 5, 7, 9, 11, 13 };
-			final RasterSizePanel medianPanel = new RasterSizePanel(values, 3);
-			view.getApplicationsPanel().setAdditionalDataPanel(medianPanel);
-
-			medianPanel.getGo().addActionListener(new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					MedianFilter medianFilter = new MedianFilter(MainController.this, currentImage);
-					medianFilter.setRaster(medianPanel.getValue());
-					medianFilter.execute();
-				}
-			});
+			modificationHelper.applyMedianFilter();
 			break;
 
 		case LAPLACIAN_FILTER:
-			final AdditionalComboBoxDataPanel comboPanel = new AdditionalComboBoxDataPanel(LaplacianFilterType.values(), LaplacianFilterType.FOUR_NEIGHBOURHOOD);
-			view.getApplicationsPanel().setAdditionalDataPanel(comboPanel);
-
-			comboPanel.getGo().addActionListener(new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					LaplacianFilter lapl = new LaplacianFilter(MainController.this, currentImage);
-					lapl.setFilterType((LaplacianFilterType) comboPanel.getValue());
-					lapl.execute();
-				}
-			});
+			modificationHelper.applyLaplacianFilter();
 			break;
 
 		case SOBEL_FILTER:
-			NoAdditionalDataPanel sobelPanel = new NoAdditionalDataPanel();
-			view.getApplicationsPanel().setAdditionalDataPanel(sobelPanel);
+			modificationHelper.applySobelFilter();
+			break;
 
-			sobelPanel.getGo().addActionListener(new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					SobelFilter sobel = new SobelFilter(MainController.this, currentImage);
-					sobel.execute();
-				}
-			});
+		case HIGHBOOST_FILTER:
+			modificationHelper.applyHighboostFilter();
 			break;
 
 		default:
-			JOptionPane.showMessageDialog(view, "Sorry, \nit looks like this function has not been implemented yet!", "Feature not implemented yet",
-					JOptionPane.ERROR_MESSAGE);
+			displayNotImplementedWarning();
 			break;
 		}
 
@@ -419,6 +341,10 @@ public class MainController extends JFrame implements IFImageController {
 		enableRevertCompare(true);
 	}
 
+	public MMTImage getCurrentImage() {
+		return currentImage;
+	}
+
 	@Override
 	public void setProgressBarVisible(boolean visible) {
 		view.getFooterPanel().showProgressBar(visible);
@@ -429,11 +355,19 @@ public class MainController extends JFrame implements IFImageController {
 		view.getFooterPanel().setProgress(progress);
 	}
 
-
 	public void enableRevertCompare(boolean enabled) {
 		view.getRevertButton().setEnabled(enabled);
 		view.getCompareButton().setEnabled(enabled);
 		view.getApplicationsPanel().getImageCombinationPanel().setEnabled(enabled);
+	}
+
+	private void displayNotImplementedWarning() {
+		JOptionPane.showMessageDialog(view, "Sorry, \nit looks like this function has not been implemented yet!", "Feature not implemented yet",
+				JOptionPane.ERROR_MESSAGE);
+	}
+
+	public MainView getView() {
+		return view;
 	}
 
 }

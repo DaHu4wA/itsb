@@ -38,9 +38,9 @@ public class ImageCombinationPanel extends JPanel {
 	public Double getFactor() {
 		return (Double) values.getSelectedItem();
 	}
-	
+
 	@Override
-	public void setEnabled(boolean enabled){
+	public void setEnabled(boolean enabled) {
 		values.setEnabled(enabled);
 		ok.setEnabled(enabled);
 	}

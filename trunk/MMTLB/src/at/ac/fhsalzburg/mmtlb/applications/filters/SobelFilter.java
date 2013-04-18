@@ -17,7 +17,7 @@ import at.ac.fhsalzburg.mmtlb.mmtimage.MMTImage;
  * @author Stefan Huber
  */
 public class SobelFilter extends AbstractImageModificationWorker {
-	
+
 	public SobelFilter() {
 		super(null, null);
 	}

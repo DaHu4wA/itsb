@@ -26,7 +26,7 @@ public class FileImageConverter {
 	 */
 	public static int convertFolderFromJpgToPng(File directory) {
 		int convertedCount = 0;
-		
+
 		if (!directory.isDirectory()) {
 			LOG.error("File is not a directory!!");
 			return 0;
