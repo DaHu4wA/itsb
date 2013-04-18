@@ -5,7 +5,6 @@ import java.awt.FlowLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 /**
@@ -17,7 +16,7 @@ public class ImageCombinationPanel extends JPanel {
 
 	private static final long serialVersionUID = -2466829498945619632L;
 	private static final String TEXT_COMBINE = "Combine";
-	private static final String TEXT_COMBINE_TOOLTIP = "Add current image to original image with a specified weight";
+	private static final String TEXT_COMBINE_TOOLTIP = "Add response to original image (with a specified weight)";
 
 	private JComboBox<Double> values;
 	private JButton ok;
@@ -34,9 +33,9 @@ public class ImageCombinationPanel extends JPanel {
 
 		JPanel factorPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 5, 0));
 		factorPanel.setOpaque(false);
-		JLabel label = new JLabel("Weight");
-		label.setToolTipText(TEXT_COMBINE_TOOLTIP);
-		factorPanel.add(label);
+		// JLabel label = new JLabel("w:");
+		// label.setToolTipText(TEXT_COMBINE_TOOLTIP);
+		// factorPanel.add(label);
 		factorPanel.add(values);
 
 		add(factorPanel);

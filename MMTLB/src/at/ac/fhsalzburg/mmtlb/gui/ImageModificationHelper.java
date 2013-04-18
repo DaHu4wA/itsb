@@ -117,7 +117,7 @@ public class ImageModificationHelper {
 	}
 
 	public void applyGammaCorrection() {
-		final AdditionalSliderDataPanel addData = new AdditionalSliderDataPanel(0, 1000, 100);
+		final AdditionalSliderDataPanel addData = new AdditionalSliderDataPanel(1, 1000, 100);
 		controller.getView().getApplicationsPanel().setAdditionalDataPanel(addData);
 
 		addData.getGo().addActionListener(new ActionListener() {

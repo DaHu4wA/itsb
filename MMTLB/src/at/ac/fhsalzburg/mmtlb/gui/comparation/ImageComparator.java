@@ -22,14 +22,14 @@ public class ImageComparator extends JDialog {
 
 	public ImageComparator(JFrame owner, MMTImage currentImage, MMTImage originalImage, double scale) {
 		super(owner);
-		setTitle("Current image  <-->  Original image");
+		setTitle("ORIGINAL image  <-(" + originalImage.getName() + ")->  CURRENT image");
 
 		currentImagePanel = new MMTImagePanel(currentImage);
 		originalImagePanel = new MMTImagePanel(originalImage);
 
 		currentImagePanel.setScale(scale);
 		originalImagePanel.setScale(scale);
-		splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, new JScrollPane(currentImagePanel), new JScrollPane(originalImagePanel));
+		splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, new JScrollPane(originalImagePanel), new JScrollPane(currentImagePanel));
 		splitPane.setResizeWeight(.5d);
 		splitPane.setDividerLocation(.5d);
 
