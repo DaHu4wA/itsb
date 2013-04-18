@@ -30,20 +30,20 @@ public class RasterSizePanel extends JPanel {
 		values.setSelectedItem(defaulValue);
 
 		JLabel label = new JLabel("Raster: ");
-		final JLabel label2 = new JLabel(defaulValue+"x"+defaulValue);
+		final JLabel label2 = new JLabel("(" + defaulValue + "x" + defaulValue + ")");
 		JPanel rasterPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 5, 0));
 		rasterPanel.setOpaque(false);
 		rasterPanel.add(label);
 		rasterPanel.add(values);
-		
+
 		values.addItemListener(new ItemListener() {
 			@Override
 			public void itemStateChanged(ItemEvent e) {
-				if(e.getItem() != null && e.getItem() instanceof Integer)
-				label2.setText(""+e.getItem()+"x"+e.getItem());
+				if (e.getItem() != null && e.getItem() instanceof Integer)
+					label2.setText("(" + e.getItem() + "x" + e.getItem() + ")");
 			}
 		});
-		
+
 		add(rasterPanel);
 		add(label2);
 		add(go);

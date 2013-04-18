@@ -47,7 +47,6 @@ public class HistogramEqualization extends AbstractImageModificationWorker {
 
 		BigDecimal[] normHist = HistogramTools.getNormalizedHistogram(image);
 		BigDecimal wMax = new BigDecimal(255);
-		System.out.println(String.format("Wmax of original: %d", wMax.intValue()));
 
 		for (int i = 0; i < result.length; i++) {
 
@@ -56,7 +55,6 @@ public class HistogramEqualization extends AbstractImageModificationWorker {
 			for (int x = 0; x < i; x++) {
 				sum = sum.add(normHist[x]);
 			}
-
 			result[i] = (sum.multiply(wMax)).intValue();
 		}
 

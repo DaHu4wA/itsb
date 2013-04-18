@@ -28,18 +28,18 @@ public class MainView extends AccordionPanel {
 	private static final long serialVersionUID = 5436775872668198881L;
 
 	public static String FILE_TITLE = "File Actions";
-	
+
 	public static String OPEN_IMAGE_TEXT = "Open Image";
 	public static String OPEN_IMAGE_TEXT_TOOLTIP = "Open a image file";
-	
+
 	public static String CONVERT_FOLDER_TEXT = "Convert *Folder Content* From .jpg To .png";
-	
+
 	public static String SAVE_FILE_TEXT = "Save Current Image";
 	public static String SAVE_FILE_TEXT_TOOLTOP = "Save image currently shown";
-	
+
 	public static String COMPARE_TEXT = "Compare";
 	public static String COMPARE_TEXT_TOOLTIP = "Compare current image with the original (using scale from current image)";
-	
+
 	public static String REVERT_TEXT = "Undo";
 	public static String REVERT_TEXT_TOOLTIP = "Undo last change";
 
@@ -72,15 +72,15 @@ public class MainView extends AccordionPanel {
 	private void initialize() {
 		openFileButton = new JButton(OPEN_IMAGE_TEXT, new ImageIcon(MainView.class.getResource("add.png")));
 		openFileButton.setToolTipText(OPEN_IMAGE_TEXT_TOOLTIP);
-		
+
 		compareButton = new JButton(COMPARE_TEXT, new ImageIcon(MainView.class.getResource("compare.png")));
 		compareButton.setToolTipText(COMPARE_TEXT_TOOLTIP);
-		
+
 		revertButton = new JButton(REVERT_TEXT, new ImageIcon(MainView.class.getResource("undo.png")));
 		revertButton.setToolTipText(REVERT_TEXT_TOOLTIP);
-		
+
 		convertWholeFolderToPNG = new JButton(CONVERT_FOLDER_TEXT, new ImageIcon(MainView.class.getResource("copy.png")));
-		
+
 		saveButton = new JButton(SAVE_FILE_TEXT, new ImageIcon(MainView.class.getResource("save.png")));
 		saveButton.setToolTipText(SAVE_FILE_TEXT_TOOLTOP);
 

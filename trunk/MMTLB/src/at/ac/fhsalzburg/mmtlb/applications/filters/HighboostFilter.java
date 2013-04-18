@@ -28,13 +28,13 @@ public class HighboostFilter extends AbstractImageModificationWorker {
 	@Override
 	protected MMTImage modifyImage(MMTImage sourceImage) {
 		publish(25);
-		return perfomHighBoost(sourceImage, rasterSize, k); 
+		return perfomHighBoost(sourceImage, rasterSize, k);
 	}
 
 	public MMTImage perfomHighBoost(MMTImage sourceImage, int rasterSize, double factor) {
 		MMTImage result = new MMTImage(sourceImage.getHeight(), sourceImage.getWidth());
 		result.setName(sourceImage.getName());
-		
+
 		// 1. Blur image
 		result = new MedianFilter().performMedianFilter(sourceImage, rasterSize);
 		publish(50);

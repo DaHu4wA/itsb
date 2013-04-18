@@ -6,6 +6,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
@@ -34,17 +36,18 @@ public class MainController extends JFrame implements IFImageController {
 	private static final long serialVersionUID = -958626226425855658L;
 	private static final Logger LOG = Logger.getLogger(MainController.class.getSimpleName());
 	public static String TITLE_TEXT = "Da Hu4wA's Photoshop - Professional Edition";
+	private static final int CHANGE_HISTORY_SIZE = 8;
 
 	final MainView view;
 
 	private final ImageModificationHelper modificationHelper;
 
-	private MMTImage originalImage = null;
+	// the image with index 0 is the original image
+	private List<MMTImage> changeHistory = new ArrayList<MMTImage>();
 	private MMTImage currentImage = null;
 
 	public MainController() {
 		setSize(800, 800);
-		// setExtendedState(JFrame.MAXIMIZED_BOTH);
 		setTitle(TITLE_TEXT);
 		setLayout(new BorderLayout());
 		setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
@@ -119,10 +122,17 @@ public class MainController extends JFrame implements IFImageController {
 		view.getRevertButton().addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				currentImage = new MMTImage(originalImage);
+
+				int lastIndex = changeHistory.size() - 1;
+				currentImage = new MMTImage(changeHistory.get(lastIndex));
+				changeHistory.remove(lastIndex);
+
 				view.setMMTImage(currentImage);
-				enableRevertCompare(false);
 				repaint();
+
+				if (changeHistory.isEmpty()) {
+					enableRevertCompare(false);
+				}
 			}
 		});
 
@@ -130,7 +140,7 @@ public class MainController extends JFrame implements IFImageController {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				double scale = view.getFooterPanel().getScaleSlider().getValue();
-				ImageComparator c = new ImageComparator(MainController.this, currentImage, originalImage, scale / 100);
+				ImageComparator c = new ImageComparator(MainController.this, currentImage, changeHistory.get(0), scale / 100);
 				c.setVisible(true);
 			}
 		});
@@ -229,25 +239,30 @@ public class MainController extends JFrame implements IFImageController {
 	 */
 	private void openImageFile(File file) {
 
-		if (originalImage != null) {
+		if (!changeHistory.isEmpty()) {
 			setModificationDataPanel(ImageModificationType.CONTRAST_STRETCHING);
 		}
 
-		originalImage = FileImageReader.read(file);
+		MMTImage openedImage = FileImageReader.read(file);
 
 		view.getOpenFileButton().setEnabled(true);
 		view.getOpenFileButton().setText(MainView.OPEN_IMAGE_TEXT);
 		view.getApplicationsPanel().setEnabled(true);
 
-		if (originalImage == null) {
+		if (openedImage == null) {
 			JOptionPane.showMessageDialog(view, "File could not be opened! \nOnly pictures are supported!", "Error: Unsupported file type!",
 					JOptionPane.ERROR_MESSAGE);
-			originalImage = new MMTImage(currentImage);
+			changeHistory.clear();
+			changeHistory.add(new MMTImage(currentImage));
 			return;
 		}
 
-		currentImage = new MMTImage(originalImage);
+		currentImage = new MMTImage(openedImage);
+		changeHistory.add(openedImage);
 		view.setMMTImage(currentImage);
+
+		setTitle(TITLE_TEXT + "  - " + currentImage.getName());
+
 		enableFunctions();
 
 		setModificationDataPanel(ImageModificationType.CONTRAST_STRETCHING);
@@ -279,7 +294,7 @@ public class MainController extends JFrame implements IFImageController {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				Double factor = view.getApplicationsPanel().getImageCombinationPanel().getFactor();
-				MMTImageCombiner combiner = new MMTImageCombiner(MainController.this, originalImage, currentImage, factor);
+				MMTImageCombiner combiner = new MMTImageCombiner(MainController.this, changeHistory.get(0), currentImage, factor);
 				combiner.execute();
 			}
 		});
@@ -336,9 +351,23 @@ public class MainController extends JFrame implements IFImageController {
 
 	@Override
 	public void setCurrentImage(MMTImage newImage) {
+
+		addToHistory();
+
 		currentImage = newImage;
 		view.setMMTImage(currentImage);
 		enableRevertCompare(true);
+	}
+
+	private void addToHistory() {
+
+		// to keep the max size of history and the original image
+		while (changeHistory.size() >= CHANGE_HISTORY_SIZE) {
+			changeHistory.remove(1);
+			LOG.info("Change history too big - cutting of oldest change");
+		}
+
+		changeHistory.add(currentImage);
 	}
 
 	public MMTImage getCurrentImage() {
