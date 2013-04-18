@@ -38,6 +38,7 @@ public class AdditionalSliderDataPanel extends JPanel {
 		slider.setPaintTicks(true);
 
 		slider.addChangeListener(new javax.swing.event.ChangeListener() {
+			@Override
 			public void stateChanged(javax.swing.event.ChangeEvent e) {
 				JSlider slider = (JSlider) e.getSource();
 				currVal.setText("Gamma: " + (double) slider.getValue() / 100);

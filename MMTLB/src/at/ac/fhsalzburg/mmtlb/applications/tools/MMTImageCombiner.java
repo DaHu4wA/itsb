@@ -14,6 +14,12 @@ public class MMTImageCombiner extends AbstractImageModificationWorker {
 	private final double factor;
 	private final MMTImage currentImage;
 
+	public MMTImageCombiner() {
+		super(null, null);
+		factor = 0d;
+		currentImage = null;
+	}
+
 	public MMTImageCombiner(IFImageController controller, MMTImage sourceImage, MMTImage currentImage, double factor) {
 		super(controller, sourceImage);
 		this.currentImage = currentImage;
@@ -39,11 +45,9 @@ public class MMTImageCombiner extends AbstractImageModificationWorker {
 
 			// add other image to base image
 			publishProgress(base, i);
-			int grayVal = (int) ((double) base.getImageData()[i] + ((double) factor * (double) other.getImageData()[i]));
+			int grayVal = (int) (base.getImageData()[i] + (factor * other.getImageData()[i]));
 
-			// clipping
-			grayVal = grayVal < 0 ? 0 : grayVal;
-			grayVal = grayVal > 255 ? 255 : grayVal;
+			grayVal = doClipping(grayVal);
 
 			result.getImageData()[i] = grayVal;
 		}
@@ -55,4 +59,29 @@ public class MMTImageCombiner extends AbstractImageModificationWorker {
 		return combine(sourceImage, currentImage, factor);
 	}
 
+	/**
+	 * Used for highboost filtering
+	 */
+	public MMTImage substract(MMTImage base, MMTImage other) {
+		MMTImage result = new MMTImage(base.getHeight(), base.getWidth());
+		result.setName(base.getName());
+
+		for (int i = 0; i < base.getImageData().length; i++) {
+
+			// substract other image from base image
+			publishProgress(base, i);
+			int grayVal = base.getImageData()[i] - other.getImageData()[i];
+
+			grayVal = doClipping(grayVal);
+
+			result.getImageData()[i] = grayVal;
+		}
+		return result;
+	}
+
+	private int doClipping(int grayVal) {
+		grayVal = grayVal < 0 ? 0 : grayVal;
+		grayVal = grayVal > 255 ? 255 : grayVal;
+		return grayVal;
+	}
 }

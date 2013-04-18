@@ -8,7 +8,8 @@ public enum ImageModificationType {
 	AVERAGING_FILTER, //
 	MEDIAN_FILTER, //
 	LAPLACIAN_FILTER, //
-	SOBEL_FILTER //
+	SOBEL_FILTER, //
+	HIGHBOOST_FILTER //
 	;
 
 }

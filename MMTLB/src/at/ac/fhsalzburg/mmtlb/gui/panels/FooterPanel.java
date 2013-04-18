@@ -24,7 +24,7 @@ import at.ac.fhsalzburg.mmtlb.gui.panels.accordion.BorderPanel;
 public class FooterPanel extends JPanel {
 	private static final long serialVersionUID = 7788538411831753473L;
 	private static final String TEXT = " (C) 2013 Stefan Huber, ITSB-B2011-A";
-	
+
 	Timer resetProgressTimer = new Timer(2000, new ActionListener() {
 		@Override
 		public void actionPerformed(ActionEvent e) {
@@ -65,8 +65,9 @@ public class FooterPanel extends JPanel {
 		add(new BorderPanel(progressBar), BorderLayout.EAST);
 
 		scaleSlider.addChangeListener(new javax.swing.event.ChangeListener() {
+			@Override
 			public void stateChanged(javax.swing.event.ChangeEvent e) {
-				double scale = (double) scaleSlider.getValue();
+				double scale = scaleSlider.getValue();
 				currVal.setText("Scale: " + (scale / 100));
 			}
 		});
@@ -85,12 +86,12 @@ public class FooterPanel extends JPanel {
 			progressBar.setValue(0);
 			return;
 		}
-		
+
 		if (progress == 100 && !resetProgressTimer.isRunning()) {
 			resetProgressTimer.setRepeats(false);
 			resetProgressTimer.start();
 		}
-		
+
 		progressBar.setValue(progress);
 		repaint();
 	}

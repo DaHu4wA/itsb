@@ -20,22 +20,23 @@ public class ApplicationsPanel extends JPanel {
 	private JComboBox modificationTypeBox;
 	private JPanel additionalDataPanel = null;
 	JPanel modificationPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 10));
-	
+
 	private ImageCombinationPanel imageCombinationPanel;
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public ApplicationsPanel() {
-
 		modificationTypeBox = new JComboBox(ImageModificationType.values());
 		imageCombinationPanel = new ImageCombinationPanel();
 
-		setLayout(new BorderLayout(10,10));
+		modificationPanel.setOpaque(false);
+
+		setLayout(new BorderLayout(10, 10));
 		modificationTypeBox.setEnabled(false);
 
-		
 		modificationPanel.add(modificationTypeBox);
 		add(modificationPanel, BorderLayout.WEST);
 		add(imageCombinationPanel, BorderLayout.EAST);
+		setOpaque(false);
 		setEnabled(false);
 	}
 
@@ -62,11 +63,6 @@ public class ApplicationsPanel extends JPanel {
 	@SuppressWarnings("rawtypes")
 	public JComboBox getModificationTypeBox() {
 		return modificationTypeBox;
-	}
-
-	@SuppressWarnings("rawtypes")
-	public void setModificationTypeBox(JComboBox modificationTypeBox) {
-		this.modificationTypeBox = modificationTypeBox;
 	}
 
 	public ImageCombinationPanel getImageCombinationPanel() {

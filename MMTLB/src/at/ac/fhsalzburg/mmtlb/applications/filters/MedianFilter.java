@@ -26,7 +26,7 @@ public class MedianFilter extends AbstractImageModificationWorker {
 	public MedianFilter() {
 		super(null, null);
 	}
-	
+
 	public MedianFilter(IFImageController controller, MMTImage sourceImage) {
 		super(controller, sourceImage);
 	}
@@ -103,7 +103,7 @@ public class MedianFilter extends AbstractImageModificationWorker {
 			vals[i] = values.get(i);
 		}
 		Arrays.sort(vals);
-		return (int) vals[(vals.length - 1) / 2];
+		return vals[(vals.length - 1) / 2];
 	}
 
 	public static void main(String[] args) throws IOException {

@@ -19,7 +19,7 @@ import at.ac.fhsalzburg.mmtlb.mmtimage.MMTImage;
 public class LaplacianFilter extends AbstractImageModificationWorker {
 
 	private LaplacianFilterType filterType = null;
-	
+
 	public LaplacianFilter() {
 		super(null, null);
 	}

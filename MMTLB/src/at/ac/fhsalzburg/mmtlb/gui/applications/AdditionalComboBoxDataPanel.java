@@ -34,7 +34,7 @@ public class AdditionalComboBoxDataPanel extends JPanel {
 	}
 
 	public Object getValue() {
-		return (Object) values.getSelectedItem();
+		return values.getSelectedItem();
 	}
 
 }
