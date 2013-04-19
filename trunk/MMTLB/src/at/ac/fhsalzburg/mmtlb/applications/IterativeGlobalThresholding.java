@@ -1,0 +1,86 @@
+package at.ac.fhsalzburg.mmtlb.applications;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.log4j.Logger;
+
+import at.ac.fhsalzburg.mmtlb.applications.tools.HistogramTools;
+import at.ac.fhsalzburg.mmtlb.gui.IFImageController;
+import at.ac.fhsalzburg.mmtlb.mmtimage.MMTImage;
+
+/**
+ * Applies a iterative global thresholding to a image with given threshold
+ * 
+ * @author Stefan Huber
+ */
+public class IterativeGlobalThresholding extends AbstractImageModificationWorker {
+	private static final Logger LOG = Logger.getLogger("IterativeThresholding");
+
+	private static final int DELTA_THRESHOLD = 1;
+	private static final int MAX_ITERATIONS = 200;
+
+	public IterativeGlobalThresholding() {
+		super(null, null);
+	}
+
+	public IterativeGlobalThresholding(IFImageController controller, MMTImage sourceImage) {
+		super(controller, sourceImage);
+	}
+
+	public MMTImage performGlobalThresholding(MMTImage sourceImage) {
+		int iterationCount = 0;
+		int threshold = 0;
+		int delta = 255;
+		int newThreshold = (HistogramTools.getHighestGrayValue(sourceImage) - HistogramTools.getLowestGrayValue(sourceImage)) / 2;
+
+		while ((delta > DELTA_THRESHOLD) && iterationCount < MAX_ITERATIONS) {
+			threshold = newThreshold;
+			iterationCount++;
+
+			List<Integer> lowerValues = new ArrayList<Integer>();
+			List<Integer> upperValues = new ArrayList<Integer>();
+
+			for (int i = 0; i < sourceImage.getImageData().length; i++) {
+
+				int value = sourceImage.getImageData()[i];
+
+				if (value > threshold) {
+					upperValues.add(value);
+				} else {
+					lowerValues.add(value);
+				}
+			}
+			int m1 = getAverage(lowerValues);
+			int m2 = getAverage(upperValues);
+
+			newThreshold = (m1 + m2) / 2;
+			delta = Math.abs(threshold - newThreshold);
+
+			publish(iterationCount % 5);
+			LOG.debug("Current delta: " + delta);
+			LOG.debug("Current newThreshold: " + newThreshold);
+		}
+		publish(75);
+		LOG.info("Sum of iterations: " + iterationCount + 1);
+		LOG.info("Final threshold for global thresholding: " + newThreshold);
+		return new GlobalThresholding().performThresholding(sourceImage, newThreshold);
+	}
+
+	private int getAverage(List<Integer> list) {
+		if (list.isEmpty()) {
+			return 0;
+		}
+		int sum = 0;
+		for (Integer i : list) {
+			sum += i;
+		}
+		return sum / list.size();
+	}
+
+	@Override
+	protected MMTImage modifyImage(MMTImage sourceImage) {
+		return performGlobalThresholding(sourceImage);
+	}
+
+}
