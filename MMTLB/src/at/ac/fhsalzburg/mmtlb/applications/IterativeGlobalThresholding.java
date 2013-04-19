@@ -1,5 +1,8 @@
 package at.ac.fhsalzburg.mmtlb.applications;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,6 +10,8 @@ import org.apache.log4j.Logger;
 
 import at.ac.fhsalzburg.mmtlb.applications.tools.HistogramTools;
 import at.ac.fhsalzburg.mmtlb.gui.IFImageController;
+import at.ac.fhsalzburg.mmtlb.mmtimage.FileImageReader;
+import at.ac.fhsalzburg.mmtlb.mmtimage.FileImageWriter;
 import at.ac.fhsalzburg.mmtlb.mmtimage.MMTImage;
 
 /**
@@ -28,7 +33,7 @@ public class IterativeGlobalThresholding extends AbstractImageModificationWorker
 		super(controller, sourceImage);
 	}
 
-	public MMTImage performGlobalThresholding(MMTImage sourceImage) {
+	public MMTImage performIterativeThresholding(MMTImage sourceImage) {
 		int iterationCount = 0;
 		int threshold = 0;
 		int delta = 255;
@@ -80,7 +85,23 @@ public class IterativeGlobalThresholding extends AbstractImageModificationWorker
 
 	@Override
 	protected MMTImage modifyImage(MMTImage sourceImage) {
-		return performGlobalThresholding(sourceImage);
+		return performIterativeThresholding(sourceImage);
+	}
+
+	public static void main(String[] args) throws IOException {
+
+		System.out.println("Iterative Global thresholding");
+		System.out.println("Enter the full path to a picture: ");
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		String path = br.readLine();
+
+		MMTImage image = FileImageReader.read(path);
+		MMTImage newImage = new IterativeGlobalThresholding().performIterativeThresholding(image);
+
+		int splitIndex = path.lastIndexOf('.');
+		String newPath = path.substring(0, splitIndex) + "_GIterThreshold" + path.substring(splitIndex, path.length());
+		FileImageWriter.write(newImage, newPath);
+		System.out.println("Iterative Global thresholded image saved as: \n" + newPath);
 	}
 
 }
