@@ -5,15 +5,16 @@ import java.awt.event.ActionListener;
 
 import at.ac.fhsalzburg.mmtlb.applications.ContrastStretching;
 import at.ac.fhsalzburg.mmtlb.applications.GammaCorrection;
-import at.ac.fhsalzburg.mmtlb.applications.GlobalThresholding;
 import at.ac.fhsalzburg.mmtlb.applications.HistogramEqualization;
-import at.ac.fhsalzburg.mmtlb.applications.IterativeGlobalThresholding;
 import at.ac.fhsalzburg.mmtlb.applications.filters.AveragingFilter;
 import at.ac.fhsalzburg.mmtlb.applications.filters.HighboostFilter;
 import at.ac.fhsalzburg.mmtlb.applications.filters.LaplacianFilter;
 import at.ac.fhsalzburg.mmtlb.applications.filters.LaplacianFilterType;
 import at.ac.fhsalzburg.mmtlb.applications.filters.MedianFilter;
 import at.ac.fhsalzburg.mmtlb.applications.filters.SobelFilter;
+import at.ac.fhsalzburg.mmtlb.applications.threshold.GlobalThresholding;
+import at.ac.fhsalzburg.mmtlb.applications.threshold.IterativeGlobalThresholding;
+import at.ac.fhsalzburg.mmtlb.applications.threshold.OtsuThresholding;
 import at.ac.fhsalzburg.mmtlb.gui.datapanels.AdditionalComboBoxDataPanel;
 import at.ac.fhsalzburg.mmtlb.gui.datapanels.AdditionalSliderDataPanel;
 import at.ac.fhsalzburg.mmtlb.gui.datapanels.HighboostDataPanel;
@@ -32,7 +33,20 @@ public class ImageModificationHelper {
 	public ImageModificationHelper(MainController controller) {
 		this.controller = controller;
 	}
-	
+
+	public void applyOtsuThresholding() {
+		NoAdditionalDataPanel otsuPanel = new NoAdditionalDataPanel();
+		controller.getView().getApplicationsPanel().setAdditionalDataPanel(otsuPanel);
+
+		otsuPanel.getGo().addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				new OtsuThresholding(controller, controller.getCurrentImage()).execute();
+			}
+		});
+
+	}
+
 	public void applyIterativeThesholdingFilter() {
 		NoAdditionalDataPanel iterativePanel = new NoAdditionalDataPanel();
 		controller.getView().getApplicationsPanel().setAdditionalDataPanel(iterativePanel);
@@ -171,5 +185,4 @@ public class ImageModificationHelper {
 			}
 		});
 	}
-
 }
