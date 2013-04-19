@@ -240,6 +240,7 @@ public class MainController extends JFrame implements IFImageController {
 	private void openImageFile(File file) {
 
 		if (!changeHistory.isEmpty()) {
+			view.getApplicationsPanel().getModificationTypeBox().setSelectedItem(ImageModificationType.CONTRAST_STRETCHING);
 			setModificationDataPanel(ImageModificationType.CONTRAST_STRETCHING);
 		}
 
@@ -341,6 +342,14 @@ public class MainController extends JFrame implements IFImageController {
 
 		case HIGHBOOST_FILTER:
 			modificationHelper.applyHighboostFilter();
+			break;
+			
+		case GLOBAL_THRESHOLDING:
+			modificationHelper.applyGlobalThresholdFilter();
+			break;
+			
+		case ITERATIVE_THRESHOLDING:
+			modificationHelper.applyIterativeThesholdingFilter();
 			break;
 
 		default:

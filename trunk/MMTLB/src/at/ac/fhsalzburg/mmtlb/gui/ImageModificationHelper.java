@@ -5,18 +5,20 @@ import java.awt.event.ActionListener;
 
 import at.ac.fhsalzburg.mmtlb.applications.ContrastStretching;
 import at.ac.fhsalzburg.mmtlb.applications.GammaCorrection;
+import at.ac.fhsalzburg.mmtlb.applications.GlobalThresholding;
 import at.ac.fhsalzburg.mmtlb.applications.HistogramEqualization;
+import at.ac.fhsalzburg.mmtlb.applications.IterativeGlobalThresholding;
 import at.ac.fhsalzburg.mmtlb.applications.filters.AveragingFilter;
 import at.ac.fhsalzburg.mmtlb.applications.filters.HighboostFilter;
 import at.ac.fhsalzburg.mmtlb.applications.filters.LaplacianFilter;
 import at.ac.fhsalzburg.mmtlb.applications.filters.LaplacianFilterType;
 import at.ac.fhsalzburg.mmtlb.applications.filters.MedianFilter;
 import at.ac.fhsalzburg.mmtlb.applications.filters.SobelFilter;
-import at.ac.fhsalzburg.mmtlb.gui.applications.AdditionalComboBoxDataPanel;
-import at.ac.fhsalzburg.mmtlb.gui.applications.AdditionalSliderDataPanel;
-import at.ac.fhsalzburg.mmtlb.gui.applications.HighboostDataPanel;
-import at.ac.fhsalzburg.mmtlb.gui.applications.NoAdditionalDataPanel;
-import at.ac.fhsalzburg.mmtlb.gui.applications.RasterSizePanel;
+import at.ac.fhsalzburg.mmtlb.gui.datapanels.AdditionalComboBoxDataPanel;
+import at.ac.fhsalzburg.mmtlb.gui.datapanels.AdditionalSliderDataPanel;
+import at.ac.fhsalzburg.mmtlb.gui.datapanels.HighboostDataPanel;
+import at.ac.fhsalzburg.mmtlb.gui.datapanels.NoAdditionalDataPanel;
+import at.ac.fhsalzburg.mmtlb.gui.datapanels.RasterSizePanel;
 
 /**
  * 
@@ -29,6 +31,32 @@ public class ImageModificationHelper {
 
 	public ImageModificationHelper(MainController controller) {
 		this.controller = controller;
+	}
+	
+	public void applyIterativeThesholdingFilter() {
+		NoAdditionalDataPanel iterativePanel = new NoAdditionalDataPanel();
+		controller.getView().getApplicationsPanel().setAdditionalDataPanel(iterativePanel);
+
+		iterativePanel.getGo().addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				new IterativeGlobalThresholding(controller, controller.getCurrentImage()).execute();
+			}
+		});
+	}
+
+	public void applyGlobalThresholdFilter() {
+		Integer[] values = { 15, 30, 45, 60, 75, 90, 105, 120, 135, 150, 165, 180, 195, 210, 225, 240, 255 };
+		final AdditionalComboBoxDataPanel globalThresholdPanel = new AdditionalComboBoxDataPanel(values, 120);
+		controller.getView().getApplicationsPanel().setAdditionalDataPanel(globalThresholdPanel);
+
+		globalThresholdPanel.getGo().addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				int threshold = (Integer) globalThresholdPanel.getValue();
+				new GlobalThresholding(controller, controller.getCurrentImage(), threshold).execute();
+			}
+		});
 	}
 
 	public void applyHighboostFilter() {
