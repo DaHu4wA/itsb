@@ -85,8 +85,13 @@ public class FooterPanel extends JPanel {
 	}
 
 	public void setProgress(int progress) {
-		if (progress < 0 || progress > 100) {
+		if (progress < 0) {
 			progressBar.setValue(0);
+			return;
+		}
+
+		if (progress > 100) {
+			progressBar.setValue(99);
 			return;
 		}
 
