@@ -351,6 +351,10 @@ public class MainController extends JFrame implements IFImageController {
 		case ITERATIVE_THRESHOLDING:
 			modificationHelper.applyIterativeThesholdingFilter();
 			break;
+			
+		case OTSU_THRESHOLDING:
+			modificationHelper.applyOtsuThresholding();
+			break;
 
 		default:
 			displayNotImplementedWarning();

@@ -1,4 +1,4 @@
-package at.ac.fhsalzburg.mmtlb.applications;
+package at.ac.fhsalzburg.mmtlb.applications.threshold;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -8,6 +8,7 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 
+import at.ac.fhsalzburg.mmtlb.applications.AbstractImageModificationWorker;
 import at.ac.fhsalzburg.mmtlb.applications.tools.HistogramTools;
 import at.ac.fhsalzburg.mmtlb.gui.IFImageController;
 import at.ac.fhsalzburg.mmtlb.mmtimage.FileImageReader;

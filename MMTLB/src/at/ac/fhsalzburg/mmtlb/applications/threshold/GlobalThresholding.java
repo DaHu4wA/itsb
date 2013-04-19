@@ -1,9 +1,10 @@
-package at.ac.fhsalzburg.mmtlb.applications;
+package at.ac.fhsalzburg.mmtlb.applications.threshold;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
+import at.ac.fhsalzburg.mmtlb.applications.AbstractImageModificationWorker;
 import at.ac.fhsalzburg.mmtlb.gui.IFImageController;
 import at.ac.fhsalzburg.mmtlb.mmtimage.FileImageReader;
 import at.ac.fhsalzburg.mmtlb.mmtimage.FileImageWriter;
