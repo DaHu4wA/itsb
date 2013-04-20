@@ -11,7 +11,11 @@ import at.ac.fhsalzburg.mmtlb.gui.IFImageController;
 import at.ac.fhsalzburg.mmtlb.mmtimage.MMTImage;
 
 /**
- * Worker for all image conversion tools
+ * Worker for all image conversion tools.
+ * 
+ * This is a classic swingWoker, where the execute() method does the image
+ * modification. The publish method is used to publish the progress into the
+ * progess bar . When finished, the result is published into the GUI.
  * 
  * @author Stefan Huber
  */
@@ -29,8 +33,21 @@ public abstract class AbstractImageModificationWorker extends SwingWorker<MMTIma
 		}
 	}
 
+	/**
+	 * This method has to be implemented by the filter
+	 * 
+	 * @param sourceImage the image that should be processed
+	 * @return a new filtered image
+	 */
 	protected abstract MMTImage modifyImage(MMTImage sourceImage);
 
+	/**
+	 * Use this when publish should be processed while iterating over every
+	 * pixel
+	 * 
+	 * @param originalImage the image that is being filtered
+	 * @param currentPosition the current iteration position
+	 */
 	protected void publishProgress(MMTImage originalImage, int currentPosition) {
 		int progress = (int) (((double) currentPosition) / ((double) originalImage.getImageData().length) * 100);
 		if (progress % 5 == 0) {

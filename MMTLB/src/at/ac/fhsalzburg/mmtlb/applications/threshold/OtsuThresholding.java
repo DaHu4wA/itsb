@@ -34,10 +34,8 @@ public class OtsuThresholding extends AbstractImageModificationWorker {
 	public MMTImage performOtsu(MMTImage sourceImage) {
 		MMTImage result = new MMTImage(sourceImage.getHeight(), sourceImage.getWidth());
 		result.setName(sourceImage.getName());
-		
-		
+
 		// TODO do this! screen presentation page 189
-		
 
 		return result;
 	}

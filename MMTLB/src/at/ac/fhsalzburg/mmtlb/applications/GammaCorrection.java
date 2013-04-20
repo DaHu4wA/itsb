@@ -25,8 +25,9 @@ public class GammaCorrection extends AbstractImageModificationWorker {
 		super(null, null);
 	}
 
-	public GammaCorrection(IFImageController controller, MMTImage sourceImage) {
+	public GammaCorrection(IFImageController controller, MMTImage sourceImage, double gamma) {
 		super(controller, sourceImage);
+		this.gamma = gamma;
 	}
 
 	public MMTImage correctGamma(MMTImage image, double gamma) {
@@ -63,10 +64,6 @@ public class GammaCorrection extends AbstractImageModificationWorker {
 		return mapping;
 	}
 
-	public void setGamma(double gamma) {
-		this.gamma = gamma;
-	}
-
 	public static void main(String[] args) throws IOException {
 
 		System.out.println("Gamma correction");
@@ -89,6 +86,9 @@ public class GammaCorrection extends AbstractImageModificationWorker {
 		System.out.println("Gamma corrected image saved as: \n" + newPath);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	protected MMTImage modifyImage(MMTImage sourceImage) {
 		return correctGamma(sourceImage, gamma);

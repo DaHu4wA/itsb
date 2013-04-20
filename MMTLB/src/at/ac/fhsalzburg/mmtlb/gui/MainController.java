@@ -206,7 +206,7 @@ public class MainController extends JFrame implements IFImageController {
 
 	private void postFileConvertSuccessMessage(int count) {
 		JOptionPane.showMessageDialog(this, "Conversion finished!\n" + "\n" + count + " jpg file(s) converted." + "\nResults saved into subfolder *"
-				+ FileImageConverter.SUBFOLDER_NAME + "*", "Conversion finished!", JOptionPane.INFORMATION_MESSAGE);
+				+ FileImageConverter.RESULT_SUBFOLDER_NAME + "*", "Conversion finished!", JOptionPane.INFORMATION_MESSAGE);
 	}
 
 	private void saveFile() {
@@ -234,8 +234,7 @@ public class MainController extends JFrame implements IFImageController {
 	}
 
 	/**
-	 * @param file
-	 *            that should be displayed
+	 * @param file that should be displayed
 	 */
 	private void openImageFile(File file) {
 
@@ -343,15 +342,15 @@ public class MainController extends JFrame implements IFImageController {
 		case HIGHBOOST_FILTER:
 			modificationHelper.applyHighboostFilter();
 			break;
-			
+
 		case GLOBAL_THRESHOLDING:
 			modificationHelper.applyGlobalThresholdFilter();
 			break;
-			
+
 		case ITERATIVE_THRESHOLDING:
 			modificationHelper.applyIterativeThesholdingFilter();
 			break;
-			
+
 		case OTSU_THRESHOLDING:
 			modificationHelper.applyOtsuThresholding();
 			break;

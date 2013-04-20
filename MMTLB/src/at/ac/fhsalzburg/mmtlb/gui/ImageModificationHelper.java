@@ -22,7 +22,7 @@ import at.ac.fhsalzburg.mmtlb.gui.datapanels.NoAdditionalDataPanel;
 import at.ac.fhsalzburg.mmtlb.gui.datapanels.RasterSizePanel;
 
 /**
- * 
+ * Sets the panels needed for the selected filter
  * 
  * @author Stefan Huber
  */
@@ -108,8 +108,7 @@ public class ImageModificationHelper {
 		comboPanel.getGo().addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				LaplacianFilter lapl = new LaplacianFilter(controller, controller.getCurrentImage());
-				lapl.setFilterType((LaplacianFilterType) comboPanel.getValue());
+				LaplacianFilter lapl = new LaplacianFilter(controller, controller.getCurrentImage(), (LaplacianFilterType) comboPanel.getValue());
 				lapl.execute();
 			}
 		});
@@ -123,8 +122,7 @@ public class ImageModificationHelper {
 		medianPanel.getGo().addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				MedianFilter medianFilter = new MedianFilter(controller, controller.getCurrentImage());
-				medianFilter.setRaster(medianPanel.getValue());
+				MedianFilter medianFilter = new MedianFilter(controller, controller.getCurrentImage(), medianPanel.getValue());
 				medianFilter.execute();
 			}
 		});
@@ -138,8 +136,7 @@ public class ImageModificationHelper {
 		goAverage.getGo().addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				AveragingFilter average = new AveragingFilter(controller, controller.getCurrentImage());
-				average.setRaster(goAverage.getValue());
+				AveragingFilter average = new AveragingFilter(controller, controller.getCurrentImage(), goAverage.getValue());
 				average.execute();
 			}
 		});
@@ -165,9 +162,8 @@ public class ImageModificationHelper {
 		addData.getGo().addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				GammaCorrection gammaCorr = new GammaCorrection(controller, controller.getCurrentImage());
 				double gamma = ((new Double(addData.getValue())) / 100d);
-				gammaCorr.setGamma(gamma);
+				GammaCorrection gammaCorr = new GammaCorrection(controller, controller.getCurrentImage(), gamma);
 				gammaCorr.execute();
 			}
 		});

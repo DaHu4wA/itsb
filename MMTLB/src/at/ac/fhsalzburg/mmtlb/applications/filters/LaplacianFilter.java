@@ -18,16 +18,20 @@ import at.ac.fhsalzburg.mmtlb.mmtimage.MMTImage;
  */
 public class LaplacianFilter extends AbstractImageModificationWorker {
 
-	private LaplacianFilterType filterType = null;
+	private LaplacianFilterType filterType = LaplacianFilterType.FOUR_NEIGHBOURHOOD; // default
 
 	public LaplacianFilter() {
 		super(null, null);
 	}
 
-	public LaplacianFilter(IFImageController controller, MMTImage sourceImage) {
+	public LaplacianFilter(IFImageController controller, MMTImage sourceImage, LaplacianFilterType filterType) {
 		super(controller, sourceImage);
+		this.filterType = filterType;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	protected MMTImage modifyImage(MMTImage sourceImage) {
 		return performLaplacian(sourceImage, filterType);
@@ -37,6 +41,7 @@ public class LaplacianFilter extends AbstractImageModificationWorker {
 		MMTImage result = new MMTImage(image.getHeight(), image.getWidth());
 		result.setName(image.getName());
 
+		// calculate the filter values for every pixel
 		for (int y = 0; y < image.getHeight(); y++) {
 			for (int x = 0; x < image.getWidth(); x++) {
 				publishProgress(image, x + y * image.getWidth());
@@ -46,10 +51,21 @@ public class LaplacianFilter extends AbstractImageModificationWorker {
 		return result;
 	}
 
+	/**
+	 * Applies the laplacian filter for a given pixel
+	 * 
+	 * @param originalImage the original image
+	 * @param filterType the filter type
+	 * @param xPos the current x position to apply the filter to
+	 * @param yPos the current y position to apply the filter to
+	 * @return laplacian filtered value for the pixel
+	 */
 	private static int getLaplacianValueForPosition(MMTImage originalImage, LaplacianFilterType filterType, int xPos, int yPos) {
 
 		int neighbourGraySum = 0;
 		int factor = 0;
+
+		// TODO enhance this! maybe a array mask
 
 		if (!SurroudingPixelHelper.isOutOfSpace(originalImage, xPos + 1, yPos)) {
 			factor++;
@@ -89,6 +105,7 @@ public class LaplacianFilter extends AbstractImageModificationWorker {
 
 		}
 
+		// sum up the neighbour pixels and current pixel with the factor
 		int result = originalImage.getPixel2D(xPos, yPos) * factor;
 		result = result + neighbourGraySum;
 
@@ -130,10 +147,6 @@ public class LaplacianFilter extends AbstractImageModificationWorker {
 		String newPath = path.substring(0, splitIndex) + "_LAPL" + path.substring(splitIndex, path.length());
 		FileImageWriter.write(enhanced, newPath);
 		System.out.println("Laplacian image saved as: \n" + newPath);
-	}
-
-	public void setFilterType(LaplacianFilterType filterType) {
-		this.filterType = filterType;
 	}
 
 }

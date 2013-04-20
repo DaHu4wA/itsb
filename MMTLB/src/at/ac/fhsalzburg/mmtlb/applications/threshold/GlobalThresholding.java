@@ -30,6 +30,13 @@ public class GlobalThresholding extends AbstractImageModificationWorker {
 		this.threshold = threshold;
 	}
 
+	/**
+	 * Apply global thresholding to a image
+	 * 
+	 * @param sourceImage source image
+	 * @param threshold the threshold gray value
+	 * @return binary image separated by threshold value
+	 */
 	public MMTImage performThresholding(MMTImage sourceImage, int threshold) {
 		MMTImage result = new MMTImage(sourceImage.getHeight(), sourceImage.getWidth());
 		result.setName(sourceImage.getName());
@@ -44,6 +51,9 @@ public class GlobalThresholding extends AbstractImageModificationWorker {
 		return result;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	protected MMTImage modifyImage(MMTImage sourceImage) {
 		return performThresholding(sourceImage, threshold);

@@ -12,7 +12,7 @@ import at.ac.fhsalzburg.mmtlb.mmtimage.MMTImage;
  */
 public class HighboostFilter extends AbstractImageModificationWorker {
 
-	double k = 1.0; // default is unsharp mask
+	double k = 1.0; // default factor is a classic "unsharp mask"
 	int rasterSize = 3; // default raster size
 
 	public HighboostFilter() {
@@ -25,25 +25,36 @@ public class HighboostFilter extends AbstractImageModificationWorker {
 		this.rasterSize = rasterSize;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	protected MMTImage modifyImage(MMTImage sourceImage) {
 		publish(25);
 		return perfomHighBoost(sourceImage, rasterSize, k);
 	}
 
+	/**
+	 * Applies a highboost filter to a image
+	 * 
+	 * @param sourceImage the image to apply the filter to
+	 * @param rasterSize the raster size
+	 * @param factor the factor to add the filter response to the original image
+	 * @return a ned filtered {@link MMTImage}
+	 */
 	public MMTImage perfomHighBoost(MMTImage sourceImage, int rasterSize, double factor) {
 		MMTImage result = new MMTImage(sourceImage.getHeight(), sourceImage.getWidth());
 		result.setName(sourceImage.getName());
 
-		// 1. Blur image
+		// 1. Blur image, here a Median Filter is used
 		result = new MedianFilter().performMedianFilter(sourceImage, rasterSize);
 		publish(50);
 
-		// 2. Substract blurred from original to create mask
+		// 2. Substract blurred response from original to create unsharp mask
 		result = new MMTImageCombiner().substract(sourceImage, result);
 		publish(75);
 
-		// 3. add unsharpened mask to original with factor
+		// 3. add unsharp mask to original image with factor
 		result = new MMTImageCombiner().combine(sourceImage, result, factor);
 		publish(100);
 

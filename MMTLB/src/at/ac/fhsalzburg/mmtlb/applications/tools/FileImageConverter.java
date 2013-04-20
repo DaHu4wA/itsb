@@ -15,13 +15,12 @@ import at.ac.fhsalzburg.mmtlb.mmtimage.MMTImage;
  */
 public class FileImageConverter {
 	private static final Logger LOG = Logger.getLogger(FileImageConverter.class.getSimpleName());
-	public static final String SUBFOLDER_NAME = "convertedByMMT";
+	public static final String RESULT_SUBFOLDER_NAME = "convertedByMMT";
 
 	/**
 	 * Converts all files within given folder from.jpg and .jpeg into .png
 	 * 
-	 * @param directory
-	 *            to convert
+	 * @param directory to convert
 	 * @return count of converted files
 	 */
 	public static int convertFolderFromJpgToPng(File directory) {
@@ -31,8 +30,8 @@ public class FileImageConverter {
 			LOG.error("File is not a directory!!");
 			return 0;
 		}
-		System.out.println(directory.getAbsoluteFile());
-		File targetDir = new File(directory.getAbsoluteFile() + "\\" + SUBFOLDER_NAME + "\\");
+		LOG.info("Dir: " + directory.getAbsoluteFile());
+		File targetDir = new File(directory.getAbsoluteFile() + "\\" + RESULT_SUBFOLDER_NAME + "\\");
 		targetDir.mkdirs();
 
 		File[] files = directory.listFiles();
@@ -49,7 +48,7 @@ public class FileImageConverter {
 				convertedCount++;
 			}
 		}
-		LOG.info("--> Folder successfully converted. See subfolder >> " + SUBFOLDER_NAME + " << inside chosen directory");
+		LOG.info("--> Folder successfully converted. See subfolder >> " + RESULT_SUBFOLDER_NAME + " << inside chosen directory");
 		return convertedCount;
 	}
 

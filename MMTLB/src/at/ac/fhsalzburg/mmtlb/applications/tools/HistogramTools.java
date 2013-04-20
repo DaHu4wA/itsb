@@ -28,6 +28,10 @@ public class HistogramTools {
 		return hist;
 	}
 
+	/**
+	 * @param image source image
+	 * @return a normalized histogram
+	 */
 	public static BigDecimal[] getNormalizedHistogram(MMTImage image) {
 		int[] hist = getHistogram(image);
 		BigDecimal[] normalized = new BigDecimal[hist.length];

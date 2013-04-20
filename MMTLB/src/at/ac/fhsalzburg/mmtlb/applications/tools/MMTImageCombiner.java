@@ -29,12 +29,9 @@ public class MMTImageCombiner extends AbstractImageModificationWorker {
 	/**
 	 * Combine image with a given factor
 	 * 
-	 * @param base
-	 *            root image where other image will be added to
-	 * @param other
-	 *            image to add
-	 * @param factor
-	 *            the factor the other image will be added
+	 * @param base root image where other image will be added to
+	 * @param other image to add
+	 * @param factor the factor the other image will be added
 	 * @returns a combined image
 	 */
 	public MMTImage combine(MMTImage base, MMTImage other, double factor) {
@@ -43,7 +40,7 @@ public class MMTImageCombiner extends AbstractImageModificationWorker {
 
 		for (int i = 0; i < base.getImageData().length; i++) {
 
-			// add other image to base image
+			// add other image to base image with given factor
 			publishProgress(base, i);
 			int grayVal = (int) (base.getImageData()[i] + (factor * other.getImageData()[i]));
 

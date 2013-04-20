@@ -18,16 +18,20 @@ import at.ac.fhsalzburg.mmtlb.mmtimage.MMTImage;
  */
 public class AveragingFilter extends AbstractImageModificationWorker {
 
-	private int raster = 3; // default size
+	private int raster = 3; // default size of raster
 
 	public AveragingFilter() {
 		super(null, null);
 	}
 
-	public AveragingFilter(IFImageController controller, MMTImage sourceImage) {
+	public AveragingFilter(IFImageController controller, MMTImage sourceImage, int rasterSize) {
 		super(controller, sourceImage);
+		this.raster = rasterSize;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	protected MMTImage modifyImage(MMTImage sourceImage) {
 		return performAveraging(sourceImage, raster);
@@ -36,10 +40,8 @@ public class AveragingFilter extends AbstractImageModificationWorker {
 	/**
 	 * Performs average filter
 	 * 
-	 * @param image
-	 *            the image to average
-	 * @param rasterSize
-	 *            UNEVEN (3x3, 5x5 etc) value
+	 * @param image the image to average
+	 * @param rasterSize UNEVEN (3x3, 5x5 etc) value
 	 * @return a new averaged image
 	 */
 	public MMTImage performAveraging(MMTImage image, int rasterSize) {
@@ -49,36 +51,27 @@ public class AveragingFilter extends AbstractImageModificationWorker {
 		for (int y = 0; y < image.getHeight(); y++) {
 			for (int x = 0; x < image.getWidth(); x++) {
 				publishProgress(image, x + y * image.getWidth());
+
+				// get the averaged value for every position
 				result.setPixel2D(x, y, getAverageValueForPosition(image, rasterSize, x, y));
 			}
 		}
 		return result;
 	}
 
-	public int getRaster() {
-		return raster;
-	}
-
-	public void setRaster(int raster) {
-		this.raster = raster;
-	}
-
 	/**
 	 * Returns the averaged value for this position
 	 * 
-	 * @param originalImage
-	 *            the unmodified image
-	 * @param rasterSize
-	 *            has to be uneven!!
-	 * @param xPos
-	 *            current x position starting from 0
-	 * @param yPos
-	 *            current y position starting from 0
+	 * @param originalImage the unmodified image
+	 * @param rasterSize has to be uneven!!
+	 * @param xPos current x position starting from 0
+	 * @param yPos current y position starting from 0
 	 */
 	public static int getAverageValueForPosition(MMTImage originalImage, int rasterSize, int xPos, int yPos) {
 
 		int graySum = 0;
-		int fieldSum = 0;
+		int fieldSum = 0; // this is the divisor for the average value (not
+							// always mask size because of edges)
 
 		int xStartPos = xPos - (rasterSize / 2);
 		int xEndPos = xStartPos + rasterSize;
@@ -86,6 +79,7 @@ public class AveragingFilter extends AbstractImageModificationWorker {
 		int yStartPos = yPos - (rasterSize / 2);
 		int yEndPos = yStartPos + rasterSize;
 
+		// iterate over the mask
 		for (int y = yStartPos; y <= yEndPos; y++) {
 			for (int x = xStartPos; x <= xEndPos; x++) {
 
@@ -97,9 +91,8 @@ public class AveragingFilter extends AbstractImageModificationWorker {
 			}
 		}
 
-		int averaged = graySum / fieldSum;
-
-		return averaged;
+		// return the averaged value
+		return graySum / fieldSum;
 	}
 
 	public static void main(String[] args) throws IOException {

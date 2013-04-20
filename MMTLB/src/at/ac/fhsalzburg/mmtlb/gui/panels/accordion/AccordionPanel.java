@@ -137,8 +137,7 @@ public class AccordionPanel extends JPanel implements ActionListener {
 	/**
 	 * Sets the the header component
 	 * 
-	 * @param component
-	 *            the header component
+	 * @param component the header component
 	 * @return the accordion panel itself
 	 */
 	public AccordionPanel setHeader(Component component) {
@@ -157,12 +156,9 @@ public class AccordionPanel extends JPanel implements ActionListener {
 	 * Adds a foldable with specified title and content. The content will be
 	 * surrounded by a scrollpane.
 	 * 
-	 * @param title
-	 *            the title
-	 * @param component
-	 *            the content
-	 * @param folded
-	 *            true if folded
+	 * @param title the title
+	 * @param component the content
+	 * @param folded true if folded
 	 * @return the accordion panel itself
 	 */
 	public AccordionContentPanel addFoldable(String title, Component component, boolean folded) {
@@ -173,12 +169,9 @@ public class AccordionPanel extends JPanel implements ActionListener {
 	 * Adds a foldable with specified title and content. The content will be
 	 * surrounded by a scrollpane.
 	 * 
-	 * @param title
-	 *            the title
-	 * @param component
-	 *            the content
-	 * @param folded
-	 *            true if folded
+	 * @param title the title
+	 * @param component the content
+	 * @param folded true if folded
 	 * @return the accordion panel itself
 	 */
 	public AccordionContentPanel addFoldable(int index, String title, Component component, boolean folded) {
@@ -189,14 +182,10 @@ public class AccordionPanel extends JPanel implements ActionListener {
 	 * Adds a foldable with specified title and content. The content will be
 	 * surrounded by a scrollpane.
 	 * 
-	 * @param title
-	 *            the title
-	 * @param component
-	 *            the content
-	 * @param seperatorColor
-	 *            the color for the separator
-	 * @param folded
-	 *            true if folded
+	 * @param title the title
+	 * @param component the content
+	 * @param seperatorColor the color for the separator
+	 * @param folded true if folded
 	 * @return the accordion panel itself
 	 */
 	public AccordionContentPanel addFoldable(String title, Component component, Color seperatorColor, boolean folded) {
@@ -207,14 +196,10 @@ public class AccordionPanel extends JPanel implements ActionListener {
 	 * Adds a foldable with specified title and content. The content will be
 	 * surrounded by a scrollpane.
 	 * 
-	 * @param title
-	 *            the title
-	 * @param component
-	 *            the content
-	 * @param seperatorColor
-	 *            the color for the separator
-	 * @param folded
-	 *            true if folded
+	 * @param title the title
+	 * @param component the content
+	 * @param seperatorColor the color for the separator
+	 * @param folded true if folded
 	 * @return the accordion panel itself
 	 */
 	public AccordionContentPanel addFoldable(int index, String title, Component component, Color seperatorColor, boolean folded) {
@@ -228,10 +213,8 @@ public class AccordionPanel extends JPanel implements ActionListener {
 	/**
 	 * Adds a foldable panel
 	 * 
-	 * @param panel
-	 *            the panel
-	 * @param folded
-	 *            true if folded
+	 * @param panel the panel
+	 * @param folded true if folded
 	 * @return
 	 */
 	public AccordionPanel addFoldable(AccordionContentPanel panel, boolean folded) {
@@ -241,10 +224,8 @@ public class AccordionPanel extends JPanel implements ActionListener {
 	/**
 	 * Adds a foldable panel
 	 * 
-	 * @param panel
-	 *            the panel
-	 * @param folded
-	 *            true if folded
+	 * @param panel the panel
+	 * @param folded true if folded
 	 * @return
 	 */
 	public AccordionPanel addFoldable(int index, AccordionContentPanel panel, boolean folded) {
@@ -260,8 +241,7 @@ public class AccordionPanel extends JPanel implements ActionListener {
 	/**
 	 * Removes a folable
 	 * 
-	 * @param panel
-	 *            the foldable
+	 * @param panel the foldable
 	 */
 	public void removeFoldable(AccordionContentPanel panel) {
 		foldables.remove(panel);
@@ -291,8 +271,7 @@ public class AccordionPanel extends JPanel implements ActionListener {
 	 * Adds a content. The component will be surrounded by a scrollpane. The
 	 * weight of the component will be 1
 	 * 
-	 * @param component
-	 *            the component
+	 * @param component the component
 	 * @return the accordion panel itself
 	 */
 	public AccordionPanel addContent(Component component) {
@@ -302,10 +281,8 @@ public class AccordionPanel extends JPanel implements ActionListener {
 	/**
 	 * Adds a content. The component will be surrounded by a scrollpane.
 	 * 
-	 * @param component
-	 *            the component
-	 * @param weight
-	 *            the weight
+	 * @param component the component
+	 * @param weight the weight
 	 * @return the accordion panel itself
 	 */
 	public AccordionPanel addContent(Component component, double weight) {
@@ -317,8 +294,7 @@ public class AccordionPanel extends JPanel implements ActionListener {
 	/**
 	 * Removes content
 	 * 
-	 * @param component
-	 *            the component
+	 * @param component the component
 	 * @return the accordion panel itself
 	 */
 	public AccordionPanel removeContent(Component component) {
@@ -330,8 +306,7 @@ public class AccordionPanel extends JPanel implements ActionListener {
 	/**
 	 * Sets the footer
 	 * 
-	 * @param component
-	 *            the footer
+	 * @param component the footer
 	 * @return the accordion panel itself
 	 */
 	public AccordionPanel setFooter(Component component) {

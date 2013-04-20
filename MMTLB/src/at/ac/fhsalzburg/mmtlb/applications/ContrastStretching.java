@@ -82,6 +82,9 @@ public class ContrastStretching extends AbstractImageModificationWorker {
 		System.out.println("Stretched image saved as: \n" + newPath);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	protected MMTImage modifyImage(MMTImage sourceImage) {
 		return stretchContrast(sourceImage);
