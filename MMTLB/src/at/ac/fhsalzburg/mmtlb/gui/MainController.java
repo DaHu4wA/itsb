@@ -205,8 +205,9 @@ public class MainController extends JFrame implements IFImageController {
 	}
 
 	private void postFileConvertSuccessMessage(int count) {
-		JOptionPane.showMessageDialog(this, "Conversion finished!\n" + "\n" + count + " jpg file(s) converted." + "\nResults saved into subfolder *"
-				+ FileImageConverter.RESULT_SUBFOLDER_NAME + "*", "Conversion finished!", JOptionPane.INFORMATION_MESSAGE);
+		JOptionPane.showMessageDialog(this, "Conversion finished!\n" + "\n" + count + " jpg file(s) converted."
+				+ "\nResults saved into subfolder *" + FileImageConverter.RESULT_SUBFOLDER_NAME + "*", "Conversion finished!",
+				JOptionPane.INFORMATION_MESSAGE);
 	}
 
 	private void saveFile() {
@@ -250,8 +251,8 @@ public class MainController extends JFrame implements IFImageController {
 		view.getApplicationsPanel().setEnabled(true);
 
 		if (openedImage == null) {
-			JOptionPane.showMessageDialog(view, "File could not be opened! \nOnly pictures are supported!", "Error: Unsupported file type!",
-					JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(view, "File could not be opened! \nOnly pictures are supported!",
+					"Error: Unsupported file type!", JOptionPane.ERROR_MESSAGE);
 			changeHistory.clear();
 			changeHistory.add(new MMTImage(currentImage));
 			return;
@@ -404,8 +405,8 @@ public class MainController extends JFrame implements IFImageController {
 	}
 
 	private void displayNotImplementedWarning() {
-		JOptionPane.showMessageDialog(view, "Sorry, \nit looks like this function has not been implemented yet!", "Feature not implemented yet",
-				JOptionPane.ERROR_MESSAGE);
+		JOptionPane.showMessageDialog(view, "Sorry, \nit looks like this function has not been implemented yet!",
+				"Feature not implemented yet", JOptionPane.ERROR_MESSAGE);
 	}
 
 	public MainView getView() {

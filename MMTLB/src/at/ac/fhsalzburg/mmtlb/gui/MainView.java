@@ -117,7 +117,8 @@ public class MainView extends AccordionPanel {
 		addFoldable(new AccordionContentPanel("Image modifications", new ColoredPanel(applicationsPanel), new Color(0xFFE4B5)), true);
 
 		mmtImagePanel = new MMTImagePanel();
-		addContent(new JScrollPane(mmtImagePanel, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED));
+		addContent(new JScrollPane(mmtImagePanel, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
+				ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED));
 		setFooter(footerPanel);
 	}
 
@@ -134,7 +135,8 @@ public class MainView extends AccordionPanel {
 	 */
 	public void setMMTImage(MMTImage image) {
 		mmtImagePanel.setImage(image);
-		fileActionsPanel.getSeparatorPanel().setTitle(FILE_TITLE + "    -    " + image.getName() + "      " + image.getWidth() + "x" + image.getHeight());
+		fileActionsPanel.getSeparatorPanel().setTitle(
+				FILE_TITLE + "    -    " + image.getName() + "      " + image.getWidth() + "x" + image.getHeight());
 		repaint();
 	}
 
