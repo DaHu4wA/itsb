@@ -14,7 +14,7 @@ public class HistogramTools {
 
 	private static final int MIN_GRAY = 0;
 	private static final int MAX_GRAY = 255;
-	
+
 	public static int[] getHistogram(MMTImage image) {
 
 		// We have a counter for every gray value (from 0 to 255).
@@ -88,7 +88,7 @@ public class HistogramTools {
 		}
 		return gMax;
 	}
-	
+
 	public static int getGlobalMean(MMTImage image) {
 		BigDecimal globalMean = BigDecimal.ZERO;
 		BigDecimal[] nHist = getNormalizedHistogram(image);

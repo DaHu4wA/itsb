@@ -59,13 +59,13 @@ public class OtsuThresholding extends AbstractImageModificationWorker {
 
 		// Determine global mean value
 		BigDecimal globalMean = getMeanValue(nHist, MIN_GRAY, MAX_GRAY);
-		LOG.info("Global mean: "+globalMean);
+		LOG.info("Global mean: " + globalMean);
 		// iterate over every k from 0 to 254 to determine thresholds
 		for (int k = MIN_GRAY; k < MAX_GRAY; k++) {
-			
+
 			int progress = (k * 100) / MAX_GRAY;
 			publish(progress % 5);
-			
+
 			BigDecimal propLower = getSumOf(nHist, MIN_GRAY, k);
 			BigDecimal propHigher = BigDecimal.ONE.subtract(propLower);
 
