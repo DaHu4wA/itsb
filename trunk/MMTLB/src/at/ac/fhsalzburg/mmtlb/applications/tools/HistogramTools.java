@@ -12,6 +12,9 @@ import at.ac.fhsalzburg.mmtlb.mmtimage.MMTImage;
  */
 public class HistogramTools {
 
+	private static final int MIN_GRAY = 0;
+	private static final int MAX_GRAY = 255;
+	
 	public static int[] getHistogram(MMTImage image) {
 
 		// We have a counter for every gray value (from 0 to 255).
@@ -84,6 +87,15 @@ public class HistogramTools {
 			}
 		}
 		return gMax;
+	}
+	
+	public static int getGlobalMean(MMTImage image) {
+		BigDecimal globalMean = BigDecimal.ZERO;
+		BigDecimal[] nHist = getNormalizedHistogram(image);
+		for (int i = MIN_GRAY; i <= MAX_GRAY; i++) {
+			globalMean = globalMean.add(nHist[i].multiply(new BigDecimal(i)));
+		}
+		return globalMean.intValue();
 	}
 
 }
