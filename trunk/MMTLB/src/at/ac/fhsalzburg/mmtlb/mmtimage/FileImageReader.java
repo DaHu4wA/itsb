@@ -37,6 +37,7 @@ public class FileImageReader {
 				return null;
 			}
 
+			// convert colored image to grayscale image
 			bufferedImage = toGrayScaleImage(coloredImage);
 
 			raster = bufferedImage.getData();

@@ -36,13 +36,13 @@ public class MainController extends JFrame implements IFImageController {
 	private static final long serialVersionUID = -958626226425855658L;
 	private static final Logger LOG = Logger.getLogger(MainController.class.getSimpleName());
 	public static String TITLE_TEXT = "Da Hu4wA's Photoshop - Professional Edition";
-	private static final int CHANGE_HISTORY_SIZE = 8;
+	private static final int CHANGE_HISTORY_SIZE = 10;
 
 	final MainView view;
 
 	private final ImageModificationHelper modificationHelper;
 
-	// the image with index 0 is the original image
+	// the list data with index 0 is the original image
 	private List<MMTImage> changeHistory = new ArrayList<MMTImage>();
 	private MMTImage currentImage = null;
 
