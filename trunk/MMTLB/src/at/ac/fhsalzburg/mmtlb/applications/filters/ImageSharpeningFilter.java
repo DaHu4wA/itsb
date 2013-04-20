@@ -17,6 +17,11 @@ import at.ac.fhsalzburg.mmtlb.mmtimage.MMTImage;
  */
 public class ImageSharpeningFilter {
 
+	/*
+	 * NOTE: this is just the command line tool, the Sobel and Laplacian Filters
+	 * are applied in their corresponding filter classes.
+	 */
+
 	public static void main(String[] args) throws IOException {
 
 		System.out.println("Image Sharpening tool, text version");

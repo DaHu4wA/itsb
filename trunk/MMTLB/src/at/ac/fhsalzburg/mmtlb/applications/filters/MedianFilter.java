@@ -27,10 +27,14 @@ public class MedianFilter extends AbstractImageModificationWorker {
 		super(null, null);
 	}
 
-	public MedianFilter(IFImageController controller, MMTImage sourceImage) {
+	public MedianFilter(IFImageController controller, MMTImage sourceImage, int rasterSize) {
 		super(controller, sourceImage);
+		this.raster = rasterSize;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	protected MMTImage modifyImage(MMTImage sourceImage) {
 		return performMedianFilter(sourceImage, raster);
@@ -39,10 +43,8 @@ public class MedianFilter extends AbstractImageModificationWorker {
 	/**
 	 * Performs median filter
 	 * 
-	 * @param image
-	 *            the image to apply median filter to
-	 * @param rasterSize
-	 *            UNEVEN (3x3, 5x5 etc) value
+	 * @param image the image to apply median filter to
+	 * @param rasterSize UNEVEN (3x3, 5x5 etc) value
 	 * @return a new median filtered image
 	 */
 	public MMTImage performMedianFilter(MMTImage image, int rasterSize) {
@@ -58,25 +60,13 @@ public class MedianFilter extends AbstractImageModificationWorker {
 		return result;
 	}
 
-	public int getRaster() {
-		return raster;
-	}
-
-	public void setRaster(int raster) {
-		this.raster = raster;
-	}
-
 	/**
 	 * Returns the median value for this position
 	 * 
-	 * @param originalImage
-	 *            the unmodified image
-	 * @param rasterSize
-	 *            has to be uneven!!
-	 * @param xPos
-	 *            current x position starting from 0
-	 * @param yPos
-	 *            current y position starting from 0
+	 * @param originalImage the unmodified image
+	 * @param rasterSize has to be uneven!!
+	 * @param xPos current x position starting from 0
+	 * @param yPos current y position starting from 0
 	 */
 	public static int getMedianValueForPosition(MMTImage originalImage, int rasterSize, int xPos, int yPos) {
 

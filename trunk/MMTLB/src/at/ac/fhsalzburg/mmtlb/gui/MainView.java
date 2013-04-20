@@ -20,7 +20,7 @@ import at.ac.fhsalzburg.mmtlb.gui.panels.accordion.ColoredPanel;
 import at.ac.fhsalzburg.mmtlb.mmtimage.MMTImage;
 
 /**
- * View for MMT app
+ * View for MMT appplication
  * 
  * @author Stefan Huber
  */
@@ -130,8 +130,7 @@ public class MainView extends AccordionPanel {
 	}
 
 	/**
-	 * @param image
-	 *            the image that should be displayed
+	 * @param image the image that should be displayed
 	 */
 	public void setMMTImage(MMTImage image) {
 		mmtImagePanel.setImage(image);

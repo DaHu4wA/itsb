@@ -16,7 +16,7 @@ import at.ac.fhsalzburg.mmtlb.mmtimage.FileImageWriter;
 import at.ac.fhsalzburg.mmtlb.mmtimage.MMTImage;
 
 /**
- * Applies a iterative global thresholding to a image with given threshold
+ * Applies a iterative global thresholding
  * 
  * @author Stefan Huber
  */
@@ -24,7 +24,7 @@ public class IterativeGlobalThresholding extends AbstractImageModificationWorker
 	private static final Logger LOG = Logger.getLogger("IterativeThresholding");
 
 	private static final int DELTA_THRESHOLD = 1;
-	private static final int MAX_ITERATIONS = 200;
+	private static final int MAX_ITERATIONS = 200; // to prevent a loop
 
 	public IterativeGlobalThresholding() {
 		super(null, null);
@@ -34,10 +34,19 @@ public class IterativeGlobalThresholding extends AbstractImageModificationWorker
 		super(controller, sourceImage);
 	}
 
+	/**
+	 * Perform the iterative global thresholding
+	 * 
+	 * @param sourceImage source image
+	 * @return the result binary thresholded image
+	 */
 	public MMTImage performIterativeThresholding(MMTImage sourceImage) {
 		int iterationCount = 0;
 		int threshold = 0;
 		int delta = 255;
+
+		// start threshold is the middle of the histogram gray values
+		// (example 0..200 start val will be 100)
 		int newThreshold = (HistogramTools.getHighestGrayValue(sourceImage) - HistogramTools.getLowestGrayValue(sourceImage)) / 2;
 
 		while ((delta > DELTA_THRESHOLD) && iterationCount < MAX_ITERATIONS) {
@@ -84,6 +93,9 @@ public class IterativeGlobalThresholding extends AbstractImageModificationWorker
 		return sum / list.size();
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	protected MMTImage modifyImage(MMTImage sourceImage) {
 		return performIterativeThresholding(sourceImage);

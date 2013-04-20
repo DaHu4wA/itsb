@@ -26,11 +26,19 @@ public class SobelFilter extends AbstractImageModificationWorker {
 		super(controller, sourceImage);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	protected MMTImage modifyImage(MMTImage sourceImage) {
 		return performSobel(sourceImage);
 	}
 
+	/**
+	 * 
+	 * @param image the image where the filter should be applied to
+	 * @return new {@link MMTImage} containing filter response
+	 */
 	public MMTImage performSobel(MMTImage image) {
 		MMTImage result = new MMTImage(image.getHeight(), image.getWidth());
 		result.setName(image.getName());
@@ -45,7 +53,7 @@ public class SobelFilter extends AbstractImageModificationWorker {
 	}
 
 	/**
-	 * Calculates the Sobel filter value for a specific position
+	 * Calculate the Sobel filter value for a specific position
 	 */
 	private int getValue(MMTImage image, int x, int y) {
 		double filtered = Math.sqrt(Math.pow(getHval(image, x, y), 2) + Math.pow(getVval(image, x, y), 2));
@@ -71,7 +79,6 @@ public class SobelFilter extends AbstractImageModificationWorker {
 		if (!SurroudingPixelHelper.isOutOfSpace(image, x + 1, y - 1)) {
 			horizontalSum += image.getPixel2D(x + 1, y - 1) * -1;
 		}
-
 		// lower left
 		if (!SurroudingPixelHelper.isOutOfSpace(image, x - 1, y + 1)) {
 			horizontalSum += image.getPixel2D(x - 1, y + 1) * 1;
@@ -104,7 +111,6 @@ public class SobelFilter extends AbstractImageModificationWorker {
 		if (!SurroudingPixelHelper.isOutOfSpace(image, x - 1, y + 1)) {
 			verticalSum += image.getPixel2D(x - 1, y + 1) * -1;
 		}
-
 		// upper right
 		if (!SurroudingPixelHelper.isOutOfSpace(image, x + 1, y - 1)) {
 			verticalSum += image.getPixel2D(x + 1, y - 1) * 1;
