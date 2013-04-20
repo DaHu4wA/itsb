@@ -45,10 +45,9 @@ public class IterativeGlobalThresholding extends AbstractImageModificationWorker
 		int threshold = 0;
 		int delta = 255;
 
-		// start threshold is the middle of the histogram gray values
-		// (example 0..200 start val will be 100)
-		int newThreshold = (HistogramTools.getHighestGrayValue(sourceImage) - HistogramTools.getLowestGrayValue(sourceImage)) / 2;
-
+		// Calculate the global mean value as start value
+		int newThreshold = HistogramTools.getGlobalMean(sourceImage);
+		LOG.info("Start threshold: " + newThreshold);
 		while ((delta > DELTA_THRESHOLD) && iterationCount < MAX_ITERATIONS) {
 			threshold = newThreshold;
 			iterationCount++;
@@ -72,7 +71,6 @@ public class IterativeGlobalThresholding extends AbstractImageModificationWorker
 			newThreshold = (m1 + m2) / 2;
 			delta = Math.abs(threshold - newThreshold);
 
-			publish(iterationCount % 5);
 			LOG.debug("Current delta: " + delta);
 			LOG.debug("Current newThreshold: " + newThreshold);
 		}
@@ -87,7 +85,7 @@ public class IterativeGlobalThresholding extends AbstractImageModificationWorker
 			return 0;
 		}
 		int sum = 0;
-		for (Integer i : list) {
+		for (int i : list) {
 			sum += i;
 		}
 		return sum / list.size();
