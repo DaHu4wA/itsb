@@ -5,8 +5,9 @@ import java.awt.Color;
 public class Colors {
 
 	public static Color darker(Color color, double factor) {
-		return new Color(Math.max((int) (color.getRed() - (color.getRed() * factor)), 0), Math.max((int) (color.getGreen() - (color.getGreen() * factor)), 0),
-				Math.max((int) (color.getBlue() - (color.getBlue() * factor)), 0), color.getAlpha());
+		return new Color(Math.max((int) (color.getRed() - (color.getRed() * factor)), 0), Math.max(
+				(int) (color.getGreen() - (color.getGreen() * factor)), 0), Math.max((int) (color.getBlue() - (color.getBlue() * factor)),
+				0), color.getAlpha());
 	}
 
 	public static Color brighter(Color color, double factor) {

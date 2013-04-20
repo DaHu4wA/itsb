@@ -57,8 +57,8 @@ public class ColoredPanel extends JPanel {
 			float fractionA = (float) Math.min(1.0 / height, 0.25);
 			float fractionB = (float) Math.min(8.0 / height, 0.5);
 
-			return new LinearGradientPaint(new Point2D.Double(0, 0), new Point2D.Double(0, height), new float[] { 0.0f, fractionA, fractionB, 1.0f },
-					new Color[] { lineColor, shadowColor, contentColor, contentColor });
+			return new LinearGradientPaint(new Point2D.Double(0, 0), new Point2D.Double(0, height), new float[] { 0.0f, fractionA,
+					fractionB, 1.0f }, new Color[] { lineColor, shadowColor, contentColor, contentColor });
 		}
 
 	};

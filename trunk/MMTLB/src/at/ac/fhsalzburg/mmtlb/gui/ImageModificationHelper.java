@@ -102,13 +102,15 @@ public class ImageModificationHelper {
 	}
 
 	public void applyLaplacianFilter() {
-		final AdditionalComboBoxDataPanel comboPanel = new AdditionalComboBoxDataPanel(LaplacianFilterType.values(), LaplacianFilterType.FOUR_NEIGHBOURHOOD);
+		final AdditionalComboBoxDataPanel comboPanel = new AdditionalComboBoxDataPanel(LaplacianFilterType.values(),
+				LaplacianFilterType.FOUR_NEIGHBOURHOOD);
 		controller.getView().getApplicationsPanel().setAdditionalDataPanel(comboPanel);
 
 		comboPanel.getGo().addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				LaplacianFilter lapl = new LaplacianFilter(controller, controller.getCurrentImage(), (LaplacianFilterType) comboPanel.getValue());
+				LaplacianFilter lapl = new LaplacianFilter(controller, controller.getCurrentImage(), (LaplacianFilterType) comboPanel
+						.getValue());
 				lapl.execute();
 			}
 		});

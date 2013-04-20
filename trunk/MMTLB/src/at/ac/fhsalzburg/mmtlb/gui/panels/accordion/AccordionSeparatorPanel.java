@@ -82,9 +82,9 @@ public class AccordionSeparatorPanel extends JPanel {
 		int height = getHeight();
 
 		Graphics2D g2 = (Graphics2D) g;
-		LinearGradientPaint paint = new LinearGradientPaint(new Point2D.Double(0, 0), new Point2D.Double(0, height), new float[] { 0.0f, 1.0f / height, 0.5f,
-				1.0f - (2.0f / height), 1.0f }, new Color[] { Colors.brighter(getBackground(), 0.01), getBackground(), getBackground(),
-				Colors.darker(getBackground(), 0.1), Colors.darker(getBackground(), 0.5) });
+		LinearGradientPaint paint = new LinearGradientPaint(new Point2D.Double(0, 0), new Point2D.Double(0, height), new float[] { 0.0f,
+				1.0f / height, 0.5f, 1.0f - (2.0f / height), 1.0f }, new Color[] { Colors.brighter(getBackground(), 0.01), getBackground(),
+				getBackground(), Colors.darker(getBackground(), 0.1), Colors.darker(getBackground(), 0.5) });
 
 		g2.setPaint(paint);
 		g2.fillRect(0, 0, getWidth(), height);

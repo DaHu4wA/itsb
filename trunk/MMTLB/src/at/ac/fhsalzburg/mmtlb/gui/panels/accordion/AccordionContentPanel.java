@@ -179,9 +179,11 @@ public class AccordionContentPanel extends JPanel implements ActionListener {
 		separatorPanel.setOpened(!folded);
 
 		if (folded) {
-			new Animation(this, ANIMATION_DURATION, getPreferredSize().height, getPreferredSize().height - content.getPreferredSize().height).start();
+			new Animation(this, ANIMATION_DURATION, getPreferredSize().height, getPreferredSize().height
+					- content.getPreferredSize().height).start();
 		} else {
-			new Animation(this, ANIMATION_DURATION, getPreferredSize().height - content.getPreferredSize().height, getPreferredSize().height).start();
+			new Animation(this, ANIMATION_DURATION, getPreferredSize().height - content.getPreferredSize().height,
+					getPreferredSize().height).start();
 		}
 
 		this.folded = folded;
