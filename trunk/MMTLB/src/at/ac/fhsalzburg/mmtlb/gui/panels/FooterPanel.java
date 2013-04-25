@@ -105,7 +105,6 @@ public class FooterPanel extends JPanel {
 	}
 
 	public void showProgressBar(boolean show) {
-		// progressBar.setVisible(show);
 		progressBar.setStringPainted(show);
 		progressBar.setValue(0);
 		repaint();
