@@ -30,6 +30,7 @@ public abstract class AbstractImageModificationWorker extends SwingWorker<MMTIma
 		this.sourceImage = sourceImage;
 		if (controller != null) {
 			controller.setProgressBarVisible(true);
+			controller.blockController(true);
 		}
 	}
 
@@ -78,6 +79,7 @@ public abstract class AbstractImageModificationWorker extends SwingWorker<MMTIma
 			MMTImage result = get();
 			controller.setCurrentImage(result);
 			finalizeProgressBar();
+			controller.blockController(false);
 		} catch (InterruptedException e) {
 			throw new RuntimeException(e);
 		} catch (ExecutionException e) {

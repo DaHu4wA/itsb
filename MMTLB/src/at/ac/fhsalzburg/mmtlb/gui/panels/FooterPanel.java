@@ -26,7 +26,7 @@ public class FooterPanel extends JPanel {
 	private static final long serialVersionUID = 7788538411831753473L;
 	private static final String TEXT = " (C) 2013 Stefan Huber, ITSB-B2011-A";
 
-	Timer resetProgressTimer = new Timer(2000, new ActionListener() {
+	Timer resetProgressTimer = new Timer(1000, new ActionListener() {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			showProgressBar(false);
