@@ -15,5 +15,7 @@ public interface IFImageController {
 	void setProgressBarVisible(boolean visible);
 
 	void setProgressStatus(int progress);
+	
+	void blockController(boolean block);
 
 }

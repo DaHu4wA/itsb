@@ -22,6 +22,7 @@ import at.ac.fhsalzburg.mmtlb.applications.ImageModificationType;
 import at.ac.fhsalzburg.mmtlb.applications.tools.FileImageConverter;
 import at.ac.fhsalzburg.mmtlb.applications.tools.MMTImageCombiner;
 import at.ac.fhsalzburg.mmtlb.gui.comparation.ImageComparator;
+import at.ac.fhsalzburg.mmtlb.gui.panels.MmtGlassPane;
 import at.ac.fhsalzburg.mmtlb.gui.panels.ImagePreviewFileChooser;
 import at.ac.fhsalzburg.mmtlb.mmtimage.FileImageReader;
 import at.ac.fhsalzburg.mmtlb.mmtimage.FileImageWriter;
@@ -36,7 +37,7 @@ public class MainController extends JFrame implements IFImageController {
 	private static final long serialVersionUID = -958626226425855658L;
 	private static final Logger LOG = Logger.getLogger(MainController.class.getSimpleName());
 	public static String TITLE_TEXT = "Da Hu4wA's Photoshop - Professional Edition";
-	private static final int CHANGE_HISTORY_SIZE = 10;
+	private static final int CHANGE_HISTORY_SIZE = 50;
 
 	final MainView view;
 
@@ -61,9 +62,11 @@ public class MainController extends JFrame implements IFImageController {
 		}
 
 		view = new MainView();
+
 		setContentPane(view);
 		addButtonListeners();
 		modificationHelper = new ImageModificationHelper(this);
+		setGlassPane(new MmtGlassPane());
 		setVisible(true);
 	}
 
@@ -411,6 +414,10 @@ public class MainController extends JFrame implements IFImageController {
 
 	public MainView getView() {
 		return view;
+	}
+
+	public void blockController(boolean block) {
+		getGlassPane().setVisible(block);
 	}
 
 }
