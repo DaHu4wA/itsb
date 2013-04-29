@@ -18,7 +18,7 @@ import javax.swing.JPanel;
 public class RasterSizePanel extends JPanel {
 	private static final long serialVersionUID = 8019287358335341062L;
 
-	private JComboBox<Integer> values;
+	private JComboBox values;
 	private JButton go;
 
 	public RasterSizePanel(Integer[] items, Integer defaulValue) {
@@ -26,7 +26,7 @@ public class RasterSizePanel extends JPanel {
 		setLayout(new FlowLayout(FlowLayout.LEFT, 10, 10));
 		go = new JButton("Go!", new ImageIcon(RasterSizePanel.class.getResource("go.png")));
 
-		values = new JComboBox<Integer>(items);
+		values = new JComboBox(items);
 		values.setSelectedItem(defaulValue);
 
 		JLabel label = new JLabel("Raster: ");

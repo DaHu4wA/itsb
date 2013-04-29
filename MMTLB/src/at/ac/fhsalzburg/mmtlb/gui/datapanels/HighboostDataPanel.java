@@ -19,8 +19,8 @@ public class HighboostDataPanel extends JPanel {
 			2.0d, 2.5d, 3.0d, 5.0d, 7.0d, 10.0d, 15.0d, 20.0d, 25.0d };
 	private static final Integer[] rasterSizes = { 3, 5, 7, 9, 11, 13, 15, 17, 19, 23, 27, 31, 33, 51 };
 
-	private JComboBox<Double> factorBox;
-	private JComboBox<Integer> rasterBox;
+	private JComboBox factorBox;
+	private JComboBox rasterBox;
 	private JButton go;
 
 	public HighboostDataPanel() {
@@ -30,14 +30,14 @@ public class HighboostDataPanel extends JPanel {
 
 		JPanel factorPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 5, 0));
 		factorPanel.setOpaque(false);
-		factorBox = new JComboBox<Double>(factors);
+		factorBox = new JComboBox(factors);
 		factorBox.setSelectedItem(1.0d);
 		factorPanel.add(new JLabel("Factor:"));
 		factorPanel.add(factorBox);
 
 		JPanel rasterPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 5, 0));
 		rasterPanel.setOpaque(false);
-		rasterBox = new JComboBox<Integer>(rasterSizes);
+		rasterBox = new JComboBox(rasterSizes);
 		rasterBox.setSelectedItem(3);
 		rasterPanel.add(new JLabel("Raster:"));
 		rasterPanel.add(rasterBox);
