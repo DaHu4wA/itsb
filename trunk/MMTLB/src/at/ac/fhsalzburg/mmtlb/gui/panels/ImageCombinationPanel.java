@@ -18,7 +18,7 @@ public class ImageCombinationPanel extends JPanel {
 	private static final String TEXT_COMBINE = "Combine";
 	private static final String TEXT_COMBINE_TOOLTIP = "Add response to original image (with a specified weight)";
 
-	private JComboBox<Double> values;
+	private JComboBox values;
 	private JButton ok;
 
 	public ImageCombinationPanel() {
@@ -27,7 +27,7 @@ public class ImageCombinationPanel extends JPanel {
 		ok = new JButton(TEXT_COMBINE, new ImageIcon(ImageCombinationPanel.class.getResource("combine.png")));
 		ok.setToolTipText(TEXT_COMBINE_TOOLTIP);
 		Double[] items = { 0.1d, 0.2d, 0.3d, 0.4d, 0.5d, 0.6d, 0.7d, 0.8d, 0.9d, 1d, 1.1d, 1.2d, 1.3d, 1.4d, 1.5d };
-		values = new JComboBox<Double>(items);
+		values = new JComboBox(items);
 		values.setSelectedItem(0.1d);
 		values.setToolTipText(TEXT_COMBINE_TOOLTIP);
 

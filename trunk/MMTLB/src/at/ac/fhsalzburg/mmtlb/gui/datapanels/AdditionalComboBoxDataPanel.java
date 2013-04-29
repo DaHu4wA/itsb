@@ -15,7 +15,7 @@ import javax.swing.JPanel;
 public class AdditionalComboBoxDataPanel extends JPanel {
 	private static final long serialVersionUID = 8019287358335341062L;
 
-	private JComboBox<Object> values;
+	private JComboBox values;
 	private JButton go;
 
 	public AdditionalComboBoxDataPanel(Object[] items, Object defaulValue) {
@@ -23,7 +23,7 @@ public class AdditionalComboBoxDataPanel extends JPanel {
 		setLayout(new FlowLayout(FlowLayout.LEFT, 10, 10));
 		go = new JButton("Go!", new ImageIcon(AdditionalComboBoxDataPanel.class.getResource("go.png")));
 
-		values = new JComboBox<Object>(items);
+		values = new JComboBox(items);
 		values.setSelectedItem(defaulValue);
 		add(values);
 		add(go);
