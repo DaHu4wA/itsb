@@ -1,7 +1,6 @@
 package at.ac.fhsalzburg.mmtlb.applications.filters;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStreamReader;
 
 import at.ac.fhsalzburg.mmtlb.applications.AbstractImageModificationWorker;
@@ -33,16 +32,17 @@ public class LaplacianFilter extends AbstractImageModificationWorker {
 	 * {@inheritDoc}
 	 */
 	@Override
-	protected MMTImage modifyImage(MMTImage sourceImage) {
+	protected MMTImage modifyImage(MMTImage sourceImage) throws InterruptedException {
 		return performLaplacian(sourceImage, filterType);
 	}
 
-	public MMTImage performLaplacian(MMTImage image, LaplacianFilterType filterType) {
+	public MMTImage performLaplacian(MMTImage image, LaplacianFilterType filterType) throws InterruptedException {
 		MMTImage result = new MMTImage(image.getHeight(), image.getWidth());
 		result.setName(image.getName());
 
 		// calculate the filter values for every pixel
 		for (int y = 0; y < image.getHeight(); y++) {
+			checkIfInterrupted();
 			for (int x = 0; x < image.getWidth(); x++) {
 				publishProgress(image, x + y * image.getWidth());
 				result.setPixel2D(x, y, getLaplacianValueForPosition(image, filterType, x, y));
@@ -115,7 +115,7 @@ public class LaplacianFilter extends AbstractImageModificationWorker {
 		return result;
 	}
 
-	public static void main(String[] args) throws IOException {
+	public static void main(String[] args) throws Exception {
 
 		System.out.println("Laplacian filter, text version");
 		System.out.println("Enter the full path to a picture: ");

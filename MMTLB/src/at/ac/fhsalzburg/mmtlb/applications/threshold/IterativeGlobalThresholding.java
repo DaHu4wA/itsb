@@ -1,7 +1,6 @@
 package at.ac.fhsalzburg.mmtlb.applications.threshold;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
@@ -39,8 +38,9 @@ public class IterativeGlobalThresholding extends AbstractImageModificationWorker
 	 * 
 	 * @param sourceImage source image
 	 * @return the result binary thresholded image
+	 * @throws InterruptedException
 	 */
-	public MMTImage performIterativeThresholding(MMTImage sourceImage) {
+	public MMTImage performIterativeThresholding(MMTImage sourceImage) throws InterruptedException {
 		int iterationCount = 0;
 		int threshold = 0;
 		int delta = 255;
@@ -51,7 +51,7 @@ public class IterativeGlobalThresholding extends AbstractImageModificationWorker
 		while ((delta > DELTA_THRESHOLD) && iterationCount < MAX_ITERATIONS) {
 			threshold = newThreshold;
 			iterationCount++;
-
+			checkIfInterrupted();
 			List<Integer> lowerValues = new ArrayList<Integer>();
 			List<Integer> upperValues = new ArrayList<Integer>();
 
@@ -95,11 +95,11 @@ public class IterativeGlobalThresholding extends AbstractImageModificationWorker
 	 * {@inheritDoc}
 	 */
 	@Override
-	protected MMTImage modifyImage(MMTImage sourceImage) {
+	protected MMTImage modifyImage(MMTImage sourceImage) throws InterruptedException {
 		return performIterativeThresholding(sourceImage);
 	}
 
-	public static void main(String[] args) throws IOException {
+	public static void main(String[] args) throws Exception {
 
 		System.out.println("Iterative Global thresholding");
 		System.out.println("Enter the full path to a picture: ");

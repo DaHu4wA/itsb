@@ -1,7 +1,6 @@
 package at.ac.fhsalzburg.mmtlb.applications.threshold;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -40,8 +39,9 @@ public class OtsuThresholding extends AbstractImageModificationWorker {
 	 * 
 	 * @param sourceImage the source iage
 	 * @return a otsu filtered image
+	 * @throws InterruptedException
 	 */
-	public MMTImage performOtsu(MMTImage sourceImage) {
+	public MMTImage performOtsu(MMTImage sourceImage) throws InterruptedException {
 
 		// calculate the thresholds
 		BigDecimal[] thresholds = calculateThresholds(sourceImage);
@@ -51,7 +51,7 @@ public class OtsuThresholding extends AbstractImageModificationWorker {
 		return new GlobalThresholding().performThresholding(sourceImage, k);
 	}
 
-	private BigDecimal[] calculateThresholds(MMTImage sourceImage) {
+	private BigDecimal[] calculateThresholds(MMTImage sourceImage) throws InterruptedException {
 		BigDecimal[] gammas = new BigDecimal[MAX_GRAY];
 
 		// Normalized Histogram as basic for calculation
@@ -65,7 +65,7 @@ public class OtsuThresholding extends AbstractImageModificationWorker {
 
 			int progress = (k * 100) / MAX_GRAY;
 			publish(progress % 5);
-
+			checkIfInterrupted();
 			BigDecimal propLower = getSumOf(nHist, MIN_GRAY, k);
 			BigDecimal propHigher = BigDecimal.ONE.subtract(propLower);
 
@@ -151,11 +151,11 @@ public class OtsuThresholding extends AbstractImageModificationWorker {
 	 * {@inheritDoc}
 	 */
 	@Override
-	protected MMTImage modifyImage(MMTImage sourceImage) {
+	protected MMTImage modifyImage(MMTImage sourceImage) throws InterruptedException {
 		return performOtsu(sourceImage);
 	}
 
-	public static void main(String[] args) throws IOException {
+	public static void main(String[] args) throws Exception {
 
 		System.out.println("Otsu filter");
 		System.out.println("Enter the full path to a picture: ");

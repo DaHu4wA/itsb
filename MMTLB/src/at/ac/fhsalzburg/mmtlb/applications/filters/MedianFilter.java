@@ -1,7 +1,6 @@
 package at.ac.fhsalzburg.mmtlb.applications.filters;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -36,7 +35,7 @@ public class MedianFilter extends AbstractImageModificationWorker {
 	 * {@inheritDoc}
 	 */
 	@Override
-	protected MMTImage modifyImage(MMTImage sourceImage) {
+	protected MMTImage modifyImage(MMTImage sourceImage) throws InterruptedException {
 		return performMedianFilter(sourceImage, raster);
 	}
 
@@ -46,12 +45,23 @@ public class MedianFilter extends AbstractImageModificationWorker {
 	 * @param image the image to apply median filter to
 	 * @param rasterSize UNEVEN (3x3, 5x5 etc) value
 	 * @return a new median filtered image
+	 * @throws InterruptedException
 	 */
-	public MMTImage performMedianFilter(MMTImage image, int rasterSize) {
+	public MMTImage performMedianFilter(MMTImage image, int rasterSize) throws InterruptedException {
+		return performMedianFilter(image, new InterruptionCheckCallback() {
+			@Override
+			public void checkIfInterrupted() {
+				checkIfInterrupted();
+			}
+		}, rasterSize);
+	}
+
+	public MMTImage performMedianFilter(MMTImage image, InterruptionCheckCallback check, int rasterSize) throws InterruptedException {
 		MMTImage result = new MMTImage(image.getHeight(), image.getWidth());
 		result.setName(image.getName());
 
 		for (int y = 0; y < image.getHeight(); y++) {
+			check.checkIfInterrupted();
 			for (int x = 0; x < image.getWidth(); x++) {
 				publishProgress(image, x + y * image.getWidth());
 				result.setPixel2D(x, y, getMedianValueForPosition(image, rasterSize, x, y));
@@ -96,7 +106,7 @@ public class MedianFilter extends AbstractImageModificationWorker {
 		return vals[(vals.length - 1) / 2];
 	}
 
-	public static void main(String[] args) throws IOException {
+	public static void main(String[] args) throws Exception {
 
 		System.out.println("Median filter, text version");
 		System.out.println("Enter the full path to a picture: ");

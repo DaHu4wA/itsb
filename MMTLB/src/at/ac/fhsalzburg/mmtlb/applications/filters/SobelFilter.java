@@ -1,7 +1,6 @@
 package at.ac.fhsalzburg.mmtlb.applications.filters;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStreamReader;
 
 import at.ac.fhsalzburg.mmtlb.applications.AbstractImageModificationWorker;
@@ -30,7 +29,7 @@ public class SobelFilter extends AbstractImageModificationWorker {
 	 * {@inheritDoc}
 	 */
 	@Override
-	protected MMTImage modifyImage(MMTImage sourceImage) {
+	protected MMTImage modifyImage(MMTImage sourceImage) throws InterruptedException {
 		return performSobel(sourceImage);
 	}
 
@@ -38,12 +37,14 @@ public class SobelFilter extends AbstractImageModificationWorker {
 	 * 
 	 * @param image the image where the filter should be applied to
 	 * @return new {@link MMTImage} containing filter response
+	 * @throws InterruptedException
 	 */
-	public MMTImage performSobel(MMTImage image) {
+	public MMTImage performSobel(MMTImage image) throws InterruptedException {
 		MMTImage result = new MMTImage(image.getHeight(), image.getWidth());
 		result.setName(image.getName());
 
 		for (int y = 0; y < image.getHeight(); y++) {
+			checkIfInterrupted();
 			for (int x = 0; x < image.getWidth(); x++) {
 				publishProgress(image, x + y * image.getWidth());
 				result.setPixel2D(x, y, getValue(image, x, y));
@@ -126,7 +127,7 @@ public class SobelFilter extends AbstractImageModificationWorker {
 		return verticalSum;
 	}
 
-	public static void main(String[] args) throws IOException {
+	public static void main(String[] args) throws Exception {
 
 		System.out.println("Sobel filter, text version");
 		System.out.println("Enter the full path to a picture: ");

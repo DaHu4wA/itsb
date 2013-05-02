@@ -45,7 +45,7 @@ public class FooterPanel extends JPanel {
 		copyright.setForeground(Color.gray);
 		add(copyright, BorderLayout.CENTER);
 
-		initProgressBar();
+		setPreferredSize(new Dimension((int) getPreferredSize().getWidth(), 30));
 
 		scaleSlider = new JSlider(10, 300);
 		scaleSlider.setValue(100);
@@ -56,6 +56,11 @@ public class FooterPanel extends JPanel {
 		scaleSlider.setPreferredSize(new Dimension(180, 15));
 		scaleSlider.setEnabled(false);
 
+		progressBar = new JProgressBar(0, 100);
+		progressBar.setStringPainted(true);
+		progressBar.setVisible(false);
+		progressBar.setPreferredSize(new Dimension(170, 15));
+
 		currVal = new JLabel("Scale: 1.0");
 		currVal.setPreferredSize(new Dimension(75, 15));
 
@@ -64,7 +69,6 @@ public class FooterPanel extends JPanel {
 		scalePanel.add(currVal);
 		add(scalePanel, BorderLayout.WEST);
 
-		progressBar.setPreferredSize(new Dimension(170, 15));
 		add(new BorderPanel(progressBar), BorderLayout.EAST);
 
 		scaleSlider.addChangeListener(new javax.swing.event.ChangeListener() {
@@ -80,13 +84,10 @@ public class FooterPanel extends JPanel {
 		return scaleSlider;
 	}
 
-	private void initProgressBar() {
-		progressBar = new JProgressBar(0, 100);
-	}
-
 	public void setProgress(int progress) {
+
 		if (progress < 0) {
-		    showProgressBar(false);
+			showProgressBar(false);
 			return;
 		}
 
@@ -104,7 +105,7 @@ public class FooterPanel extends JPanel {
 	}
 
 	public void showProgressBar(boolean show) {
-		progressBar.setStringPainted(show);
+		progressBar.setVisible(show);
 		progressBar.setValue(0);
 		repaint();
 	}

@@ -13,6 +13,7 @@ import javax.swing.JPanel;
  * 
  * @author Stefan Huber
  */
+@SuppressWarnings({ "rawtypes", "unchecked" })
 public class HighboostDataPanel extends JPanel {
 	private static final long serialVersionUID = 8019287358335341062L;
 	private static final Double[] factors = { 0.1d, 0.2d, 0.3d, 0.4d, 0.5d, 0.6d, 0.7d, 0.8d, 0.9d, 1d, 1.1d, 1.2d, 1.3d, 1.4d, 1.5d, 1.7d,
