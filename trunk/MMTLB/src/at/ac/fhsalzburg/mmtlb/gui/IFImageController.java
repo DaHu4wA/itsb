@@ -1,5 +1,6 @@
 package at.ac.fhsalzburg.mmtlb.gui;
 
+import at.ac.fhsalzburg.mmtlb.Stoppable;
 import at.ac.fhsalzburg.mmtlb.mmtimage.MMTImage;
 
 /**
@@ -16,6 +17,8 @@ public interface IFImageController {
 
 	void setProgressStatus(int progress);
 	
-	void blockController(boolean block);
+	void blockController(Stoppable stoppable);
+	
+	void unblockController();
 
 }

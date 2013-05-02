@@ -18,6 +18,7 @@ import javax.swing.WindowConstants;
 
 import org.apache.log4j.Logger;
 
+import at.ac.fhsalzburg.mmtlb.Stoppable;
 import at.ac.fhsalzburg.mmtlb.applications.ImageModificationType;
 import at.ac.fhsalzburg.mmtlb.applications.tools.FileImageConverter;
 import at.ac.fhsalzburg.mmtlb.applications.tools.MMTImageCombiner;
@@ -40,6 +41,7 @@ public class MainController extends JFrame implements IFImageController {
 	private static final int CHANGE_HISTORY_SIZE = 50;
 
 	final MainView view;
+	final MmtGlassPane glassPane;
 
 	private final ImageModificationHelper modificationHelper;
 
@@ -66,7 +68,8 @@ public class MainController extends JFrame implements IFImageController {
 		setContentPane(view);
 		addButtonListeners();
 		modificationHelper = new ImageModificationHelper(this);
-		setGlassPane(new MmtGlassPane());
+		glassPane = new MmtGlassPane();
+		setGlassPane(glassPane);
 		setVisible(true);
 	}
 
@@ -416,8 +419,14 @@ public class MainController extends JFrame implements IFImageController {
 		return view;
 	}
 
-	public void blockController(boolean block) {
-		getGlassPane().setVisible(block);
+	public void unblockController(){
+	    glassPane.setVisible(false);
 	}
+
+    @Override
+    public void blockController(Stoppable stoppable) {
+        glassPane.setStoppable(stoppable);
+        glassPane.setVisible(true);
+    }
 
 }
