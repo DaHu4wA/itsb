@@ -1,7 +1,6 @@
 package at.ac.fhsalzburg.mmtlb.applications;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.math.BigDecimal;
 
@@ -28,7 +27,7 @@ public class HistogramEqualization extends AbstractImageModificationWorker {
 		super(controller, sourceImage);
 	}
 
-	public MMTImage performHistogramEqualitzation(MMTImage image) {
+	public MMTImage performHistogramEqualitzation(MMTImage image) throws InterruptedException {
 		MMTImage result = new MMTImage(image.getHeight(), image.getWidth());
 		result.setName(image.getName());
 
@@ -36,6 +35,7 @@ public class HistogramEqualization extends AbstractImageModificationWorker {
 
 		for (int i = 0; i < image.getImageData().length; i++) {
 			publishProgress(image, i);
+			checkIfInterrupted();
 			result.getImageData()[i] = mappedValues[image.getImageData()[i]];
 		}
 
@@ -61,7 +61,7 @@ public class HistogramEqualization extends AbstractImageModificationWorker {
 		return result;
 	}
 
-	public static void main(String[] args) throws IOException {
+	public static void main(String[] args) throws Exception {
 
 		System.out.println("Histogram determination, text version");
 		System.out.println("Enter the full path to a picture: ");
@@ -86,7 +86,7 @@ public class HistogramEqualization extends AbstractImageModificationWorker {
 	}
 
 	@Override
-	protected MMTImage modifyImage(MMTImage sourceImage) {
+	protected MMTImage modifyImage(MMTImage sourceImage) throws InterruptedException {
 		return performHistogramEqualitzation(sourceImage);
 	}
 

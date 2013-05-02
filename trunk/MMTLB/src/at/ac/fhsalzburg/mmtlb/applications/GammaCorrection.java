@@ -1,7 +1,6 @@
 package at.ac.fhsalzburg.mmtlb.applications;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStreamReader;
 
 import org.apache.log4j.Logger;
@@ -30,7 +29,7 @@ public class GammaCorrection extends AbstractImageModificationWorker {
 		this.gamma = gamma;
 	}
 
-	public MMTImage correctGamma(MMTImage image, double gamma) {
+	public MMTImage correctGamma(MMTImage image, double gamma) throws InterruptedException {
 		MMTImage stretched = new MMTImage(image.getHeight(), image.getWidth());
 		stretched.setName(image.getName());
 
@@ -40,6 +39,7 @@ public class GammaCorrection extends AbstractImageModificationWorker {
 		for (int i = 0; i < image.getImageData().length; i++) {
 			// map all values from old to corrected gray value
 			publishProgress(image, i);
+			checkIfInterrupted();
 			stretched.getImageData()[i] = mappingValues[image.getImageData()[i]];
 		}
 		return stretched;
@@ -64,7 +64,7 @@ public class GammaCorrection extends AbstractImageModificationWorker {
 		return mapping;
 	}
 
-	public static void main(String[] args) throws IOException {
+	public static void main(String[] args) throws Exception {
 
 		System.out.println("Gamma correction");
 
@@ -90,7 +90,7 @@ public class GammaCorrection extends AbstractImageModificationWorker {
 	 * {@inheritDoc}
 	 */
 	@Override
-	protected MMTImage modifyImage(MMTImage sourceImage) {
+	protected MMTImage modifyImage(MMTImage sourceImage) throws InterruptedException {
 		return correctGamma(sourceImage, gamma);
 	}
 

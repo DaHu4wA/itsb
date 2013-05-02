@@ -15,6 +15,7 @@ import javax.swing.JPanel;
  * 
  * @author Stefan Huber
  */
+@SuppressWarnings({ "rawtypes", "unchecked" })
 public class RasterSizePanel extends JPanel {
 	private static final long serialVersionUID = 8019287358335341062L;
 

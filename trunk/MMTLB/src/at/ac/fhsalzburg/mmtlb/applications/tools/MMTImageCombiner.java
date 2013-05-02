@@ -52,7 +52,7 @@ public class MMTImageCombiner extends AbstractImageModificationWorker {
 	}
 
 	@Override
-	protected MMTImage modifyImage(MMTImage sourceImage) {
+	protected MMTImage modifyImage(MMTImage sourceImage) throws InterruptedException {
 		return combine(sourceImage, currentImage, factor);
 	}
 

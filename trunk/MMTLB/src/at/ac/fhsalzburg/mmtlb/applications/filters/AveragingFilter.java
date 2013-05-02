@@ -31,9 +31,11 @@ public class AveragingFilter extends AbstractImageModificationWorker {
 
 	/**
 	 * {@inheritDoc}
+	 * 
+	 * @throws InterruptedException
 	 */
 	@Override
-	protected MMTImage modifyImage(MMTImage sourceImage) {
+	protected MMTImage modifyImage(MMTImage sourceImage) throws InterruptedException {
 		return performAveraging(sourceImage, raster);
 	}
 
@@ -43,12 +45,14 @@ public class AveragingFilter extends AbstractImageModificationWorker {
 	 * @param image the image to average
 	 * @param rasterSize UNEVEN (3x3, 5x5 etc) value
 	 * @return a new averaged image
+	 * @throws InterruptedException
 	 */
-	public MMTImage performAveraging(MMTImage image, int rasterSize) {
+	public MMTImage performAveraging(MMTImage image, int rasterSize) throws InterruptedException {
 		MMTImage result = new MMTImage(image.getHeight(), image.getWidth());
 		result.setName(image.getName());
 
 		for (int y = 0; y < image.getHeight(); y++) {
+			checkIfInterrupted();
 			for (int x = 0; x < image.getWidth(); x++) {
 				publishProgress(image, x + y * image.getWidth());
 
@@ -95,7 +99,7 @@ public class AveragingFilter extends AbstractImageModificationWorker {
 		return graySum / fieldSum;
 	}
 
-	public static void main(String[] args) throws IOException {
+	public static void main(String[] args) throws IOException, NumberFormatException, InterruptedException {
 
 		System.out.println("Averaging filter, text version");
 		System.out.println("Enter the full path to a picture: ");

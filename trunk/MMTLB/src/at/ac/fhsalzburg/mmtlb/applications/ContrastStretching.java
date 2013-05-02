@@ -29,7 +29,7 @@ public class ContrastStretching extends AbstractImageModificationWorker {
 		super(controller, sourceImage);
 	}
 
-	public MMTImage stretchContrast(MMTImage image) {
+	public MMTImage stretchContrast(MMTImage image) throws InterruptedException {
 		MMTImage stretched = new MMTImage(image.getHeight(), image.getWidth());
 		stretched.setName(image.getName());
 
@@ -40,7 +40,7 @@ public class ContrastStretching extends AbstractImageModificationWorker {
 			// map all values from old to stretched gray value
 
 			publishProgress(image, i);
-
+			checkIfInterrupted();
 			stretched.getImageData()[i] = mappingValues[image.getImageData()[i]];
 		}
 		return stretched;
@@ -65,7 +65,7 @@ public class ContrastStretching extends AbstractImageModificationWorker {
 		return mapping;
 	}
 
-	public static void main(String[] args) throws IOException {
+	public static void main(String[] args) throws IOException, InterruptedException {
 
 		System.out.println("Contrast stretching");
 		System.out.println("Enter the full path to a picture: ");
@@ -86,7 +86,7 @@ public class ContrastStretching extends AbstractImageModificationWorker {
 	 * {@inheritDoc}
 	 */
 	@Override
-	protected MMTImage modifyImage(MMTImage sourceImage) {
+	protected MMTImage modifyImage(MMTImage sourceImage) throws InterruptedException {
 		return stretchContrast(sourceImage);
 	}
 

@@ -1,7 +1,6 @@
 package at.ac.fhsalzburg.mmtlb.applications.filters;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStreamReader;
 
 import at.ac.fhsalzburg.mmtlb.applications.tools.MMTImageCombiner;
@@ -22,7 +21,7 @@ public class ImageSharpeningFilter {
 	 * are applied in their corresponding filter classes.
 	 */
 
-	public static void main(String[] args) throws IOException {
+	public static void main(String[] args) throws Exception {
 
 		System.out.println("Image Sharpening tool, text version");
 		System.out.println("Enter the full path to a picture: ");

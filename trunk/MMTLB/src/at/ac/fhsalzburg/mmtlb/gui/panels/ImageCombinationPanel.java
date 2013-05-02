@@ -12,6 +12,7 @@ import javax.swing.JPanel;
  * 
  * @author Stefan Huber
  */
+@SuppressWarnings({ "rawtypes", "unchecked" })
 public class ImageCombinationPanel extends JPanel {
 
 	private static final long serialVersionUID = -2466829498945619632L;

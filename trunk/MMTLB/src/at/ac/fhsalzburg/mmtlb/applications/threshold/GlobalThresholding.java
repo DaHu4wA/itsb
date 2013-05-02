@@ -1,7 +1,6 @@
 package at.ac.fhsalzburg.mmtlb.applications.threshold;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStreamReader;
 
 import at.ac.fhsalzburg.mmtlb.applications.AbstractImageModificationWorker;
@@ -36,14 +35,15 @@ public class GlobalThresholding extends AbstractImageModificationWorker {
 	 * @param sourceImage source image
 	 * @param threshold the threshold gray value
 	 * @return binary image separated by threshold value
+	 * @throws InterruptedException
 	 */
-	public MMTImage performThresholding(MMTImage sourceImage, int threshold) {
+	public MMTImage performThresholding(MMTImage sourceImage, int threshold) throws InterruptedException {
 		MMTImage result = new MMTImage(sourceImage.getHeight(), sourceImage.getWidth());
 		result.setName(sourceImage.getName());
 
 		for (int i = 0; i < sourceImage.getImageData().length; i++) {
 			publishProgress(sourceImage, i);
-
+			checkIfInterrupted();
 			int value = sourceImage.getImageData()[i];
 			result.getImageData()[i] = value > threshold ? MAX_GRAY : MIN_GRAY;
 		}
@@ -55,11 +55,11 @@ public class GlobalThresholding extends AbstractImageModificationWorker {
 	 * {@inheritDoc}
 	 */
 	@Override
-	protected MMTImage modifyImage(MMTImage sourceImage) {
+	protected MMTImage modifyImage(MMTImage sourceImage) throws InterruptedException {
 		return performThresholding(sourceImage, threshold);
 	}
 
-	public static void main(String[] args) throws IOException {
+	public static void main(String[] args) throws Exception {
 
 		System.out.println("Global thresholding");
 		System.out.println("Enter the full path to a picture: ");

@@ -23,8 +23,8 @@ import at.ac.fhsalzburg.mmtlb.applications.ImageModificationType;
 import at.ac.fhsalzburg.mmtlb.applications.tools.FileImageConverter;
 import at.ac.fhsalzburg.mmtlb.applications.tools.MMTImageCombiner;
 import at.ac.fhsalzburg.mmtlb.gui.comparation.ImageComparator;
-import at.ac.fhsalzburg.mmtlb.gui.panels.MmtGlassPane;
 import at.ac.fhsalzburg.mmtlb.gui.panels.ImagePreviewFileChooser;
+import at.ac.fhsalzburg.mmtlb.gui.panels.MmtGlassPane;
 import at.ac.fhsalzburg.mmtlb.mmtimage.FileImageReader;
 import at.ac.fhsalzburg.mmtlb.mmtimage.FileImageWriter;
 import at.ac.fhsalzburg.mmtlb.mmtimage.MMTImage;
@@ -419,14 +419,15 @@ public class MainController extends JFrame implements IFImageController {
 		return view;
 	}
 
-	public void unblockController(){
-	    glassPane.setVisible(false);
+	@Override
+	public void unblockController() {
+		glassPane.setVisible(false);
 	}
 
-    @Override
-    public void blockController(Stoppable stoppable) {
-        glassPane.setStoppable(stoppable);
-        glassPane.setVisible(true);
-    }
+	@Override
+	public void blockController(Stoppable stoppable) {
+		glassPane.setStoppable(stoppable);
+		glassPane.setVisible(true);
+	}
 
 }
