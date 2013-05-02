@@ -27,6 +27,10 @@ import at.ac.fhsalzburg.mmtlb.mmtimage.MMTImage;
 public class MainView extends AccordionPanel {
 	private static final long serialVersionUID = 5436775872668198881L;
 
+	public static Color fileActionsColor = new Color(0xE9F9FF);
+	public static Color imageConverterColor = new Color(0xEFEFEF);
+	public static Color imageModColor = new Color(0xFFFFC4);
+
 	public static String FILE_TITLE = "File Actions";
 
 	public static String OPEN_IMAGE_TEXT = "Open Image";
@@ -111,10 +115,13 @@ public class MainView extends AccordionPanel {
 		JPanel folderActionPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 10));
 		folderActionPanel.add(convertWholeFolderToPNG);
 
-		fileActionsPanel = new AccordionContentPanel(FILE_TITLE, new ColoredPanel(fileActionPanel), new Color(0xE6E6FA));
+		fileActionsPanel = new AccordionContentPanel(FILE_TITLE, ColoredPanel.createRaised(fileActionsColor, fileActionPanel),
+				fileActionsColor);
 		addFoldable(fileActionsPanel, false);
-		addFoldable(new AccordionContentPanel("Image converters", new ColoredPanel(folderActionPanel), new Color(0xFFFACD)), true);
-		addFoldable(new AccordionContentPanel("Image modifications", new ColoredPanel(applicationsPanel), new Color(0xFFE4B5)), true);
+		addFoldable(new AccordionContentPanel("Image converters", ColoredPanel.createRaised(imageConverterColor, folderActionPanel),
+				imageConverterColor), true);
+		addFoldable(new AccordionContentPanel("Image modifications", ColoredPanel.createRaised(imageModColor, applicationsPanel),
+				imageModColor), true);
 
 		mmtImagePanel = new MMTImagePanel();
 		addContent(new JScrollPane(mmtImagePanel, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
