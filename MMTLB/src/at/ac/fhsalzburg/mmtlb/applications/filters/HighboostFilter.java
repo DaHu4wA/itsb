@@ -51,7 +51,7 @@ public class HighboostFilter extends AbstractImageModificationWorker {
 		result = new MedianFilter().performMedianFilter(sourceImage, new InterruptionCheckCallback() {
 
 			@Override
-			public void checkIfInterrupted() {
+			public void checkIfStopped() throws InterruptedException {
 				checkIfInterrupted();
 			}
 		}, rasterSize);

@@ -50,7 +50,7 @@ public class MedianFilter extends AbstractImageModificationWorker {
 	public MMTImage performMedianFilter(MMTImage image, int rasterSize) throws InterruptedException {
 		return performMedianFilter(image, new InterruptionCheckCallback() {
 			@Override
-			public void checkIfInterrupted() {
+			public void checkIfStopped() throws InterruptedException {
 				checkIfInterrupted();
 			}
 		}, rasterSize);
@@ -61,7 +61,7 @@ public class MedianFilter extends AbstractImageModificationWorker {
 		result.setName(image.getName());
 
 		for (int y = 0; y < image.getHeight(); y++) {
-			check.checkIfInterrupted();
+			check.checkIfStopped();
 			for (int x = 0; x < image.getWidth(); x++) {
 				publishProgress(image, x + y * image.getWidth());
 				result.setPixel2D(x, y, getMedianValueForPosition(image, rasterSize, x, y));
