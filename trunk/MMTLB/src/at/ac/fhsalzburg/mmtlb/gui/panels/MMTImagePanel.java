@@ -18,18 +18,19 @@ import at.ac.fhsalzburg.mmtlb.mmtimage.MMTImage;
  */
 public class MMTImagePanel extends JPanel {
 	private static final long serialVersionUID = 8105730431947916489L;
+	private static final Color BACKGROUND_COLOR = Color.WHITE;
 
 	private Image image;
 	private double scaleFactor = 1d;
 
 	public MMTImagePanel() {
 		image = null;
-		setBackground(Color.white);
+		setBackground(BACKGROUND_COLOR);
 	}
 
 	public MMTImagePanel(MMTImage mmtImage) {
 		setImage(mmtImage);
-		setBackground(Color.white);
+		setBackground(BACKGROUND_COLOR);
 	}
 
 	public void setImage(MMTImage mmtImage) {
@@ -57,14 +58,14 @@ public class MMTImagePanel extends JPanel {
 		super.paintComponent(g);
 
 		Graphics2D g2d = (Graphics2D) g;
-		g2d.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BICUBIC);
+		g2d.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
 
 		int w = 0, h = 0;
 		if (image != null) {
 			w = (int) (scaleFactor * image.getWidth(null));
 			h = (int) (scaleFactor * image.getHeight(null));
 		}
-		g.drawImage(image, 5, 5, w, h, Color.white, null);
+		g.drawImage(image, 5, 5, w, h, BACKGROUND_COLOR, null);
 	}
 
 }
