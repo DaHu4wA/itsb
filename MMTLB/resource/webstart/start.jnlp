@@ -1,0 +1,18 @@
+	<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+	<jnlp codebase="https://code.google.com/p/itsb" href="start.jnlp" spec="1.0+">
+	    <information>
+	        <title>MMT-LB Application</title>
+	        <vendor>DaHu4wA</vendor>
+	        <homepage href="https://code.google.com/p/itsb"/>
+	        <description>MMT-LB-App</description>
+	        <description kind="short">Photoshop like effects</description>
+
+	    </information>
+	<update check="always"/>
+	    <resources>
+	<j2se version="1.6+"/>
+	<jar href="MMTLB.v1.0.jar" main="true"/>
+	    </resources>
+	    <application-desc main-class="at.ac.fhsalzburg.mmtlb.ApplicationMainStart">
+	    </application-desc>
+	</jnlp>
