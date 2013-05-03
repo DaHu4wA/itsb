@@ -2,7 +2,7 @@
 	<jnlp codebase="http://itsb.googlecode.com/svn/trunk/MMTLB/resource/webstart/" href="start.jnlp" spec="1.0+">
 	    <information>
 	        <title>MMT-LB Application</title>
-	        <vendor>DaHu4wA</vendor>
+	        <vendor>Stefan Huber</vendor>
 	        <homepage href="https://code.google.com/p/itsb"/>
 	        <description>MMT-LB-App</description>
 	        <description kind="short">Photoshop like effects</description>
