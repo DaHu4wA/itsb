@@ -11,6 +11,11 @@
 	<update check="always"/>
 	    <resources>
 	<j2se version="1.6+"/>
+	
+	<security> 
+		<all-permissions/>
+	</security>
+	
 	<jar href="MMTLB.v1.0.jar" main="true"/>
 	    </resources>
 	    <application-desc main-class="at.ac.fhsalzburg.mmtlb.ApplicationMainStart">
