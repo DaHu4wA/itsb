@@ -6,7 +6,7 @@
 	        <homepage href="https://code.google.com/p/itsb"/>
 	        <description>MMT-LB-App</description>
 	        <description kind="short">Photoshop like effects</description>
-
+			<icon href="http://itsb.googlecode.com/svn/trunk/MMTLB/resource/webstart/icon.jpg">
 	    </information>
 	<update check="always"/>
 	    <resources>
