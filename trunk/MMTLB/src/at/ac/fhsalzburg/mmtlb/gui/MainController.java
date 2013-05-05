@@ -56,7 +56,6 @@ public class MainController extends JFrame implements IFImageController {
 		setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		setIconImage(new ImageIcon(MainController.class.getResource("icon.png")).getImage());
 		setLocationRelativeTo(null); // set window centered to screen
-
 		try {
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 		} catch (Exception e) {
