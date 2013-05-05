@@ -3,9 +3,23 @@
 
 = Introduction =
 
-Filter will be described here
+Filter will be described in this wiki page
 
 
 = Details =
 
-maybe coming soon
+*Descriptions coming soon .. maybe*
+
+The current version of the application supports the following image modifications:
+  * Folder conversion from .jpg to .png
+  * Contrast Stretching
+  * Gamma Correction
+  * Histogram Equalization
+  * Averaging Filter
+  * Median Filter
+  * Laplacian Filter
+  * Sobel Filter
+  * Highboost Filter
+  * Global Thresholding
+  * Iterative Thresholding
+  * Otsu Thresholding
