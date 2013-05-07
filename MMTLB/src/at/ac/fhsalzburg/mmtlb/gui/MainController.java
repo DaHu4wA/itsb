@@ -37,7 +37,7 @@ import at.ac.fhsalzburg.mmtlb.mmtimage.MMTImage;
 public class MainController extends JFrame implements IFImageController {
 	private static final long serialVersionUID = -958626226425855658L;
 	private static final Logger LOG = Logger.getLogger(MainController.class.getSimpleName());
-	public static String TITLE_TEXT = "Da Hu4wA's Photoshop - Professional Edition";
+	public static String TITLE_TEXT = "Da Hu4wA's Image Filter App";
 	private static final int CHANGE_HISTORY_SIZE = 50;
 
 	final MainView view;
