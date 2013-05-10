@@ -58,7 +58,7 @@ public class GammaCorrection extends AbstractImageModificationWorker {
 			double powed = Math.pow(base, gamma);
 			mapping[g] = new Long(Math.round(wMax * powed)).intValue();
 
-			LOG.info("gamma for " + g + ": " + mapping[g]);
+			LOG.debug("gamma for " + g + ": " + mapping[g]);
 		}
 
 		return mapping;
