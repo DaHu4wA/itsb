@@ -22,6 +22,7 @@ public class MainStart {
 
 		calc.calculate("Markus");
 
+		//These users can also be tested: 
 		// calc.calculate("Annaelle");
 		// calc.calculate("Justine");
 		// calc.calculate("Elisa");
