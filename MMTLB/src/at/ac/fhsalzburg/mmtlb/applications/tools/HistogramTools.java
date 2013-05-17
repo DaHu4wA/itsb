@@ -6,7 +6,8 @@ import java.math.RoundingMode;
 import at.ac.fhsalzburg.mmtlb.mmtimage.MMTImage;
 
 /**
- * Tools for histogram
+ * Tools for histogram. This class can return the histogram and normalized
+ * histogram of an image.
  * 
  * @author Stefan Huber
  */
@@ -89,6 +90,10 @@ public class HistogramTools {
 		return gMax;
 	}
 
+	/**
+	 * @param image given image
+	 * @returns the global mean gray value
+	 */
 	public static int getGlobalMean(MMTImage image) {
 		BigDecimal globalMean = BigDecimal.ZERO;
 		BigDecimal[] nHist = getNormalizedHistogram(image);

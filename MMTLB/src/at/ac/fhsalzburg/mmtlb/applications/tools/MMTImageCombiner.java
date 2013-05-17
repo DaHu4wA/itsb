@@ -1,15 +1,19 @@
 package at.ac.fhsalzburg.mmtlb.applications.tools;
 
 import at.ac.fhsalzburg.mmtlb.applications.AbstractImageModificationWorker;
-import at.ac.fhsalzburg.mmtlb.gui.IFImageController;
+import at.ac.fhsalzburg.mmtlb.interfaces.IFImageController;
 import at.ac.fhsalzburg.mmtlb.mmtimage.MMTImage;
 
 /**
- * Util to combine a original {@link MMTImage} with a modified image
+ * Util to combine a original {@link MMTImage} with a modified image using a
+ * given factor.
  * 
  * @author Stefan Huber
  */
 public class MMTImageCombiner extends AbstractImageModificationWorker {
+	
+	private static final int MIN_GRAY = 0;
+	private static final int MAX_GRAY = 255;
 
 	private final double factor;
 	private final MMTImage currentImage;
@@ -76,9 +80,12 @@ public class MMTImageCombiner extends AbstractImageModificationWorker {
 		return result;
 	}
 
+	/**
+	 * Clip if under min gray val or over max
+	 */
 	private int doClipping(int grayVal) {
-		grayVal = grayVal < 0 ? 0 : grayVal;
-		grayVal = grayVal > 255 ? 255 : grayVal;
+		grayVal = grayVal < MIN_GRAY ? MIN_GRAY : grayVal;
+		grayVal = grayVal > MAX_GRAY ? MAX_GRAY : grayVal;
 		return grayVal;
 	}
 }

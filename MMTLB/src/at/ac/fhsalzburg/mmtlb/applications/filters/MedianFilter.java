@@ -8,7 +8,8 @@ import java.util.List;
 
 import at.ac.fhsalzburg.mmtlb.applications.AbstractImageModificationWorker;
 import at.ac.fhsalzburg.mmtlb.applications.tools.SurroudingPixelHelper;
-import at.ac.fhsalzburg.mmtlb.gui.IFImageController;
+import at.ac.fhsalzburg.mmtlb.interfaces.IFImageController;
+import at.ac.fhsalzburg.mmtlb.interfaces.InterruptionCheckCallback;
 import at.ac.fhsalzburg.mmtlb.mmtimage.FileImageReader;
 import at.ac.fhsalzburg.mmtlb.mmtimage.FileImageWriter;
 import at.ac.fhsalzburg.mmtlb.mmtimage.MMTImage;
@@ -56,10 +57,20 @@ public class MedianFilter extends AbstractImageModificationWorker {
 		}, rasterSize);
 	}
 
+	/**
+	 * Perfoms a median filter
+	 * 
+	 * @param image the image that should be modified
+	 * @param check needed to check if filter has been canceled inside the GUI
+	 * @param rasterSize the raster size to apply
+	 * @return a new filtered image
+	 * @throws InterruptedException is thrown if worker has been canceled in GUI
+	 */
 	public MMTImage performMedianFilter(MMTImage image, InterruptionCheckCallback check, int rasterSize) throws InterruptedException {
 		MMTImage result = new MMTImage(image.getHeight(), image.getWidth());
 		result.setName(image.getName());
 
+		// go through every pixel and set a new median filtered value
 		for (int y = 0; y < image.getHeight(); y++) {
 			check.checkIfStopped();
 			for (int x = 0; x < image.getWidth(); x++) {

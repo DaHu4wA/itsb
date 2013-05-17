@@ -1,4 +1,4 @@
-package at.ac.fhsalzburg.mmtlb;
+package at.ac.fhsalzburg.mmtlb.interfaces;
 
 /**
  * Interface to stop a running filter

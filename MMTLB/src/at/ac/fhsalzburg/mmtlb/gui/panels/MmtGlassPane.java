@@ -12,7 +12,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
-import at.ac.fhsalzburg.mmtlb.Stoppable;
+import at.ac.fhsalzburg.mmtlb.interfaces.Stoppable;
 
 /**
  * Glass Pane to block the GUI while working

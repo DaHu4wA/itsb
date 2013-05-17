@@ -5,7 +5,7 @@ import java.io.InputStreamReader;
 import java.math.BigDecimal;
 
 import at.ac.fhsalzburg.mmtlb.applications.tools.HistogramTools;
-import at.ac.fhsalzburg.mmtlb.gui.IFImageController;
+import at.ac.fhsalzburg.mmtlb.interfaces.IFImageController;
 import at.ac.fhsalzburg.mmtlb.mmtimage.FileImageReader;
 import at.ac.fhsalzburg.mmtlb.mmtimage.FileImageWriter;
 import at.ac.fhsalzburg.mmtlb.mmtimage.MMTImage;
@@ -31,17 +31,22 @@ public class HistogramEqualization extends AbstractImageModificationWorker {
 		MMTImage result = new MMTImage(image.getHeight(), image.getWidth());
 		result.setName(image.getName());
 
-		int[] mappedValues = getMappedGrayValues(image);
+		int[] mappedValues = getMappedGrayValues(image); //get resulting gray values for every gray value
 
 		for (int i = 0; i < image.getImageData().length; i++) {
 			publishProgress(image, i);
 			checkIfInterrupted();
+			
+			// map the calculated gray value 
 			result.getImageData()[i] = mappedValues[image.getImageData()[i]];
 		}
 
 		return result;
 	}
 
+	/**
+	 * Calculates the new gray values (gTilde) for every gray value
+	 */
 	private static int[] getMappedGrayValues(MMTImage image) {
 		int[] result = new int[256];
 

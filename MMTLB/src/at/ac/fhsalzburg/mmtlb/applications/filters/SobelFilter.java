@@ -5,7 +5,7 @@ import java.io.InputStreamReader;
 
 import at.ac.fhsalzburg.mmtlb.applications.AbstractImageModificationWorker;
 import at.ac.fhsalzburg.mmtlb.applications.tools.SurroudingPixelHelper;
-import at.ac.fhsalzburg.mmtlb.gui.IFImageController;
+import at.ac.fhsalzburg.mmtlb.interfaces.IFImageController;
 import at.ac.fhsalzburg.mmtlb.mmtimage.FileImageReader;
 import at.ac.fhsalzburg.mmtlb.mmtimage.FileImageWriter;
 import at.ac.fhsalzburg.mmtlb.mmtimage.MMTImage;
@@ -43,6 +43,7 @@ public class SobelFilter extends AbstractImageModificationWorker {
 		MMTImage result = new MMTImage(image.getHeight(), image.getWidth());
 		result.setName(image.getName());
 
+		// go through every pixel and set a new value calculated by getValue()
 		for (int y = 0; y < image.getHeight(); y++) {
 			checkIfInterrupted();
 			for (int x = 0; x < image.getWidth(); x++) {

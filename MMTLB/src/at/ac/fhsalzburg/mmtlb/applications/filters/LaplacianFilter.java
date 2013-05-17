@@ -5,7 +5,7 @@ import java.io.InputStreamReader;
 
 import at.ac.fhsalzburg.mmtlb.applications.AbstractImageModificationWorker;
 import at.ac.fhsalzburg.mmtlb.applications.tools.SurroudingPixelHelper;
-import at.ac.fhsalzburg.mmtlb.gui.IFImageController;
+import at.ac.fhsalzburg.mmtlb.interfaces.IFImageController;
 import at.ac.fhsalzburg.mmtlb.mmtimage.FileImageReader;
 import at.ac.fhsalzburg.mmtlb.mmtimage.FileImageWriter;
 import at.ac.fhsalzburg.mmtlb.mmtimage.MMTImage;
@@ -65,39 +65,47 @@ public class LaplacianFilter extends AbstractImageModificationWorker {
 		int neighbourGraySum = 0;
 		int factor = 0;
 
-		// TODO enhance this! maybe a array mask
+		// INFO: this could have also been programmed using an array as mask,
+		// but I found this one easier to read and to debug
 
+		// right position
 		if (!SurroudingPixelHelper.isOutOfSpace(originalImage, xPos + 1, yPos)) {
 			factor++;
 			neighbourGraySum += originalImage.getPixel2D(xPos + 1, yPos) * -1;
 		}
+		// lower position
 		if (!SurroudingPixelHelper.isOutOfSpace(originalImage, xPos, yPos + 1)) {
 			factor++;
 			neighbourGraySum += originalImage.getPixel2D(xPos, yPos + 1) * -1;
 		}
+		// left position
 		if (!SurroudingPixelHelper.isOutOfSpace(originalImage, xPos - 1, yPos)) {
 			factor++;
 			neighbourGraySum += originalImage.getPixel2D(xPos - 1, yPos) * -1;
 		}
+		// upper position
 		if (!SurroudingPixelHelper.isOutOfSpace(originalImage, xPos, yPos - 1)) {
 			factor++;
 			neighbourGraySum += originalImage.getPixel2D(xPos, yPos - 1) * -1;
 		}
 
 		if (LaplacianFilterType.EIGHT_NEIGHBOURHOOD == filterType) {
-
+			// lower right
 			if (!SurroudingPixelHelper.isOutOfSpace(originalImage, xPos + 1, yPos + 1)) {
 				factor++;
 				neighbourGraySum += originalImage.getPixel2D(xPos + 1, yPos + 1) * -1;
 			}
+			// upper right
 			if (!SurroudingPixelHelper.isOutOfSpace(originalImage, xPos + 1, yPos - 1)) {
 				factor++;
 				neighbourGraySum += originalImage.getPixel2D(xPos + 1, yPos - 1) * -1;
 			}
+			// lower left
 			if (!SurroudingPixelHelper.isOutOfSpace(originalImage, xPos - 1, yPos + 1)) {
 				factor++;
 				neighbourGraySum += originalImage.getPixel2D(xPos - 1, yPos + 1) * -1;
 			}
+			// upper left
 			if (!SurroudingPixelHelper.isOutOfSpace(originalImage, xPos - 1, yPos - 1)) {
 				factor++;
 				neighbourGraySum += originalImage.getPixel2D(xPos - 1, yPos - 1) * -1;
