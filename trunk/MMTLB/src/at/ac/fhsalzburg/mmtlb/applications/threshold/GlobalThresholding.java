@@ -4,7 +4,7 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 
 import at.ac.fhsalzburg.mmtlb.applications.AbstractImageModificationWorker;
-import at.ac.fhsalzburg.mmtlb.gui.IFImageController;
+import at.ac.fhsalzburg.mmtlb.interfaces.IFImageController;
 import at.ac.fhsalzburg.mmtlb.mmtimage.FileImageReader;
 import at.ac.fhsalzburg.mmtlb.mmtimage.FileImageWriter;
 import at.ac.fhsalzburg.mmtlb.mmtimage.MMTImage;
@@ -44,8 +44,8 @@ public class GlobalThresholding extends AbstractImageModificationWorker {
 		for (int i = 0; i < sourceImage.getImageData().length; i++) {
 			publishProgress(sourceImage, i);
 			checkIfInterrupted();
-			int value = sourceImage.getImageData()[i];
-			result.getImageData()[i] = value > threshold ? MAX_GRAY : MIN_GRAY;
+			int value = sourceImage.getImageData()[i]; //get the pixels gray value
+			result.getImageData()[i] = value > threshold ? MAX_GRAY : MIN_GRAY; // set to MIN or MAX if under or over the threshold
 		}
 
 		return result;

@@ -2,7 +2,8 @@ package at.ac.fhsalzburg.mmtlb.applications.filters;
 
 import at.ac.fhsalzburg.mmtlb.applications.AbstractImageModificationWorker;
 import at.ac.fhsalzburg.mmtlb.applications.tools.MMTImageCombiner;
-import at.ac.fhsalzburg.mmtlb.gui.IFImageController;
+import at.ac.fhsalzburg.mmtlb.interfaces.IFImageController;
+import at.ac.fhsalzburg.mmtlb.interfaces.InterruptionCheckCallback;
 import at.ac.fhsalzburg.mmtlb.mmtimage.MMTImage;
 
 /**
@@ -55,7 +56,9 @@ public class HighboostFilter extends AbstractImageModificationWorker {
 				checkIfInterrupted();
 			}
 		}, rasterSize);
-		publish(50);
+
+		publish(50); // set progess into GUI progress bar
+
 		checkIfInterrupted();
 		// 2. Substract blurred response from original to create unsharp mask
 		result = new MMTImageCombiner().substract(sourceImage, result);

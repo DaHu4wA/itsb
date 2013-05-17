@@ -1,5 +1,10 @@
 package at.ac.fhsalzburg.mmtlb.applications;
 
+/**
+ * All image modifiers that can be applied from the GUI
+ * 
+ * @author Stefan Huber
+ */
 public enum ImageModificationType {
 
 	CONTRAST_STRETCHING, //

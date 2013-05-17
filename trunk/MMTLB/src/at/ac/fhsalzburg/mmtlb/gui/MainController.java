@@ -18,13 +18,14 @@ import javax.swing.WindowConstants;
 
 import org.apache.log4j.Logger;
 
-import at.ac.fhsalzburg.mmtlb.Stoppable;
 import at.ac.fhsalzburg.mmtlb.applications.ImageModificationType;
 import at.ac.fhsalzburg.mmtlb.applications.tools.FileImageConverter;
 import at.ac.fhsalzburg.mmtlb.applications.tools.MMTImageCombiner;
 import at.ac.fhsalzburg.mmtlb.gui.comparation.ImageComparator;
 import at.ac.fhsalzburg.mmtlb.gui.panels.ImagePreviewFileChooser;
 import at.ac.fhsalzburg.mmtlb.gui.panels.MmtGlassPane;
+import at.ac.fhsalzburg.mmtlb.interfaces.IFImageController;
+import at.ac.fhsalzburg.mmtlb.interfaces.Stoppable;
 import at.ac.fhsalzburg.mmtlb.mmtimage.FileImageReader;
 import at.ac.fhsalzburg.mmtlb.mmtimage.FileImageWriter;
 import at.ac.fhsalzburg.mmtlb.mmtimage.MMTImage;

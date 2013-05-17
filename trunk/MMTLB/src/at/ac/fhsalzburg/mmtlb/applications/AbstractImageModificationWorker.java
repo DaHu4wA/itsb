@@ -8,8 +8,8 @@ import javax.swing.SwingWorker;
 
 import org.apache.log4j.Logger;
 
-import at.ac.fhsalzburg.mmtlb.Stoppable;
-import at.ac.fhsalzburg.mmtlb.gui.IFImageController;
+import at.ac.fhsalzburg.mmtlb.interfaces.IFImageController;
+import at.ac.fhsalzburg.mmtlb.interfaces.Stoppable;
 import at.ac.fhsalzburg.mmtlb.mmtimage.MMTImage;
 
 /**
@@ -78,6 +78,10 @@ public abstract class AbstractImageModificationWorker extends SwingWorker<MMTIma
 		}
 	}
 
+	/**
+	 * Called when modification is finished. The resulting image is set into the
+	 * GUI and the progress bar is finished
+	 */
 	@Override
 	protected void done() {
 		if (controller == null) {

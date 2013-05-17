@@ -1,5 +1,10 @@
-package at.ac.fhsalzburg.mmtlb.applications.filters;
+package at.ac.fhsalzburg.mmtlb.interfaces;
 
+/**
+ * This is used to be able to stop the worker when [ESC] is pressed in the GUI
+ * 
+ * @author Stefan Huber
+ */
 public interface InterruptionCheckCallback {
 
 	/**

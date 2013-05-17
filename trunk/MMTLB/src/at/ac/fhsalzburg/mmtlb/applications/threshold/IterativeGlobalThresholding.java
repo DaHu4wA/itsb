@@ -9,7 +9,7 @@ import org.apache.log4j.Logger;
 
 import at.ac.fhsalzburg.mmtlb.applications.AbstractImageModificationWorker;
 import at.ac.fhsalzburg.mmtlb.applications.tools.HistogramTools;
-import at.ac.fhsalzburg.mmtlb.gui.IFImageController;
+import at.ac.fhsalzburg.mmtlb.interfaces.IFImageController;
 import at.ac.fhsalzburg.mmtlb.mmtimage.FileImageReader;
 import at.ac.fhsalzburg.mmtlb.mmtimage.FileImageWriter;
 import at.ac.fhsalzburg.mmtlb.mmtimage.MMTImage;
@@ -52,8 +52,8 @@ public class IterativeGlobalThresholding extends AbstractImageModificationWorker
 			threshold = newThreshold;
 			iterationCount++;
 			checkIfInterrupted();
-			List<Integer> lowerValues = new ArrayList<Integer>();
-			List<Integer> upperValues = new ArrayList<Integer>();
+			List<Integer> lowerValues = new ArrayList<Integer>(); // contains values under the threshold
+			List<Integer> upperValues = new ArrayList<Integer>(); // contains values over the threshold
 
 			for (int i = 0; i < sourceImage.getImageData().length; i++) {
 
