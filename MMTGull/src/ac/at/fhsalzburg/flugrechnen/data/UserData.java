@@ -12,9 +12,9 @@ public class UserData {
 	private String firstName;
 	private String lastName;
 
-	private String sourceCity;
-	private String sourceAirportName;
-	private String sourceAirportCode;
+	private String startCity;
+	private String startAirportName;
+	private String startAirportCode;
 
 	private String destinationAirportCode;
 
@@ -23,9 +23,9 @@ public class UserData {
 		this.oid = oid;
 		this.firstName = firstName;
 		this.lastName = lastName;
-		this.sourceCity = sourceCity;
-		this.sourceAirportName = sourceAirportName;
-		this.sourceAirportCode = sourceAirportCode;
+		this.startCity = sourceCity;
+		this.startAirportName = sourceAirportName;
+		this.startAirportCode = sourceAirportCode;
 		this.destinationAirportCode = destinationAirportCode;
 	}
 
@@ -38,15 +38,15 @@ public class UserData {
 	}
 
 	public String getSourceCity() {
-		return sourceCity;
+		return startCity;
 	}
 
 	public String getSourceAirportName() {
-		return sourceAirportName;
+		return startAirportName;
 	}
 
 	public String getSourceAirportCode() {
-		return sourceAirportCode;
+		return startAirportCode;
 	}
 
 	public String getDestinationAirportCode() {
@@ -65,9 +65,9 @@ public class UserData {
 		result = prime * result + ((firstName == null) ? 0 : firstName.hashCode());
 		result = prime * result + ((lastName == null) ? 0 : lastName.hashCode());
 		result = prime * result + (int) (oid ^ (oid >>> 32));
-		result = prime * result + ((sourceAirportCode == null) ? 0 : sourceAirportCode.hashCode());
-		result = prime * result + ((sourceAirportName == null) ? 0 : sourceAirportName.hashCode());
-		result = prime * result + ((sourceCity == null) ? 0 : sourceCity.hashCode());
+		result = prime * result + ((startAirportCode == null) ? 0 : startAirportCode.hashCode());
+		result = prime * result + ((startAirportName == null) ? 0 : startAirportName.hashCode());
+		result = prime * result + ((startCity == null) ? 0 : startCity.hashCode());
 		return result;
 	}
 
@@ -97,28 +97,28 @@ public class UserData {
 			return false;
 		if (oid != other.oid)
 			return false;
-		if (sourceAirportCode == null) {
-			if (other.sourceAirportCode != null)
+		if (startAirportCode == null) {
+			if (other.startAirportCode != null)
 				return false;
-		} else if (!sourceAirportCode.equals(other.sourceAirportCode))
+		} else if (!startAirportCode.equals(other.startAirportCode))
 			return false;
-		if (sourceAirportName == null) {
-			if (other.sourceAirportName != null)
+		if (startAirportName == null) {
+			if (other.startAirportName != null)
 				return false;
-		} else if (!sourceAirportName.equals(other.sourceAirportName))
+		} else if (!startAirportName.equals(other.startAirportName))
 			return false;
-		if (sourceCity == null) {
-			if (other.sourceCity != null)
+		if (startCity == null) {
+			if (other.startCity != null)
 				return false;
-		} else if (!sourceCity.equals(other.sourceCity))
+		} else if (!startCity.equals(other.startCity))
 			return false;
 		return true;
 	}
 
 	@Override
 	public String toString() {
-		return "UserData [oid=" + oid + ", firstName=" + firstName + ", lastName=" + lastName + ", sourceCity=" + sourceCity
-				+ ", sourceAirportName=" + sourceAirportName + ", sourceAirportCode=" + sourceAirportCode + ", destinationAirportCode="
+		return "UserData [oid=" + oid + ", firstName=" + firstName + ", lastName=" + lastName + ", startCity=" + startCity
+				+ ", startAirportName=" + startAirportName + ", startAirportCode=" + startAirportCode + ", destinationAirportCode="
 				+ destinationAirportCode + "]";
 	}
 }

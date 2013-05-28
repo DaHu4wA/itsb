@@ -43,9 +43,13 @@ public class FlightOptimizerMain {
 		 * Kosten immer anders sind. zb bitweise (immer 1. und 1. flug, dann 1.
 		 * und 2. flug)
 		 * 
-		 * Pläne zB so kombinieren: 1 1 1 2 1 1 3 1 1
-		 * 
-		 * 1 2 1 2 2 1 3 2 1
+		 * Pläne zB so kombinieren: 
+		 * 1 1 1 
+		 * 2 1 1 
+		 * 3 1 1
+		 * 1 2 1 
+		 * 2 2 1
+		 * 3 2 1
 		 * 
 		 * so kann man 1. oder 2. flugplan ausgeben ... ...
 		 */
