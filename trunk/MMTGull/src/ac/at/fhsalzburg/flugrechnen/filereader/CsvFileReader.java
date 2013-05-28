@@ -1,10 +1,15 @@
-package ac.at.fhsalzburg.flugrechnen.file;
+package ac.at.fhsalzburg.flugrechnen.filereader;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 
+/**
+ * Does what the name says ;)
+ * 
+ * @author Stefan Huber
+ */
 public class CsvFileReader {
 
 	private final boolean hasHeader;
@@ -21,7 +26,7 @@ public class CsvFileReader {
 		try {
 			reader = new BufferedReader(new FileReader(path));
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
+			// TODO maybe handle this
 			e.printStackTrace();
 		}
 	}
