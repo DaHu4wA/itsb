@@ -7,8 +7,7 @@ import ac.at.fhsalzburg.mmtgull.data.User;
 import ac.at.fhsalzburg.mmtgull.testdata.UserTestDataFiller;
 
 /**
- * Usage:
- * Enter the name of a user and run the application
+ * Usage: Enter the name of a user and run the application
  * 
  * @author Stefan Huber
  */
@@ -16,13 +15,13 @@ public class MainStart {
 
 	public static void main(String[] args) {
 
-		//Fill user Data
+		// Fill user Data
 		List<User> users = UserTestDataFiller.fillUserData();
 		RatingCalculator calc = new RatingCalculator(users);
 
 		calc.calculate("Markus");
 
-		//These users can also be tested: 
+		// These users can also be tested:
 		// calc.calculate("Annaelle");
 		// calc.calculate("Justine");
 		// calc.calculate("Elisa");
