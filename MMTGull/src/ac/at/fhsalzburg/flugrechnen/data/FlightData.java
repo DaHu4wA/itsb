@@ -1,4 +1,4 @@
-package ac.at.fhsalzburg.flugrechnen.file;
+package ac.at.fhsalzburg.flugrechnen.data;
 
 import java.sql.Time;
 
@@ -10,13 +10,15 @@ import java.sql.Time;
 public class FlightData {
 	private static final String SECONDS_TIMESTAMP = ":00";
 
+	private long oid;
 	private String startAirport;
 	private String destAirport;
 	private Time startTime;
 	private Time destTime;
 	private double price;
 
-	public FlightData(String startAirport, String destAirport, String startTime, String destTime, String price) {
+	public FlightData(long oid, String startAirport, String destAirport, String startTime, String destTime, String price) {
+		this.oid = oid;
 		this.startAirport = startAirport;
 		this.destAirport = destAirport;
 		this.price = Double.valueOf(price);
@@ -25,7 +27,8 @@ public class FlightData {
 		this.destTime = Time.valueOf(destTime + SECONDS_TIMESTAMP);
 	}
 
-	public FlightData(String startAirport, String destAirport, Time startTime, Time destTime, double price) {
+	public FlightData(long oid, String startAirport, String destAirport, Time startTime, Time destTime, double price) {
+		this.oid = oid;
 		this.startAirport = startAirport;
 		this.destAirport = destAirport;
 		this.startTime = startTime;
@@ -55,8 +58,12 @@ public class FlightData {
 
 	@Override
 	public String toString() {
-		return "FlightData [startAirport=" + startAirport + ", destAirport=" + destAirport + ", startTime=" + startTime + ", destTime="
-				+ destTime + ", price=" + price + "]";
+		return "FlightData [oid=" + oid + ", startAirport=" + startAirport + ", destAirport=" + destAirport + ", startTime=" + startTime
+				+ ", destTime=" + destTime + ", price=" + price + "]";
+	}
+
+	public long getOid() {
+		return oid;
 	}
 
 }
