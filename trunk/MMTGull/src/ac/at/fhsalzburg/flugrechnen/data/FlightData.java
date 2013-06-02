@@ -58,8 +58,8 @@ public class FlightData {
 
 	@Override
 	public String toString() {
-		return "FlightData [oid=" + oid + ", startAirport=" + startAirport + ", destAirport=" + destAirport + ", startTime=" + startTime
-				+ ", destTime=" + destTime + ", price=" + price + "]";
+		return "ID: " + oid + ", Start airport: " + startAirport + ", Destination airport: " + destAirport + ", Start time: " + startTime
+				+ ", Destination time: " + destTime + ", Price: " + price + "]";
 	}
 
 	public long getOid() {
