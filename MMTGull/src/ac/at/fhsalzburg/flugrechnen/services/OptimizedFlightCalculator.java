@@ -17,36 +17,56 @@ public class OptimizedFlightCalculator {
 	private final List<FlightData> allFlights;
 	private final List<UserData> users;
 
+	private volatile boolean destinationCalcFinished = false;
+
 	public OptimizedFlightCalculator(List<FlightData> flights, List<UserData> users) {
 		this.allFlights = flights;
 		this.users = users;
 	}
 
 	public void calculate() {
-		List<UserWithFlightCandidates> usersWithFlights = determineFlightsForAllUsers();
+		final List<UserWithFlightCandidates> usersWithFlights = determineFlightsForAllUsers();
 
-		List<FlightData> flightsToDestination = calcAwayFlights(usersWithFlights);
-		List<FlightData> flightsFromDestination = calcHomeFlights(usersWithFlights);
+		Thread awaycalc = new Thread(new Runnable() {
+			@Override
+			public void run() {
+				List<FlightData> flightsToDestination = calcAwayFlights(usersWithFlights);
+				System.out.println("\n=== Flights to destination ===");
+				for (FlightData f : flightsToDestination) {
+					System.out.println(f);
+				}
+				destinationCalcFinished = true;
+			}
+		});
+		awaycalc.start();
 
-		System.out.println("________________________________________");
-		System.out.println("\nOPTIMIZED RESULTS");
-		System.out.println("\n=== Flights to destination ===");
-		for (FlightData f : flightsToDestination) {
-			System.out.println(f);
-		}
-		System.out.println("\n=== Flights back home ===");
-		for (FlightData f : flightsFromDestination) {
-			System.out.println(f);
-		}
+		Thread homecalc = new Thread(new Runnable() {
+			@Override
+			public void run() {
+				List<FlightData> flightsFromDestination = calcHomeFlights(usersWithFlights);
+
+				while (!destinationCalcFinished) {
+					try {
+						Thread.sleep(100);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+				}
+				
+				System.out.println("\n=== Flights back home ===");
+				for (FlightData f : flightsFromDestination) {
+					System.out.println(f);
+				}
+			}
+		});
+		homecalc.start();
 	}
 
 	private List<FlightData> calcAwayFlights(List<UserWithFlightCandidates> usersWithFlights) {
 
 		checkData(usersWithFlights);
 
-		System.out.print("\nCalculating flights to destination... ");
-		// FIXME all users hopefully have the same amount of flights ;)
-		// FIXME improve this !
+		System.out.println("\nCalculating flights to destination... ");
 		int count = usersWithFlights.get(0).getAwayFlights().size();
 		long totalCount = 0;
 
@@ -88,12 +108,10 @@ public class OptimizedFlightCalculator {
 	}
 
 	private List<FlightData> calcHomeFlights(List<UserWithFlightCandidates> usersWithFlights) {
-		
+
 		checkData(usersWithFlights);
-		
-		System.out.print("\nCalculating flights back home... ");
-		// FIXME all users hopefully have the same amount of flights ;)
-		// FIXME improve this !
+
+		System.out.println("\nCalculating flights back home... ");
 		int count = usersWithFlights.get(0).getHomeFlights().size();
 		long totalCount = 0;
 
@@ -128,6 +146,8 @@ public class OptimizedFlightCalculator {
 				}
 			}
 		}
+
+
 		System.out.println("(Finished doing " + totalCount + " calculations back home)");
 		System.out.println("Lowest costs back home: " + lowestCosts);
 
