@@ -19,45 +19,44 @@ import ac.at.fhsalzburg.flugrechnen.services.OptimizedFlightCalculator;
 public class FlightOptimizerMain {
 
 	private static final String DESTINATION_AIRPORT = "MUC";
+	
+	/**
+	 * 6 Personen sollen möglichst Zeitlgeich in MUC (München) ankommen.
+	 * 
+	 * ein flugplan mit allen personen (hin und rückflug), dafür die
+	 * kosten.. das mit allen möglichen flügen.
+	 * 
+	 * Regel überlegen, wie man Flugpläne zusammenstellt, weil sonst die
+	 * Kosten immer anders sind. zb bitweise (immer 1. und 1. flug, dann 1.
+	 * und 2. flug)
+	 * 
+	 * Pläne zB so kombinieren: 
+	 * 1 1 1 
+	 * 2 1 1 
+	 * 3 1 1
+	 * 1 2 1 
+	 * 2 2 1
+	 * 3 2 1
+	 * 
+	 * so kann man 1. oder 2. flugplan ausgeben ... ...
+	 */
+
 
 	public static void main(String[] args) throws URISyntaxException {
+		
 		List<FlightData> imported = FlightDataReader.importFlightData(FlightOptimizerMain.class.getResource("flugplan.csv").toURI()
 				.getPath());
-
-		for (FlightData data : imported) {
-			System.out.println(data);
-		}
+//		for (FlightData data : imported) {
+//			System.out.println(data);
+//		}
 
 		List<UserData> users = initUserData();
-		
-		for(UserData user : users){
-			System.out.println(user);
-		}
+//		for(UserData user : users){
+//			System.out.println(user);
+//		}
 		
 		OptimizedFlightCalculator c = new OptimizedFlightCalculator(imported, users);
 		c.calculate();
-
-		/**
-		 * 6 Personen sollen möglichst Zeitlgeich in MUC (München) ankommen.
-		 * 
-		 * ein flugplan mit allen personen (hin und rückflug), dafür die
-		 * kosten.. das mit allen möglichen flügen.
-		 * 
-		 * Regel überlegen, wie man Flugpläne zusammenstellt, weil sonst die
-		 * Kosten immer anders sind. zb bitweise (immer 1. und 1. flug, dann 1.
-		 * und 2. flug)
-		 * 
-		 * Pläne zB so kombinieren: 
-		 * 1 1 1 
-		 * 2 1 1 
-		 * 3 1 1
-		 * 1 2 1 
-		 * 2 2 1
-		 * 3 2 1
-		 * 
-		 * so kann man 1. oder 2. flugplan ausgeben ... ...
-		 */
-
 	}
 
 	private static List<UserData> initUserData() {

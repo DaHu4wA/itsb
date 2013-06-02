@@ -41,6 +41,9 @@ public class OptimizedFlightCalculator {
 	}
 
 	private List<FlightData> calcAwayFlights(List<UserWithFlightCandidates> usersWithFlights) {
+
+		checkData(usersWithFlights);
+
 		System.out.print("\nCalculating flights to destination... ");
 		// FIXME all users hopefully have the same amount of flights ;)
 		// FIXME improve this !
@@ -85,6 +88,9 @@ public class OptimizedFlightCalculator {
 	}
 
 	private List<FlightData> calcHomeFlights(List<UserWithFlightCandidates> usersWithFlights) {
+		
+		checkData(usersWithFlights);
+		
 		System.out.print("\nCalculating flights back home... ");
 		// FIXME all users hopefully have the same amount of flights ;)
 		// FIXME improve this !
@@ -139,4 +145,26 @@ public class OptimizedFlightCalculator {
 		return usersWithCandidates;
 	}
 
+	private void checkData(List<UserWithFlightCandidates> usersWithFlights) {
+		if (usersWithFlights.size() != 6) {
+			throw new RuntimeException("Exactly 6 users are needed!");
+		}
+
+		int awaySize = 0;
+		int homeSize = 0;
+		for (UserWithFlightCandidates us : usersWithFlights) {
+
+			if (awaySize == 0) {
+				awaySize = us.getAwayFlights().size();
+			}
+			if (homeSize == 0) {
+				homeSize = us.getHomeFlights().size();
+			}
+
+			if (awaySize != us.getAwayFlights().size() || homeSize != us.getHomeFlights().size()) {
+				throw new RuntimeException("All users must have the same amounts of flights!");
+			}
+
+		}
+	}
 }
