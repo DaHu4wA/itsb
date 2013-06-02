@@ -7,6 +7,7 @@ import java.util.List;
 import ac.at.fhsalzburg.flugrechnen.data.FlightData;
 import ac.at.fhsalzburg.flugrechnen.data.UserData;
 import ac.at.fhsalzburg.flugrechnen.filereader.FlightDataReader;
+import ac.at.fhsalzburg.flugrechnen.services.OptimizedFlightCalculator;
 
 
 
@@ -32,6 +33,9 @@ public class FlightOptimizerMain {
 		for(UserData user : users){
 			System.out.println(user);
 		}
+		
+		OptimizedFlightCalculator c = new OptimizedFlightCalculator(imported, users);
+		c.calculate();
 
 		/**
 		 * 6 Personen sollen möglichst Zeitlgeich in MUC (München) ankommen.

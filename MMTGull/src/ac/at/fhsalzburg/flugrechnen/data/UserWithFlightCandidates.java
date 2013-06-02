@@ -27,7 +27,7 @@ public class UserWithFlightCandidates {
 		return awayFlights;
 	}
 
-	public void getAwayFlights(List<FlightData> awayFlights) {
+	public void setAwayFlights(List<FlightData> awayFlights) {
 		this.awayFlights = awayFlights;
 	}
 
