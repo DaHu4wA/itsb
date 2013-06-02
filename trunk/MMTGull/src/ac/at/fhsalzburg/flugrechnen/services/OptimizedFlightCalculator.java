@@ -45,14 +45,6 @@ public class OptimizedFlightCalculator {
 			public void run() {
 				List<FlightData> flightsFromDestination = calcHomeFlights(usersWithFlights);
 
-				while (!destinationCalcFinished) {
-					try {
-						Thread.sleep(100);
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					}
-				}
-				
 				System.out.println("\n=== Flights back home ===");
 				for (FlightData f : flightsFromDestination) {
 					System.out.println(f);
@@ -101,7 +93,7 @@ public class OptimizedFlightCalculator {
 				}
 			}
 		}
-		System.out.println("(Finished doing " + totalCount + " calculations to destination)");
+		System.out.println("\n(Finished doing " + totalCount + " calculations to destination)");
 		System.out.println("Lowest costs to destination: " + lowestCosts);
 
 		return cheapestFlights;
@@ -147,8 +139,16 @@ public class OptimizedFlightCalculator {
 			}
 		}
 
+		// wait for the thread that calculates the destination to be finished
+		while (!destinationCalcFinished) {
+			try {
+				Thread.sleep(100);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
 
-		System.out.println("(Finished doing " + totalCount + " calculations back home)");
+		System.out.println("\n(Finished doing " + totalCount + " calculations back home)");
 		System.out.println("Lowest costs back home: " + lowestCosts);
 
 		return cheapestFlights;
