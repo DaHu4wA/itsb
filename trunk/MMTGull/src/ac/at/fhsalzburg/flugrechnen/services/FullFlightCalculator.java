@@ -8,18 +8,20 @@ import ac.at.fhsalzburg.flugrechnen.data.UserData;
 import ac.at.fhsalzburg.flugrechnen.data.UserWithFlightCandidates;
 
 /**
- * First version of calculation for optimized flights
+ * Full calculation for optimized flights. This calculates the real best flight
+ * by using all combinations!
  * 
  * @author Stefan Huber
  */
-public class OptimizedFlightCalculator {
+public class FullFlightCalculator {
 
 	private final List<FlightData> allFlights;
 	private final List<UserData> users;
 
+	// volatile ensures that the variable is syncronized over all threads
 	private volatile boolean destinationCalcFinished = false;
 
-	public OptimizedFlightCalculator(List<FlightData> flights, List<UserData> users) {
+	public FullFlightCalculator(List<FlightData> flights, List<UserData> users) {
 		this.allFlights = flights;
 		this.users = users;
 	}
@@ -56,8 +58,8 @@ public class OptimizedFlightCalculator {
 
 	private List<FlightData> calcAwayFlights(List<UserWithFlightCandidates> usersWithFlights) {
 
-		checkData(usersWithFlights);
-
+		UserDataCheckHelper.checkData(usersWithFlights);
+		long startTime = System.currentTimeMillis();
 		System.out.println("\nCalculating flights to destination... ");
 		int count = usersWithFlights.get(0).getAwayFlights().size();
 		long totalCount = 0;
@@ -65,7 +67,7 @@ public class OptimizedFlightCalculator {
 		double lowestCosts = 999999999;
 		List<FlightData> cheapestFlights = null;
 
-		// FIXME a for-iteration for every user.. how to improve this?
+		// TODO a for-iteration for every user.. how to improve this?
 		for (int a = 0; a < count; a++) {
 			for (int b = 0; b < count; b++) {
 				for (int c = 0; c < count; c++) {
@@ -93,7 +95,7 @@ public class OptimizedFlightCalculator {
 				}
 			}
 		}
-		System.out.println("\n(Finished doing " + totalCount + " calculations to destination)");
+		System.out.println("\n(Did " + totalCount + " calculations to destination in " + (System.currentTimeMillis() - startTime) + "ms)");
 		System.out.println("Lowest costs to destination: " + lowestCosts);
 
 		return cheapestFlights;
@@ -101,8 +103,8 @@ public class OptimizedFlightCalculator {
 
 	private List<FlightData> calcHomeFlights(List<UserWithFlightCandidates> usersWithFlights) {
 
-		checkData(usersWithFlights);
-
+		UserDataCheckHelper.checkData(usersWithFlights);
+		long startTime = System.currentTimeMillis();
 		System.out.println("\nCalculating flights back home... ");
 		int count = usersWithFlights.get(0).getHomeFlights().size();
 		long totalCount = 0;
@@ -110,7 +112,7 @@ public class OptimizedFlightCalculator {
 		double lowestCosts = 999999999;
 		List<FlightData> cheapestFlights = null;
 
-		// FIXME a for-iteration for every user.. how to improve this?
+		// TODO a for-iteration for every user.. how to improve this?
 		for (int a = 0; a < count; a++) {
 			for (int b = 0; b < count; b++) {
 				for (int c = 0; c < count; c++) {
@@ -138,7 +140,7 @@ public class OptimizedFlightCalculator {
 				}
 			}
 		}
-
+		long endTime = (System.currentTimeMillis() - startTime);
 		// wait for the thread that calculates the destination to be finished
 		while (!destinationCalcFinished) {
 			try {
@@ -147,8 +149,7 @@ public class OptimizedFlightCalculator {
 				e.printStackTrace();
 			}
 		}
-
-		System.out.println("\n(Finished doing " + totalCount + " calculations back home)");
+		System.out.println("\n(Did " + totalCount + " calculations back home in " + endTime + "ms)");
 		System.out.println("Lowest costs back home: " + lowestCosts);
 
 		return cheapestFlights;
@@ -163,28 +164,5 @@ public class OptimizedFlightCalculator {
 			usersWithCandidates.add(candidate);
 		}
 		return usersWithCandidates;
-	}
-
-	private void checkData(List<UserWithFlightCandidates> usersWithFlights) {
-		if (usersWithFlights.size() != 6) {
-			throw new RuntimeException("Exactly 6 users are needed!");
-		}
-
-		int awaySize = 0;
-		int homeSize = 0;
-		for (UserWithFlightCandidates us : usersWithFlights) {
-
-			if (awaySize == 0) {
-				awaySize = us.getAwayFlights().size();
-			}
-			if (homeSize == 0) {
-				homeSize = us.getHomeFlights().size();
-			}
-
-			if (awaySize != us.getAwayFlights().size() || homeSize != us.getHomeFlights().size()) {
-				throw new RuntimeException("All users must have the same amounts of flights!");
-			}
-
-		}
 	}
 }
