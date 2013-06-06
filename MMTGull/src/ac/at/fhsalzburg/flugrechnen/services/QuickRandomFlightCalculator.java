@@ -1,0 +1,152 @@
+package ac.at.fhsalzburg.flugrechnen.services;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import ac.at.fhsalzburg.flugrechnen.data.FlightData;
+import ac.at.fhsalzburg.flugrechnen.data.UserData;
+import ac.at.fhsalzburg.flugrechnen.data.UserWithFlightCandidates;
+
+/**
+ * Quick calculation for flights. Here only a small amount of all flights is
+ * taken and then compared.
+ * 
+ * @author Stefan Huber
+ */
+public class QuickRandomFlightCalculator {
+
+	private static final int RANDOM_COUNT = 1000;
+
+	private final List<FlightData> allFlights;
+	private final List<UserData> users;
+
+	private volatile boolean destinationCalcFinished = false;
+
+	public QuickRandomFlightCalculator(List<FlightData> flights, List<UserData> users) {
+		this.allFlights = flights;
+		this.users = users;
+	}
+
+	public void calculate() {
+		final List<UserWithFlightCandidates> usersWithFlights = determineFlightsForAllUsers();
+
+		Thread awaycalc = new Thread(new Runnable() {
+			@Override
+			public void run() {
+				List<FlightData> flightsToDestination = calcSomeRandomAwayFlights(usersWithFlights);
+				System.out.println("\n=== Flights to destination ===");
+				for (FlightData f : flightsToDestination) {
+					System.out.println(f);
+				}
+				destinationCalcFinished = true;
+			}
+		});
+		awaycalc.start();
+
+		Thread homecalc = new Thread(new Runnable() {
+			@Override
+			public void run() {
+				List<FlightData> flightsFromDestination = calcSomeRandomHomeFlights(usersWithFlights);
+
+				System.out.println("\n=== Flights back home ===");
+				for (FlightData f : flightsFromDestination) {
+					System.out.println(f);
+				}
+			}
+		});
+		homecalc.start();
+	}
+
+	private List<FlightData> calcSomeRandomAwayFlights(List<UserWithFlightCandidates> usersWithFlights) {
+
+		UserDataCheckHelper.checkData(usersWithFlights);
+		long startTime = System.currentTimeMillis();
+		System.out.println("\nCalculating flights to destination... ");
+		int count = usersWithFlights.get(0).getAwayFlights().size();
+
+		double lowestCosts = 999999999;
+		List<FlightData> cheapestFlights = null;
+
+		for (int randomCount = 0; randomCount < RANDOM_COUNT; randomCount++) {
+
+			List<FlightData> currentFlights = new ArrayList<FlightData>();
+			currentFlights.add(usersWithFlights.get(0).getAwayFlights().get(getRandom(count)));
+			currentFlights.add(usersWithFlights.get(1).getAwayFlights().get(getRandom(count)));
+			currentFlights.add(usersWithFlights.get(2).getAwayFlights().get(getRandom(count)));
+			currentFlights.add(usersWithFlights.get(3).getAwayFlights().get(getRandom(count)));
+			currentFlights.add(usersWithFlights.get(4).getAwayFlights().get(getRandom(count)));
+			currentFlights.add(usersWithFlights.get(5).getAwayFlights().get(getRandom(count)));
+
+			double costs = CostService.getCosts(currentFlights, false);
+
+			if (costs < lowestCosts) {
+				cheapestFlights = currentFlights;
+				lowestCosts = costs;
+			}
+		}
+
+		System.out
+				.println("\n(Did " + RANDOM_COUNT + " calculations to destination in " + (System.currentTimeMillis() - startTime) + "ms)");
+		System.out.println("Lowest costs to destination: " + lowestCosts);
+
+		return cheapestFlights;
+	}
+
+	private List<FlightData> calcSomeRandomHomeFlights(List<UserWithFlightCandidates> usersWithFlights) {
+
+		UserDataCheckHelper.checkData(usersWithFlights);
+		long startTime = System.currentTimeMillis();
+		System.out.println("\nCalculating flights back home... ");
+		int count = usersWithFlights.get(0).getHomeFlights().size();
+
+		double lowestCosts = 999999999;
+		List<FlightData> cheapestFlights = null;
+
+		for (int randomCount = 0; randomCount < RANDOM_COUNT; randomCount++) {
+
+			List<FlightData> currentFlights = new ArrayList<FlightData>();
+			currentFlights.add(usersWithFlights.get(0).getHomeFlights().get(getRandom(count)));
+			currentFlights.add(usersWithFlights.get(1).getHomeFlights().get(getRandom(count)));
+			currentFlights.add(usersWithFlights.get(2).getHomeFlights().get(getRandom(count)));
+			currentFlights.add(usersWithFlights.get(3).getHomeFlights().get(getRandom(count)));
+			currentFlights.add(usersWithFlights.get(4).getHomeFlights().get(getRandom(count)));
+			currentFlights.add(usersWithFlights.get(5).getHomeFlights().get(getRandom(count)));
+
+			double costs = CostService.getCosts(currentFlights, true);
+
+			if (costs < lowestCosts) {
+				cheapestFlights = currentFlights;
+				lowestCosts = costs;
+			}
+		}
+		long endTime = (System.currentTimeMillis() - startTime);
+		// wait for the thread that calculates the destination to be finished
+		while (!destinationCalcFinished) {
+			try {
+				Thread.sleep(100);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+		System.out.println("\n(Did " + RANDOM_COUNT + " calculations back home in " + endTime + "ms)");
+		System.out.println("Lowest costs back home: " + lowestCosts);
+
+		return cheapestFlights;
+	}
+
+	private int getRandom(int count) {
+		return (int) (Math.random() * count);
+	}
+
+	public List<UserWithFlightCandidates> determineFlightsForAllUsers() {
+		List<UserWithFlightCandidates> usersWithCandidates = new ArrayList<UserWithFlightCandidates>();
+		for (UserData user : users) {
+			UserWithFlightCandidates candidate = new UserWithFlightCandidates(user);
+			candidate.getAwayFlights().addAll(FlightDataService.getAwayFlightsForUser(allFlights, user));
+			candidate.getHomeFlights().addAll(FlightDataService.getHomeFlightsForUser(allFlights, user));
+			usersWithCandidates.add(candidate);
+		}
+		return usersWithCandidates;
+	}
+
+}
