@@ -6,7 +6,8 @@ import java.util.List;
 import ac.at.fhsalzburg.flugrechnen.data.FlightData;
 
 /**
- * Calculates the costs
+ * Calculates the costs for a flight.
+ * Every waiting minute costs "1"
  * 
  * @author Stefan Huber
  */

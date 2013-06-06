@@ -112,7 +112,6 @@ public class FullFlightCalculator {
 		double lowestCosts = 999999999;
 		List<FlightData> cheapestFlights = null;
 
-		// TODO a for-iteration for every user.. how to improve this?
 		for (int a = 0; a < count; a++) {
 			for (int b = 0; b < count; b++) {
 				for (int c = 0; c < count; c++) {

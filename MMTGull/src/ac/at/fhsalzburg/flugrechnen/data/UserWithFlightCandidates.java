@@ -3,6 +3,11 @@ package ac.at.fhsalzburg.flugrechnen.data;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Represents a user with all possible flights to the destination and back home
+ * 
+ * @author Stefan Huber
+ */
 public class UserWithFlightCandidates {
 
 	private UserData user;
