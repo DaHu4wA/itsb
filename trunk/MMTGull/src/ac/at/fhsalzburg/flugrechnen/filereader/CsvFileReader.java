@@ -6,7 +6,7 @@ import java.io.FileReader;
 import java.io.IOException;
 
 /**
- * Does what the name says ;)
+ * Does what the name says (reading a csv file)
  * 
  * @author Stefan Huber
  */
@@ -26,7 +26,6 @@ public class CsvFileReader {
 		try {
 			reader = new BufferedReader(new FileReader(path));
 		} catch (FileNotFoundException e) {
-			// TODO maybe handle this
 			e.printStackTrace();
 		}
 	}

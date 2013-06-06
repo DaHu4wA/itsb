@@ -7,8 +7,7 @@ import ac.at.fhsalzburg.flugrechnen.data.FlightData;
 import ac.at.fhsalzburg.flugrechnen.data.UserData;
 
 /**
- * Not real services in the meaning of providing data from a DB, but services to
- * filter data from the big list
+ * Service to filter relevant data from the big list of flights
  * 
  * @author Stefan Huber
  */
