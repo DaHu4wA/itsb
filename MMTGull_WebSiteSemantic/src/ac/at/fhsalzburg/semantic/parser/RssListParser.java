@@ -21,28 +21,32 @@ public class RssListParser {
 	private static final Pattern PATTERN_HTML_REPLACES = Pattern.compile("\\&.+?\\;");
 	private static final Pattern PATTERN_ONLY_CHARACTERS_AND_SPACES = Pattern.compile("[^\\p{L}\\p{N}]");
 	private static final Pattern PATTERN_SHORT_WORDS = Pattern.compile("\\b\\w{0,4}\\b");
-	private static final Pattern PATTERN_LONG_WORDS = Pattern.compile("\\b\\w{11,}\\b");
+	private static final Pattern PATTERN_LONG_WORDS = Pattern.compile("\\b\\w{14,}\\b");
 
-	public static void parseAndCleanFeeds(List<String> feeds) {
+	public static int parseAndCleanFeeds(List<String> feeds) {
+
 		List<WordsWithCountAndUrl> allAnalyzedFeeds = new ArrayList<WordsWithCountAndUrl>();
 
 		for (String feed : feeds) {
 			WordsWithCountAndUrl singleFeed = parseAndCleanSingleFeed(feed);
-			if(singleFeed != null){ //if null: feed was not available!
+			if (singleFeed != null) { // if null: feed was not available!
 				allAnalyzedFeeds.add(singleFeed);
 			}
 		}
+		System.out.println("\n");
 
 		new AnalyzedWordMatcher().matchWordLists(allAnalyzedFeeds);
+
+		return allAnalyzedFeeds.size();
 	}
 
 	private static WordsWithCountAndUrl parseAndCleanSingleFeed(String feed) {
 		List<RssItemBean> items = RssFeedFetcher.parse(feed);
-		
-		if(items == null){
-			return null; //feed not available
+
+		if (items == null) {
+			return null; // feed not available
 		}
-		
+
 		List<Feed> cleanedFeeds = new ArrayList<Feed>();
 
 		WordAnalyzer analyzer = new WordAnalyzer();
@@ -57,6 +61,11 @@ public class RssListParser {
 	}
 
 	private static String clean(String toClean) {
+
+		if (toClean == null || toClean.trim().isEmpty()) {
+			return "";
+		}
+
 		Matcher m = PATTERN_HTML_TAGS.matcher(toClean);
 		String clean = m.replaceAll(" ");
 

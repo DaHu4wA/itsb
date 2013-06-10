@@ -26,8 +26,8 @@ public class WordAnalyzer {
 	}
 
 	private void addWord(String word) {
-		
-		if(word.trim().isEmpty()){
+
+		if (word.trim().isEmpty()) {
 			return;
 		}
 
