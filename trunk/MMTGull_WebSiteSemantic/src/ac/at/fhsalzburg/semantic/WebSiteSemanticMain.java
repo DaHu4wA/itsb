@@ -13,11 +13,14 @@ import ac.at.fhsalzburg.semantic.parser.RssListParser;
 public class WebSiteSemanticMain {
 
 	public static void main(String[] args) throws Exception {
+		long startTime = System.currentTimeMillis();
 
-		List<String> urls = readUrlsFromFile(WebSiteSemanticMain.class.getResource("bloglist2.txt").toURI().getPath());
+		String source = "bloglist2.txt"; // "bloglistShort.txt"
+		List<String> urls = readUrlsFromFile(WebSiteSemanticMain.class.getResource(source).toURI().getPath());
 
-		RssListParser.parseAndCleanFeeds(urls);
+		int count = RssListParser.parseAndCleanFeeds(urls);
 
+		System.out.println("Analyzed " + count + " feeds in " + ((System.currentTimeMillis() - startTime) / 1000) + " seconds.");
 	}
 
 	private static List<String> readUrlsFromFile(String file) throws FileNotFoundException, URISyntaxException, IOException {

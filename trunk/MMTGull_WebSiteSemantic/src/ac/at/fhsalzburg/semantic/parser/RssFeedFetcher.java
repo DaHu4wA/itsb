@@ -12,12 +12,12 @@ public class RssFeedFetcher {
 		RssParser rss = new RssParser();
 
 		try {
-			System.out.print("\nFetching RSS feed \"" + url + "\"...");
+			System.out.print("\nFetching RSS feed \"" + url + "\"... ");
 			RssFeed feed = rss.load(url);
-			System.out.print(" OK");
+			System.out.print("OK!");
 			return feed.getItems();
 		} catch (Exception e) {
-			System.out.print(" FAILED!");
+			System.out.print("FAILED!");
 			return null;
 		}
 	}
