@@ -8,6 +8,7 @@ import java.util.regex.Pattern;
 
 import org.horrabin.horrorss.RssItemBean;
 
+import ac.at.fhsalzburg.semantic.clusteranalyzer.HierarchicalClusterAnalyzer;
 import ac.at.fhsalzburg.semantic.data.Feed;
 import ac.at.fhsalzburg.semantic.data.WordsWithCountAndUrl;
 
@@ -35,7 +36,7 @@ public class RssListParser {
 	};
 
 	public int parseAndCleanFeeds(List<String> feeds) {
-
+		long fetchTime = System.currentTimeMillis();
 		List<Thread> threads = new ArrayList<Thread>();
 		for (final String feed : feeds) {
 			Thread t = new Thread(new Runnable() {
@@ -47,6 +48,8 @@ public class RssListParser {
 			threads.add(t);
 			t.start();
 		}
+		System.out.println("\nAll " + threads.size() + " threads started!\n");
+		
 
 		for (Thread thread : threads) {
 			try {
@@ -55,17 +58,22 @@ public class RssListParser {
 				e.printStackTrace();
 			}
 		}
-
-		System.out.println("\nAll " + threads.size() + "threads finished!");
 		threads.clear();
+		long completeFetchTime = System.currentTimeMillis()-fetchTime;
 
+		long calcTime = System.currentTimeMillis();
 		AnalyzedWordMatcher analyzer = new AnalyzedWordMatcher();
 		analyzer.matchWordLists(allAnalyzedFeeds);
 
 		Object[][] map = buildArray(allAnalyzedFeeds, analyzer.getoverallWordsWithCount());
 
 		// TODO analysieren mit den zwei Methoden
-
+		HierarchicalClusterAnalyzer hierarchicalClusterAnalyzer = new HierarchicalClusterAnalyzer();
+		hierarchicalClusterAnalyzer.analyze(map);
+		
+		System.out.println("Time for downloading feeds: "+completeFetchTime/1000+" sec.");
+		System.out.println("Time for analyzing: "+(System.currentTimeMillis()-calcTime)+" ms.");
+		
 		return allAnalyzedFeeds.size();
 	}
 
@@ -123,8 +131,6 @@ public class RssListParser {
 			currentRow++;
 		}
 
-		// TODO maybe add sums at the end or second line? array would need one
-		// more row
 		printMap(map, columnCount, rowCount);
 
 		return map;
