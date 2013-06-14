@@ -11,8 +11,8 @@ import ac.at.fhsalzburg.semantic.data.WordsWithCountAndUrl;
 
 public class AnalyzedWordMatcher {
 
-	private static final double LOWER_OCCUR_LIMIT = 0.1;
-	private static final double UPPER_OCCUR_LIMIT = 0.8;
+	private static final double LOWER_OCCUR_LIMIT = 0.05;
+	private static final double UPPER_OCCUR_LIMIT = 0.5;
 
 	Map<String, Integer> overallWordsWithCount = new HashMap<String, Integer>();
 
@@ -31,11 +31,10 @@ public class AnalyzedWordMatcher {
 		printResult();
 	}
 
-	// FIXME TODO nicht woerter zaehlen sondern schauen in wie vielen Blogs die
-	// vorkommen!
 	private void cutIrrelevantWords(List<WordsWithCountAndUrl> allAnalyzed) {
-		Set<String> removedWords = cutUpperAndLowerResult(); // cut from whole
-																// list
+		//cut irrelevant from the big list
+		Set<String> removedWords = cutUpperAndLowerResult(allAnalyzed); 
+		System.out.println(removedWords.size()+" words will be filtered out.");
 
 		// then delete them from the single lists
 		for (WordsWithCountAndUrl analyzed : allAnalyzed) {
@@ -67,30 +66,69 @@ public class AnalyzedWordMatcher {
 	 * 
 	 * @return the removed words
 	 */
-	private Set<String> cutUpperAndLowerResult() {
+	// private Set<String> cutUpperAndLowerResult() {
+	// Set<String> removedWords = new HashSet<String>();
+	// double maxCount = 0;
+	// for (Integer i : overallWordsWithCount.values()) {
+	// if (i > maxCount) {
+	// maxCount = i;
+	// }
+	// }
+	//
+	// double lowestAllowed = maxCount * LOWER_OCCUR_LIMIT;
+	// double highestAllowed = maxCount * UPPER_OCCUR_LIMIT;
+	//
+	// Map<String, Integer> copy = new HashMap<String,
+	// Integer>(overallWordsWithCount);
+	// for (String i : overallWordsWithCount.keySet()) {
+	// int current = overallWordsWithCount.get(i);
+	// if (current > highestAllowed || current < lowestAllowed) {
+	// copy.remove(i);
+	// removedWords.add(i);
+	// }
+	// }
+	// overallWordsWithCount = copy;
+	// System.out.println("\n-------------------------------");
+	// System.out.println("Words that occur less then " + (int) lowestAllowed +
+	// " times or more than " + (int) highestAllowed
+	// + " times were filtered out.");
+	// return removedWords;
+	// }
+
+	private Set<String> cutUpperAndLowerResult(List<WordsWithCountAndUrl> allAnalyzed) {
 		Set<String> removedWords = new HashSet<String>();
-		double maxCount = 0;
-		for (Integer i : overallWordsWithCount.values()) {
-			if (i > maxCount) {
-				maxCount = i;
+
+		// count in how many blogs which words occur
+		Map<String, Integer> occurences = new HashMap<String, Integer>();
+
+		for (String i : overallWordsWithCount.keySet()) {
+			for (WordsWithCountAndUrl feed : allAnalyzed) {
+				// look if the blogs contian this word
+				if (feed.getWordsWithCount().containsKey(i)) {
+					if (occurences.containsKey(i)) {
+						Integer count = occurences.get(i);
+						occurences.remove(i);
+						occurences.put(i, count + 1);
+					} else {
+						occurences.put(i, 1);
+					}
+				}
 			}
 		}
 
-		double lowestAllowed = maxCount * LOWER_OCCUR_LIMIT;
-		double highestAllowed = maxCount * UPPER_OCCUR_LIMIT;
+		double lowestAllowedCount = allAnalyzed.size() * LOWER_OCCUR_LIMIT;
+		double highestAllowedCount = allAnalyzed.size() * UPPER_OCCUR_LIMIT;
 
-		Map<String, Integer> copy = new HashMap<String, Integer>(overallWordsWithCount);
-		for (String i : overallWordsWithCount.keySet()) {
-			int current = overallWordsWithCount.get(i);
-			if (current > highestAllowed || current < lowestAllowed) {
-				copy.remove(i);
+		for (String i : occurences.keySet()) {
+			int current = occurences.get(i);
+			if (current > highestAllowedCount || current < lowestAllowedCount) {
+				overallWordsWithCount.remove(i);
 				removedWords.add(i);
 			}
 		}
-		overallWordsWithCount = copy;
 		System.out.println("\n-------------------------------");
-		System.out.println("Words that occur less then " + (int) lowestAllowed + " times or more than " + (int) highestAllowed
-				+ " times were filtered out.");
+		System.out.println("Words that occur in less then " + (int) lowestAllowedCount + " blogs or in more than "
+				+ (int) highestAllowedCount + " blogs were filtered out.");
 		return removedWords;
 	}
 
