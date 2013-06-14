@@ -24,17 +24,40 @@ public class RssListParser {
 	private static final Pattern PATTERN_SHORT_WORDS = Pattern.compile("\\b\\w{0,4}\\b");
 	private static final Pattern PATTERN_LONG_WORDS = Pattern.compile("\\b\\w{14,}\\b");
 
-	public static int parseAndCleanFeeds(List<String> feeds) {
+	// volatile ensures that all operations with this list are atomar
+	private volatile List<WordsWithCountAndUrl> allAnalyzedFeeds = new ArrayList<WordsWithCountAndUrl>();
 
-		List<WordsWithCountAndUrl> allAnalyzedFeeds = new ArrayList<WordsWithCountAndUrl>();
+	FinishedCallback finishedCallback = new FinishedCallback() {
+		@Override
+		public void finished(WordsWithCountAndUrl result) {
+			addFeed(result);
+		}
+	};
 
-		for (String feed : feeds) {
-			WordsWithCountAndUrl singleFeed = parseAndCleanSingleFeed(feed);
-			if (singleFeed != null) { // if null: feed was not available!
-				allAnalyzedFeeds.add(singleFeed);
+	public int parseAndCleanFeeds(List<String> feeds) {
+
+		List<Thread> threads = new ArrayList<Thread>();
+		for (final String feed : feeds) {
+			Thread t = new Thread(new Runnable() {
+				@Override
+				public void run() {
+					parseAndCleanSingleFeed(feed, finishedCallback);
+				}
+			});
+			threads.add(t);
+			t.start();
+		}
+
+		for (Thread thread : threads) {
+			try {
+				thread.join(); // wait for all threads to be finished
+			} catch (InterruptedException e) {
+				e.printStackTrace();
 			}
 		}
-		System.out.println("\n");
+
+		System.out.println("\nAll " + threads.size() + "threads finished!");
+		threads.clear();
 
 		AnalyzedWordMatcher analyzer = new AnalyzedWordMatcher();
 		analyzer.matchWordLists(allAnalyzedFeeds);
@@ -44,6 +67,13 @@ public class RssListParser {
 		// TODO analysieren mit den zwei Methoden
 
 		return allAnalyzedFeeds.size();
+	}
+
+	private void addFeed(WordsWithCountAndUrl singleFeed) {
+		if (singleFeed == null) { // if null: feed was not available!
+			return;
+		}
+		allAnalyzedFeeds.add(singleFeed);
 	}
 
 	private static Object[][] buildArray(List<WordsWithCountAndUrl> allAnalyzedFeeds, Map<String, Integer> allWordsWithCount) {
@@ -100,11 +130,12 @@ public class RssListParser {
 		return map;
 	}
 
-	private static WordsWithCountAndUrl parseAndCleanSingleFeed(String feed) {
+	private static void parseAndCleanSingleFeed(String feed, FinishedCallback finishedCallback) {
 		List<RssItemBean> items = RssFeedFetcher.parse(feed);
 
 		if (items == null) {
-			return null; // feed not available
+			finishedCallback.finished(null);
+			return;
 		}
 
 		List<Feed> cleanedFeeds = new ArrayList<Feed>();
@@ -117,7 +148,7 @@ public class RssListParser {
 
 			analyzer.analyze(cleaned);
 		}
-		return new WordsWithCountAndUrl(feed, analyzer.getWordsWithCount());
+		finishedCallback.finished(new WordsWithCountAndUrl(feed, analyzer.getWordsWithCount()));
 	}
 
 	private static String clean(String toClean) {
