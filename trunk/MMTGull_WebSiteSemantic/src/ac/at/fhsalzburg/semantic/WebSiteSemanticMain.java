@@ -15,7 +15,8 @@ public class WebSiteSemanticMain {
 	public static void main(String[] args) throws Exception {
 		long startTime = System.currentTimeMillis();
 
-		String source = "bloglist2.txt"; // "bloglistShort.txt"
+//		String source = "bloglist2.txt"; 
+		String source = "bloglistShort.txt"; 
 		List<String> urls = readUrlsFromFile(WebSiteSemanticMain.class.getResource(source).toURI().getPath());
 
 		int count = RssListParser.parseAndCleanFeeds(urls);

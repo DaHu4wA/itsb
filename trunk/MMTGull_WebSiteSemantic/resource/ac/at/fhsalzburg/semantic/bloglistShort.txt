@@ -1,0 +1,6 @@
+http://www.engadget.com/rss.xml
+http://feeds.feedblitz.com/neelyallysonstoller&x=1
+http://www.autoblog.com/category/euro/rss.xml
+http://www.joystiq.com/rss.xml
+http://feeds.feedburner.com/techShantanu
+http://cdn.pocket-lint.com/rss/all.xml

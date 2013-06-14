@@ -1,6 +1,7 @@
 package ac.at.fhsalzburg.semantic.parser;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -10,7 +11,7 @@ import ac.at.fhsalzburg.semantic.data.WordsWithCountAndUrl;
 
 public class AnalyzedWordMatcher {
 
-	private static final double LOWER_OCCUR_LIMIT = 0.2;
+	private static final double LOWER_OCCUR_LIMIT = 0.1;
 	private static final double UPPER_OCCUR_LIMIT = 0.8;
 
 	Map<String, Integer> overallWordsWithCount = new HashMap<String, Integer>();
@@ -25,8 +26,25 @@ public class AnalyzedWordMatcher {
 				addWord(entry.getKey(), entry.getValue());
 			}
 		}
-		cutUpperAndLowerResult();
+		cutIrrelevantWords(allAnalyzed);
+
 		printResult();
+	}
+
+	// FIXME TODO nicht woerter zaehlen sondern schauen in wie vielen Blogs die
+	// vorkommen!
+	private void cutIrrelevantWords(List<WordsWithCountAndUrl> allAnalyzed) {
+		Set<String> removedWords = cutUpperAndLowerResult(); // cut from whole
+																// list
+
+		// then delete them from the single lists
+		for (WordsWithCountAndUrl analyzed : allAnalyzed) {
+			for (String removed : removedWords) {
+				if (analyzed.getWordsWithCount().containsKey(removed)) {
+					analyzed.getWordsWithCount().remove(removed);
+				}
+			}
+		}
 	}
 
 	private void addWord(String word, int count) {
@@ -46,8 +64,11 @@ public class AnalyzedWordMatcher {
 
 	/**
 	 * Filter out all lower and upper defined values
+	 * 
+	 * @return the removed words
 	 */
-	private void cutUpperAndLowerResult() {
+	private Set<String> cutUpperAndLowerResult() {
+		Set<String> removedWords = new HashSet<String>();
 		double maxCount = 0;
 		for (Integer i : overallWordsWithCount.values()) {
 			if (i > maxCount) {
@@ -63,12 +84,14 @@ public class AnalyzedWordMatcher {
 			int current = overallWordsWithCount.get(i);
 			if (current > highestAllowed || current < lowestAllowed) {
 				copy.remove(i);
+				removedWords.add(i);
 			}
 		}
 		overallWordsWithCount = copy;
 		System.out.println("\n-------------------------------");
 		System.out.println("Words that occur less then " + (int) lowestAllowed + " times or more than " + (int) highestAllowed
 				+ " times were filtered out.");
+		return removedWords;
 	}
 
 	private void printResult() {
