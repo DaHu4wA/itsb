@@ -2,6 +2,7 @@ package ac.at.fhsalzburg.semantic.parser;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -35,9 +36,68 @@ public class RssListParser {
 		}
 		System.out.println("\n");
 
-		new AnalyzedWordMatcher().matchWordLists(allAnalyzedFeeds);
+		AnalyzedWordMatcher analyzer = new AnalyzedWordMatcher();
+		analyzer.matchWordLists(allAnalyzedFeeds);
+
+		Object[][] map = buildArray(allAnalyzedFeeds, analyzer.getoverallWordsWithCount());
+
+		// TODO analysieren mit den zwei Methoden
 
 		return allAnalyzedFeeds.size();
+	}
+
+	private static Object[][] buildArray(List<WordsWithCountAndUrl> allAnalyzedFeeds, Map<String, Integer> allWordsWithCount) {
+
+		// columns:
+		int columnCount = allWordsWithCount.size();
+		columnCount += 1; // add the blogname column
+
+		// rows:
+		int rowCount = allAnalyzedFeeds.size();
+		rowCount += 1; // to add a header line containing the words themselves
+		rowCount += 1; // add the sums in the second line
+
+		// 2d-array looks like this: first row are headers, first column blogs..
+		// then all counts
+
+		// columns, rows
+		Object[][] map = new Object[columnCount][rowCount];
+		map[0][0] = "/";
+		map[0][1] = "[SUMS]";
+		// build columns: add all words
+		int currentColumn = 1; // column 0 is for blog names
+		for (String word : allWordsWithCount.keySet()) {
+			map[currentColumn][0] = word; // add word
+			map[currentColumn][1] = allWordsWithCount.get(word); // add sum
+			currentColumn++;
+		}
+
+		// build rows: go through all blogs, add their name and word counts
+		int currentRow = 2; // row 0 is for word names, row 1 for sums
+		for (WordsWithCountAndUrl blog : allAnalyzedFeeds) {
+
+			map[0][currentRow] = blog.getRssFeedUrl(); // set blog name into
+														// first column
+
+			// go through all columns and search for it in the current blog
+			for (int i = 1; i < columnCount; i++) {
+
+				Object currentWord = map[i][0];
+				if (blog.getWordsWithCount().containsKey(currentWord)) {
+					Integer currentWordCount = blog.getWordsWithCount().get(currentWord);
+					map[i][currentRow] = currentWordCount;
+				} else {
+					map[i][currentRow] = 0;
+				}
+			}
+			currentRow++;
+		}
+
+		// TODO maybe add sums at the end or second line? array would need one
+		// more row
+		printMap(map, columnCount, rowCount);
+
+		return map;
 	}
 
 	private static WordsWithCountAndUrl parseAndCleanSingleFeed(String feed) {
@@ -86,5 +146,14 @@ public class RssListParser {
 		}
 
 		return clean;
+	}
+
+	private static void printMap(Object[][] map, int columnCount, int rowCount) {
+		for (int row = 0; row < rowCount; row++) {
+			for (int col = 0; col < columnCount; col++) {
+				System.out.print(map[col][row] + " | ");
+			}
+			System.out.print("\n");
+		}
 	}
 }
