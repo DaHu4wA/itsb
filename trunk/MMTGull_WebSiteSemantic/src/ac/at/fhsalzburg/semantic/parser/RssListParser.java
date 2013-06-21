@@ -49,7 +49,6 @@ public class RssListParser {
 			t.start();
 		}
 		System.out.println("\nAll " + threads.size() + " threads started!\n");
-		
 
 		for (Thread thread : threads) {
 			try {

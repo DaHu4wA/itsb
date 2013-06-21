@@ -28,13 +28,13 @@ public class AnalyzedWordMatcher {
 		}
 		cutIrrelevantWords(allAnalyzed);
 
-		printResult();
+		// printWords();
 	}
 
 	private void cutIrrelevantWords(List<WordsWithCountAndUrl> allAnalyzed) {
 		//cut irrelevant from the big list
 		Set<String> removedWords = cutUpperAndLowerResult(allAnalyzed); 
-		System.out.println(removedWords.size()+" words will be filtered out.");
+		System.out.println("\n"+removedWords.size()+" words will be filtered out.");
 
 		// then delete them from the single lists
 		for (WordsWithCountAndUrl analyzed : allAnalyzed) {
@@ -132,7 +132,7 @@ public class AnalyzedWordMatcher {
 		return removedWords;
 	}
 
-	private void printResult() {
+	private void printWords() {
 		System.out.println("-------------------------------");
 		System.out.println("\nHere are the most relevant, filtered words:");
 		System.out.println("__________________________________");

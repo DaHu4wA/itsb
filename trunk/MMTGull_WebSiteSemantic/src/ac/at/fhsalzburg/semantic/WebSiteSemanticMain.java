@@ -15,13 +15,13 @@ public class WebSiteSemanticMain {
 	public static void main(String[] args) throws Exception {
 		long startTime = System.currentTimeMillis();
 
-		String source = "bloglist2.txt"; 
-//		String source = "bloglistShort.txt"; 
+//		String source = "bloglist2.txt"; 
+		String source = "bloglistShort.txt"; 
 		List<String> urls = readUrlsFromFile(WebSiteSemanticMain.class.getResource(source).toURI().getPath());
 
 		int count = new RssListParser().parseAndCleanFeeds(urls);
 
-		System.out.println("Analyzed " + count + " feeds in " + ((System.currentTimeMillis() - startTime) / 1000) + " seconds.");
+		System.out.println("Total runtime for " + count + " feeds: " + ((System.currentTimeMillis() - startTime) / 1000) + " sec");
 	}
 
 	private static List<String> readUrlsFromFile(String file) throws FileNotFoundException, URISyntaxException, IOException {
