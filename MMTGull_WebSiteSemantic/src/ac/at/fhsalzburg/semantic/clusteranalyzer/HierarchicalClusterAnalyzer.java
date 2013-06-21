@@ -32,12 +32,16 @@ public class HierarchicalClusterAnalyzer {
 			}
 		}
 		long startTime = System.currentTimeMillis();
+		System.out.println("\n\n - - DOING CLUSTER ANALYZATION - - \n");
+		
 		doClustering(clusterElements);
 		System.out.println("Time for builing cluster: " + ((System.currentTimeMillis() - startTime) / 1000) + " sec");
 	}
 
 	private void doClustering(List<ClusterElement> clusterElements) {
 		recursiveIterationCount++;
+		System.out.print("\n"+recursiveIterationCount+"\t| ");
+		
 		if (clusterElements.size() > 1) {
 			List<ClusterElement> tempClusters = new ArrayList<ClusterElement>();
 			for (int firstElem = 0; firstElem < clusterElements.size(); firstElem++) {
@@ -56,10 +60,12 @@ public class HierarchicalClusterAnalyzer {
 					tempClusters.add(clusteredElement);
 					// alle berechnen und besten zwei kombinieren
 				}
+				System.out.print(".");
 			}
 			ClusterElement bestMatching = getBestMatchingClusterElement(tempClusters);
 			clusterElements.removeAll(bestMatching.getChilds());
 			clusterElements.add(bestMatching);
+
 			doClustering(clusterElements);
 		} else {
 			// TODO print result
