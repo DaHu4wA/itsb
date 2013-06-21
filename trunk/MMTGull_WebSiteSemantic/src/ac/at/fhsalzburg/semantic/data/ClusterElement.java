@@ -8,7 +8,7 @@ public class ClusterElement {
 
 	float r;
 	Object[] wordCounts;
-	ClusterElement parent;
+//	ClusterElement parent;
 	List<ClusterElement> childs = new ArrayList<>();
 
 	public ClusterElement(float r, Object[] mergedBlogs, ClusterElement... childs) {
@@ -33,13 +33,13 @@ public class ClusterElement {
 		this.wordCounts = wordCounts;
 	}
 
-	public ClusterElement getParent() {
-		return parent;
-	}
+//	public ClusterElement getParent() {
+//		return parent;
+//	}
 
-	public void setParent(ClusterElement parent) {
-		this.parent = parent;
-	}
+//	public void setParent(ClusterElement parent) {
+//		this.parent = parent;
+//	}
 
 	public List<ClusterElement> getChilds() {
 		return childs;
