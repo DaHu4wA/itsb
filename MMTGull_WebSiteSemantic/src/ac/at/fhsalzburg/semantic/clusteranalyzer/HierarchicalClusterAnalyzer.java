@@ -44,8 +44,8 @@ public class HierarchicalClusterAnalyzer {
 					float r = calculateCorrCoeff(firstCluster.getWordCounts(), secondCluster.getWordCounts());
 					ClusterElement clusteredElement = new ClusterElement(r, mergeBlogs(firstCluster.getWordCounts(),
 							secondCluster.getWordCounts()), firstCluster, secondCluster);
-					firstCluster.setParent(clusteredElement);
-					secondCluster.setParent(clusteredElement);
+					// firstCluster.setParent(clusteredElement);
+					// secondCluster.setParent(clusteredElement);
 
 					tempClusters.add(clusteredElement);
 
