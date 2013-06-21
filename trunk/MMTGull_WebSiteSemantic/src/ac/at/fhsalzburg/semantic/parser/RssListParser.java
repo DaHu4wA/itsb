@@ -60,18 +60,15 @@ public class RssListParser {
 		threads.clear();
 		long completeFetchTime = System.currentTimeMillis()-fetchTime;
 
-		long calcTime = System.currentTimeMillis();
 		AnalyzedWordMatcher analyzer = new AnalyzedWordMatcher();
 		analyzer.matchWordLists(allAnalyzedFeeds);
 
 		Object[][] map = buildArray(allAnalyzedFeeds, analyzer.getoverallWordsWithCount());
 
-		// TODO analysieren mit den zwei Methoden
 		HierarchicalClusterAnalyzer hierarchicalClusterAnalyzer = new HierarchicalClusterAnalyzer();
 		hierarchicalClusterAnalyzer.analyze(map);
 		
 		System.out.println("Time for downloading feeds: "+completeFetchTime/1000+" sec.");
-		System.out.println("Time for analyzing: "+(System.currentTimeMillis()-calcTime)+" ms.");
 		
 		return allAnalyzedFeeds.size();
 	}
