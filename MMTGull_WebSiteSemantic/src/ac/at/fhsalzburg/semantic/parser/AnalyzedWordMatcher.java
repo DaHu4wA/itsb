@@ -132,16 +132,18 @@ public class AnalyzedWordMatcher {
 		return removedWords;
 	}
 
-	private void printWords() {
-		System.out.println("-------------------------------");
-		System.out.println("\nHere are the most relevant, filtered words:");
-		System.out.println("__________________________________");
-		System.out.println("|     WORD\t|     COUNT \t |");
-		System.out.println("----------------------------------");
-		for (String s : overallWordsWithCount.keySet()) {
-			System.out.println("| " + s + "  \t|\t" + overallWordsWithCount.get(s) + "\t |");
-		}
-		System.out.println("----------------------------------");
-		System.out.println("| " + overallWordsWithCount.size() + " words\t|\t\t |\n");
-	}
+	// private void printWords() {
+	// System.out.println("-------------------------------");
+	// System.out.println("\nHere are the most relevant, filtered words:");
+	// System.out.println("__________________________________");
+	// System.out.println("|     WORD\t|     COUNT \t |");
+	// System.out.println("----------------------------------");
+	// for (String s : overallWordsWithCount.keySet()) {
+	// System.out.println("| " + s + "  \t|\t" + overallWordsWithCount.get(s) +
+	// "\t |");
+	// }
+	// System.out.println("----------------------------------");
+	// System.out.println("| " + overallWordsWithCount.size() +
+	// " words\t|\t\t |\n");
+	// }
 }
