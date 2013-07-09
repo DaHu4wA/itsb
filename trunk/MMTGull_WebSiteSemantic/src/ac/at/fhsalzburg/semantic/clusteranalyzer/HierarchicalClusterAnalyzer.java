@@ -44,8 +44,6 @@ public class HierarchicalClusterAnalyzer {
 					float r = calculateCorrCoeff(firstCluster.getWordCounts(), secondCluster.getWordCounts());
 					ClusterElement clusteredElement = new ClusterElement(r, mergeBlogs(firstCluster.getWordCounts(),
 							secondCluster.getWordCounts()), firstCluster, secondCluster);
-					// firstCluster.setParent(clusteredElement);
-					// secondCluster.setParent(clusteredElement);
 
 					tempClusters.add(clusteredElement);
 
@@ -60,13 +58,15 @@ public class HierarchicalClusterAnalyzer {
 
 			doClustering(clusterElements);
 		} else {
-			// TODO print result
-//			System.out.println(clusterElements);
 
+			System.out.println("\n\n");
+			System.out.println(clusterElements.get(0).getString(0));
+			
 			System.out.println("Iteration count: " + recursiveIterationCount);
 		}
 
 	}
+
 
 	/**
 	 * To keep the temp list small we only keep elements that might be relevant

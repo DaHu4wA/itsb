@@ -9,6 +9,7 @@ import java.util.regex.Pattern;
 import org.horrabin.horrorss.RssItemBean;
 
 import ac.at.fhsalzburg.semantic.clusteranalyzer.HierarchicalClusterAnalyzer;
+import ac.at.fhsalzburg.semantic.clusteranalyzer.KMeansClusterAnalyzer;
 import ac.at.fhsalzburg.semantic.data.Feed;
 import ac.at.fhsalzburg.semantic.data.WordsWithCountAndUrl;
 
@@ -67,6 +68,9 @@ public class RssListParser {
 
 		HierarchicalClusterAnalyzer hierarchicalClusterAnalyzer = new HierarchicalClusterAnalyzer();
 		hierarchicalClusterAnalyzer.analyze(map);
+		
+//		KMeansClusterAnalyzer kmean = new KMeansClusterAnalyzer();
+//		kmean.analyze(map, 1);
 		
 		System.out.println("Time for downloading feeds: "+completeFetchTime/1000+" sec.");
 		
