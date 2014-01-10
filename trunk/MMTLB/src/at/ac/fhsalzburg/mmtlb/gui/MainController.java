@@ -19,6 +19,10 @@ import javax.swing.WindowConstants;
 import org.apache.log4j.Logger;
 
 import at.ac.fhsalzburg.mmtlb.applications.ImageModificationType;
+import at.ac.fhsalzburg.mmtlb.applications.comparations.ComparationFinishedCallback;
+import at.ac.fhsalzburg.mmtlb.applications.comparations.GlobalMeanImageComparator;
+import at.ac.fhsalzburg.mmtlb.applications.comparations.ImageWithImageSetComparator;
+import at.ac.fhsalzburg.mmtlb.applications.comparations.VarianceImageComparator;
 import at.ac.fhsalzburg.mmtlb.applications.tools.FileImageConverter;
 import at.ac.fhsalzburg.mmtlb.applications.tools.MMTImageCombiner;
 import at.ac.fhsalzburg.mmtlb.gui.comparation.ImageComparator;
@@ -84,7 +88,7 @@ public class MainController extends JFrame implements IFImageController {
 					// (EDT-Thread)
 					@Override
 					public void run() {
-						openImageFile();
+						openImageFile(true, "Choose an image to open");
 					}
 				});
 				t.start();
@@ -122,6 +126,38 @@ public class MainController extends JFrame implements IFImageController {
 				});
 				t.start();
 				view.getConvertWholeFolderToPNG().setEnabled(false);
+			}
+		});
+
+		view.getCompareGlobalMean().addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				compareImagesAverage();
+			}
+		});
+
+		view.getCompareVariance().addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				compareImagesVariance();
+			}
+		});
+
+		view.getCompareGlobalMeanFolder().addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				compareWithFolderImages(ImageWithImageSetComparator.AVERAGE_OPTION);
+			}
+		});
+
+		view.getCompareVarianceFolder().addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				compareWithFolderImages(ImageWithImageSetComparator.VARIANCE_OPTION);
 			}
 		});
 
@@ -168,28 +204,29 @@ public class MainController extends JFrame implements IFImageController {
 	/**
 	 * File chooser for opening an image
 	 */
-	private void openImageFile() {
+	private MMTImage openImageFile(boolean show, String dialogTitle) {
+		MMTImage result = null;
 		JFileChooser fileChooser = new JFileChooser();
 
 		ImagePreviewFileChooser preview = new ImagePreviewFileChooser(fileChooser);
 		fileChooser.addPropertyChangeListener(preview);
 		fileChooser.setAccessory(preview);
 
-		fileChooser.setDialogTitle("Choose an image to open");
+		fileChooser.setDialogTitle(dialogTitle);
 		fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
 		int returnVal = fileChooser.showOpenDialog(this);
 		if (returnVal == JFileChooser.APPROVE_OPTION) {
 			File file = fileChooser.getSelectedFile();
 			LOG.debug(String.format("File selected: %s", file.getName()));
 
-			openImageFile(file);
+			result = openImageFile(file, show);
 
 		} else {
 			LOG.info("No file selected");
 			view.getOpenFileButton().setEnabled(true);
 			view.getOpenFileButton().setText(MainView.OPEN_IMAGE_TEXT);
 		}
-
+		return result;
 	}
 
 	private void convertFromJpgToPng() {
@@ -211,9 +248,8 @@ public class MainController extends JFrame implements IFImageController {
 	}
 
 	private void postFileConvertSuccessMessage(int count) {
-		JOptionPane.showMessageDialog(this, "Conversion finished!\n" + "\n" + count + " jpg file(s) converted."
-				+ "\nResults saved into subfolder *" + FileImageConverter.RESULT_SUBFOLDER_NAME + "*", "Conversion finished!",
-				JOptionPane.INFORMATION_MESSAGE);
+		JOptionPane.showMessageDialog(this, "Conversion finished!\n" + "\n" + count + " jpg file(s) converted." + "\nResults saved into subfolder *"
+				+ FileImageConverter.RESULT_SUBFOLDER_NAME + "*", "Conversion finished!", JOptionPane.INFORMATION_MESSAGE);
 	}
 
 	private void saveFile() {
@@ -241,41 +277,44 @@ public class MainController extends JFrame implements IFImageController {
 	}
 
 	/**
-	 * @param file that should be displayed
+	 * @param file
+	 *            that should be displayed
 	 */
-	private void openImageFile(File file) {
+	private MMTImage openImageFile(File file, boolean showImage) {
 
-		if (!changeHistory.isEmpty()) {
+		if (!changeHistory.isEmpty() && showImage) {
 			view.getApplicationsPanel().getModificationTypeBox().setSelectedItem(ImageModificationType.CONTRAST_STRETCHING);
 			setModificationDataPanel(ImageModificationType.CONTRAST_STRETCHING);
 		}
 
 		MMTImage openedImage = FileImageReader.read(file);
 
-		view.getOpenFileButton().setEnabled(true);
-		view.getOpenFileButton().setText(MainView.OPEN_IMAGE_TEXT);
-		view.getApplicationsPanel().setEnabled(true);
-
-		if (openedImage == null) {
-			JOptionPane.showMessageDialog(view, "File could not be opened! \nOnly pictures are supported!",
-					"Error: Unsupported file type!", JOptionPane.ERROR_MESSAGE);
-			changeHistory.clear();
-			changeHistory.add(new MMTImage(currentImage));
-			return;
+		if (showImage) {
+			view.getOpenFileButton().setEnabled(true);
+			view.getOpenFileButton().setText(MainView.OPEN_IMAGE_TEXT);
+			view.getApplicationsPanel().setEnabled(true);
 		}
 
-		changeHistory.clear();
-		currentImage = new MMTImage(openedImage);
-		changeHistory.add(openedImage);
-		view.setMMTImage(currentImage);
+		if (openedImage == null) {
+			JOptionPane.showMessageDialog(view, "File could not be opened! \nOnly pictures are supported!", "Error: Unsupported file type!",
+					JOptionPane.ERROR_MESSAGE);
+			changeHistory.clear();
+			changeHistory.add(new MMTImage(currentImage));
+			return null;
+		}
 
-		setTitle(TITLE_TEXT + "  - " + currentImage.getName());
+		if (showImage) {
+			changeHistory.clear();
+			currentImage = new MMTImage(openedImage);
+			changeHistory.add(openedImage);
+			view.setMMTImage(currentImage);
+			setTitle(TITLE_TEXT + "  - " + currentImage.getName());
+			enableFunctions();
+			setModificationDataPanel(ImageModificationType.CONTRAST_STRETCHING);
+			repaint();
+		}
 
-		enableFunctions();
-
-		setModificationDataPanel(ImageModificationType.CONTRAST_STRETCHING);
-
-		repaint();
+		return openedImage;
 	}
 
 	public void enableFunctions() {
@@ -318,6 +357,7 @@ public class MainController extends JFrame implements IFImageController {
 		view.getApplicationsPanel().removeAdditionalDataPanel();
 
 		switch (action) {
+
 		case CONTRAST_STRETCHING:
 			modificationHelper.applyContrastStretching();
 			break;
@@ -411,8 +451,8 @@ public class MainController extends JFrame implements IFImageController {
 	}
 
 	private void displayNotImplementedWarning() {
-		JOptionPane.showMessageDialog(view, "Sorry, \nit looks like this function has not been implemented yet!",
-				"Feature not implemented yet", JOptionPane.ERROR_MESSAGE);
+		JOptionPane.showMessageDialog(view, "Sorry, \nit looks like this function has not been implemented yet!", "Feature not implemented yet",
+				JOptionPane.ERROR_MESSAGE);
 	}
 
 	public MainView getView() {
@@ -430,4 +470,45 @@ public class MainController extends JFrame implements IFImageController {
 		glassPane.setVisible(true);
 	}
 
+	public void compareImagesAverage() {
+		MMTImage image1 = openImageFile(false, "Select FIRST image");
+		MMTImage image2 = openImageFile(false, "Select SECOND image");
+
+		new GlobalMeanImageComparator(new ComparationFinishedCallback() {
+			@Override
+			public void comparationFinsihed(Integer comparationResult) {
+				JOptionPane.showMessageDialog(view, "Global Mean Comparation result: " + comparationResult, "Result", JOptionPane.INFORMATION_MESSAGE);
+			}
+		}).compareImages(image1, image2);
+
+	}
+
+	public void compareImagesVariance() {
+		MMTImage img1 = openImageFile(false, "Select FIRST image");
+		MMTImage img2 = openImageFile(false, "Select SECOND image");
+
+		new VarianceImageComparator(new ComparationFinishedCallback() {
+			@Override
+			public void comparationFinsihed(Integer comparationResult) {
+				JOptionPane.showMessageDialog(view, "Variance Comparation result: " + comparationResult, "Result", JOptionPane.INFORMATION_MESSAGE);
+			}
+		}).compareImages(img1, img2);
+	}
+
+	public void compareWithFolderImages(int type) {
+		String result = "no result!";
+
+		MMTImage refImg = openImageFile(false, "Select REFERENCE image");
+
+		JFileChooser fileChooser = new JFileChooser();
+		fileChooser.setDialogTitle("Select folder containing reference images");
+		fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+		int returnVal = fileChooser.showOpenDialog(this);
+		if (returnVal == JFileChooser.APPROVE_OPTION) {
+			File directory = fileChooser.getSelectedFile();
+
+			result = ImageWithImageSetComparator.compare(refImg, directory, type);
+		}
+		JOptionPane.showMessageDialog(view, result, "Result", JOptionPane.INFORMATION_MESSAGE);
+	}
 }

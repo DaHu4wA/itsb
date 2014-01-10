@@ -18,6 +18,10 @@ public class FileImageWriter {
 	public static void write(MMTImage image, String filePath) {
 		write(image, new File(filePath));
 	}
+	
+	public static void write(MMTImage image, String filePath, String fileType) {
+		write(image, new File(filePath), fileType);
+	}
 
 	public static void write(MMTImage image, File file) {
 		write(image, file, "jpg");

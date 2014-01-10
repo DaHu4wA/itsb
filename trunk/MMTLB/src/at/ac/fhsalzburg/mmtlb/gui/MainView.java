@@ -63,6 +63,11 @@ public class MainView extends AccordionPanel {
 	private JButton convertWholeFolderToPNG;
 	private JButton saveButton;
 
+	private JButton compareGlobalMean;
+	private JButton compareVariance;
+	private JButton compareGlobalMeanFolder;
+	private JButton compareVarianceFolder;
+
 	private ApplicationsPanel applicationsPanel;
 	private FooterPanel footerPanel;
 
@@ -84,6 +89,10 @@ public class MainView extends AccordionPanel {
 		revertButton.setToolTipText(REVERT_TEXT_TOOLTIP);
 
 		convertWholeFolderToPNG = new JButton(CONVERT_FOLDER_TEXT, new ImageIcon(MainView.class.getResource("copy.png")));
+		compareGlobalMean = new JButton("Pair Compare Average (2 files)");
+		compareVariance = new JButton("Pair Compare Variance (2 files)");
+		compareGlobalMeanFolder = new JButton("Folder Compare Average (file + path)");
+		compareVarianceFolder = new JButton("Folder Compare Variance (file + path)");
 
 		saveButton = new JButton(SAVE_FILE_TEXT, new ImageIcon(MainView.class.getResource("save.png")));
 		saveButton.setToolTipText(SAVE_FILE_TEXT_TOOLTOP);
@@ -114,18 +123,19 @@ public class MainView extends AccordionPanel {
 		// Panel to add the buttons
 		JPanel folderActionPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 10));
 		folderActionPanel.add(convertWholeFolderToPNG);
+		folderActionPanel.add(compareGlobalMean);
+		folderActionPanel.add(compareVariance);
+		folderActionPanel.add(compareGlobalMeanFolder);
+		folderActionPanel.add(compareVarianceFolder);
 
-		fileActionsPanel = new AccordionContentPanel(FILE_TITLE, ColoredPanel.createRaised(fileActionsColor, fileActionPanel),
-				fileActionsColor);
+		fileActionsPanel = new AccordionContentPanel(FILE_TITLE, ColoredPanel.createRaised(fileActionsColor, fileActionPanel), fileActionsColor);
 		addFoldable(fileActionsPanel, false);
-		addFoldable(new AccordionContentPanel("Image converters", ColoredPanel.createRaised(imageConverterColor, folderActionPanel),
+		addFoldable(new AccordionContentPanel("Image Converters and misc. Tools", ColoredPanel.createRaised(imageConverterColor, folderActionPanel),
 				imageConverterColor), true);
-		addFoldable(new AccordionContentPanel("Image modifications", ColoredPanel.createRaised(imageModColor, applicationsPanel),
-				imageModColor), true);
+		addFoldable(new AccordionContentPanel("Image modifications", ColoredPanel.createRaised(imageModColor, applicationsPanel), imageModColor), true);
 
 		mmtImagePanel = new MMTImagePanel();
-		addContent(new JScrollPane(mmtImagePanel, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
-				ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED));
+		addContent(new JScrollPane(mmtImagePanel, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED));
 		setFooter(footerPanel);
 	}
 
@@ -138,12 +148,12 @@ public class MainView extends AccordionPanel {
 	}
 
 	/**
-	 * @param image the image that should be displayed
+	 * @param image
+	 *            the image that should be displayed
 	 */
 	public void setMMTImage(MMTImage image) {
 		mmtImagePanel.setImage(image);
-		fileActionsPanel.getSeparatorPanel().setTitle(
-				FILE_TITLE + "    -    " + image.getName() + "      " + image.getWidth() + "x" + image.getHeight());
+		fileActionsPanel.getSeparatorPanel().setTitle(FILE_TITLE + "    -    " + image.getName() + "      " + image.getWidth() + "x" + image.getHeight());
 		repaint();
 	}
 
@@ -165,6 +175,22 @@ public class MainView extends AccordionPanel {
 
 	public JButton getCompareButton() {
 		return compareButton;
+	}
+
+	public JButton getCompareGlobalMean() {
+		return compareGlobalMean;
+	}
+
+	public JButton getCompareVariance() {
+		return compareVariance;
+	}
+
+	public JButton getCompareGlobalMeanFolder() {
+		return compareGlobalMeanFolder;
+	}
+
+	public JButton getCompareVarianceFolder() {
+		return compareVarianceFolder;
 	}
 
 }
