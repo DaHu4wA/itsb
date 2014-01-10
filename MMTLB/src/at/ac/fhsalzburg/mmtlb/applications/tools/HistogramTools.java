@@ -33,7 +33,8 @@ public class HistogramTools {
 	}
 
 	/**
-	 * @param image source image
+	 * @param image
+	 *            source image
 	 * @return a normalized histogram
 	 */
 	public static BigDecimal[] getNormalizedHistogram(MMTImage image) {
@@ -91,7 +92,8 @@ public class HistogramTools {
 	}
 
 	/**
-	 * @param image given image
+	 * @param image
+	 *            given image
 	 * @returns the global mean gray value
 	 */
 	public static int getGlobalMean(MMTImage image) {
@@ -101,6 +103,19 @@ public class HistogramTools {
 			globalMean = globalMean.add(nHist[i].multiply(new BigDecimal(i)));
 		}
 		return globalMean.intValue();
+	}
+
+	public static double getGlobalVariance(MMTImage image) {
+		int globalMean = getGlobalMean(image);
+
+		double temp = 0;
+		for (int i = 0; i < image.getImageData().length; i++) {
+			int value = image.getImageData()[i];
+
+			temp += Math.pow((value - globalMean), 2);
+		}
+
+		return temp / (image.getWidth() * image.getHeight());
 	}
 
 }
