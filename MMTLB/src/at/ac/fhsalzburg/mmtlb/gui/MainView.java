@@ -67,6 +67,8 @@ public class MainView extends AccordionPanel {
 	private JButton compareVariance;
 	private JButton compareGlobalMeanFolder;
 	private JButton compareVarianceFolder;
+	private JButton compareHistogramFolder;
+	private JButton compareShapeFolder;
 
 	private ApplicationsPanel applicationsPanel;
 	private FooterPanel footerPanel;
@@ -93,6 +95,8 @@ public class MainView extends AccordionPanel {
 		compareVariance = new JButton("Pair Compare Variance (2 files)");
 		compareGlobalMeanFolder = new JButton("Folder Compare Average (file + path)");
 		compareVarianceFolder = new JButton("Folder Compare Variance (file + path)");
+		compareHistogramFolder = new JButton("Folder Compare Histogram (file + path)");
+		compareShapeFolder = new JButton("Folder Compare Shape (file + path)");
 
 		saveButton = new JButton(SAVE_FILE_TEXT, new ImageIcon(MainView.class.getResource("save.png")));
 		saveButton.setToolTipText(SAVE_FILE_TEXT_TOOLTOP);
@@ -127,6 +131,8 @@ public class MainView extends AccordionPanel {
 		folderActionPanel.add(compareVariance);
 		folderActionPanel.add(compareGlobalMeanFolder);
 		folderActionPanel.add(compareVarianceFolder);
+		folderActionPanel.add(compareHistogramFolder);
+		folderActionPanel.add(compareShapeFolder);
 
 		fileActionsPanel = new AccordionContentPanel(FILE_TITLE, ColoredPanel.createRaised(fileActionsColor, fileActionPanel), fileActionsColor);
 		addFoldable(fileActionsPanel, false);
@@ -191,6 +197,14 @@ public class MainView extends AccordionPanel {
 
 	public JButton getCompareVarianceFolder() {
 		return compareVarianceFolder;
+	}
+
+	public JButton getCompareHistogramFolder() {
+		return compareHistogramFolder;
+	}
+
+	public JButton getCompareShapeFolder() {
+		return compareShapeFolder;
 	}
 
 }

@@ -65,6 +65,53 @@ public class SobelFilter extends AbstractImageModificationWorker {
 
 		return filter;
 	}
+	
+	public MMTImage performAngleSobel(MMTImage image) throws InterruptedException {
+		MMTImage result = new MMTImage(image.getHeight(), image.getWidth());
+		result.setName(image.getName());
+
+		// go through every pixel and set its angle
+		for (int y = 0; y < image.getHeight(); y++) {
+			checkIfInterrupted();
+			for (int x = 0; x < image.getWidth(); x++) {
+				publishProgress(image, x + y * image.getWidth());
+				result.setPixel2D(x, y, (int) getDegree(image, x, y));
+			}
+		}
+		return result;
+	}
+	
+	private int getDegree(MMTImage image, int x, int y) {
+		
+		double gx = getHval(image, x, y);
+		double gy = getVval(image, x, y);
+		
+		if(gx == 0){
+			return 2;
+		}
+		
+		double degree = (Math.atan(gx/gy) * 180)/Math.PI;
+//		System.out.println("deg: "+degree);
+		
+		if(degree >= 0){
+			degree += 90;
+		}else{
+			degree -= 90;
+		}
+		
+		while(360 <= degree){
+			degree -= 360;
+		}
+		
+		while(degree >= -360 && degree < 0){
+			degree += 360;
+		}
+		
+//		System.out.println("aftercalc. "+degree);
+		int res = (int) ((degree / 360)*8);
+//		System.out.println("res. "+res);
+		return res;
+	}
 
 	private double getHval(MMTImage image, int x, int y) {
 		double horizontalSum = 0;
