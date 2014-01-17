@@ -24,10 +24,10 @@ public class ImageWithImageSetComparator {
 		File[] files = directory.listFiles();
 
 		for (File file : files) {
-			if(file.isDirectory()){
+			if (file.isDirectory()) {
 				continue;
 			}
-			
+
 			MMTImage img = FileImageReader.read(file);
 			if (img != null) {
 				otherImages.add(img);
@@ -48,10 +48,9 @@ public class ImageWithImageSetComparator {
 				compareVariance(referenceImage, scoreList, otherImage);
 			} else if (HISTOGRAM_OPTION == type) {
 				compareHistogram(referenceImage, scoreList, otherImage, additionalData);
-			}
-			else if (SHAPE_BASED_OPTION == type) {
+			} else if (SHAPE_BASED_OPTION == type) {
 				compareShapes(referenceImage, scoreList, otherImage, additionalData);
-			}else {
+			} else {
 				throw new IllegalArgumentException("invalid type!");
 			}
 		}
@@ -65,8 +64,11 @@ public class ImageWithImageSetComparator {
 			}
 		});
 
-		String rootDir = directory.getPath() + "\\search";
+		String rootDir = directory.getPath() + "\\searchResultMMT";
 		File rootFile = new File(rootDir);
+		if (rootFile.exists()) {
+			rootFile.renameTo(new File(directory.getPath() + "\\old" + System.currentTimeMillis()));
+		}
 		rootFile.mkdir();
 
 		String result = "Top 10 images similar to " + referenceImage.getName() + "\n";
@@ -77,11 +79,11 @@ public class ImageWithImageSetComparator {
 				break;
 			}
 			result = result + "\n#" + score + ": " + ratedMMTImage.getImage().getName() + "  (diff: " + ratedMMTImage.getScore() + ")";
-			String scoredFilePath = rootDir + "\\" + score + "-" + ratedMMTImage.getImage().getName() + ".png"; 
+			String scoredFilePath = rootDir + "\\" + score + "-" + ratedMMTImage.getImage().getName() + ".png";
 			FileImageWriter.write(ratedMMTImage.getImage(), scoredFilePath, "png");
 			score++;
 		}
-		result = result + "\n\nTop 10 Files saved into: "+rootDir;
+		result = result + "\n\nTop 10 Files saved into: " + rootDir;
 		return result;
 	}
 
@@ -115,24 +117,24 @@ public class ImageWithImageSetComparator {
 	 * Use Histogram Method
 	 */
 	private static void compareHistogram(MMTImage referenceImage, final List<RatedMMTImage> scoreList, final MMTImage otherImage, Object additionalData) {
-		
+
 		new HistogramImageComparator(new ComparationFinishedCallback() {
 
 			@Override
 			public void comparationFinsihed(Integer comparationResult) {
 				scoreList.add(new RatedMMTImage(otherImage, (Integer) comparationResult));
 			}
-		}, ((Integer)additionalData)).compareImages(referenceImage, otherImage);
+		}, ((Integer) additionalData)).compareImages(referenceImage, otherImage);
 	}
-	
-private static void compareShapes(MMTImage referenceImage, final List<RatedMMTImage> scoreList, final MMTImage otherImage, Object additionalData) {
-		
+
+	private static void compareShapes(MMTImage referenceImage, final List<RatedMMTImage> scoreList, final MMTImage otherImage, Object additionalData) {
+
 		new ShapeImageComparator(new ComparationFinishedCallback() {
 
 			@Override
 			public void comparationFinsihed(Integer comparationResult) {
 				scoreList.add(new RatedMMTImage(otherImage, (Integer) comparationResult));
 			}
-		}, ((Integer)additionalData)).compareImages(referenceImage, otherImage);
+		}, ((Integer) additionalData)).compareImages(referenceImage, otherImage);
 	}
 }
