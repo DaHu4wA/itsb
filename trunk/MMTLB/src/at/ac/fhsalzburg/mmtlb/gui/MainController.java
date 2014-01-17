@@ -149,7 +149,7 @@ public class MainController extends JFrame implements IFImageController {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				compareWithFolderImages(ImageWithImageSetComparator.AVERAGE_OPTION);
+				compareWithFolderImages(ImageWithImageSetComparator.AVERAGE_OPTION, null);
 			}
 		});
 
@@ -157,7 +157,29 @@ public class MainController extends JFrame implements IFImageController {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				compareWithFolderImages(ImageWithImageSetComparator.VARIANCE_OPTION);
+				compareWithFolderImages(ImageWithImageSetComparator.VARIANCE_OPTION, null);
+			}
+		});
+
+		view.getCompareHistogramFolder().addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+
+				int r = Integer.parseInt(JOptionPane.showInputDialog(MainController.this, "Enter \"r\" for ", 1).toString());
+
+				compareWithFolderImages(ImageWithImageSetComparator.HISTOGRAM_OPTION, r);
+			}
+		});
+		
+		view.getCompareShapeFolder().addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+
+				int r = Integer.parseInt(JOptionPane.showInputDialog(MainController.this, "Enter \"r\" for ", 1).toString());
+
+				compareWithFolderImages(ImageWithImageSetComparator.SHAPE_BASED_OPTION, r);
 			}
 		});
 
@@ -495,7 +517,7 @@ public class MainController extends JFrame implements IFImageController {
 		}).compareImages(img1, img2);
 	}
 
-	public void compareWithFolderImages(int type) {
+	public void compareWithFolderImages(int type, Object additionalData) {
 		String result = "no result!";
 
 		MMTImage refImg = openImageFile(false, "Select REFERENCE image");
@@ -507,7 +529,7 @@ public class MainController extends JFrame implements IFImageController {
 		if (returnVal == JFileChooser.APPROVE_OPTION) {
 			File directory = fileChooser.getSelectedFile();
 
-			result = ImageWithImageSetComparator.compare(refImg, directory, type);
+			result = ImageWithImageSetComparator.compare(refImg, directory, type, additionalData);
 		}
 		JOptionPane.showMessageDialog(view, result, "Result", JOptionPane.INFORMATION_MESSAGE);
 	}

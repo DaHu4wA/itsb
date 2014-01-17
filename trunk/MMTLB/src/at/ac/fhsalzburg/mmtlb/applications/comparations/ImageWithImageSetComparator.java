@@ -14,23 +14,29 @@ public class ImageWithImageSetComparator {
 
 	public static final int AVERAGE_OPTION = 0;
 	public static final int VARIANCE_OPTION = 1;
+	public static final int HISTOGRAM_OPTION = 2;
+	public static final int SHAPE_BASED_OPTION = 3;
 
-	public static String compare(MMTImage referenceImage, File directory, int type) {
+	public static String compare(MMTImage referenceImage, File directory, int type, Object additionalData) {
 
 		List<MMTImage> otherImages = new ArrayList<MMTImage>();
 
 		File[] files = directory.listFiles();
 
 		for (File file : files) {
+			if(file.isDirectory()){
+				continue;
+			}
+			
 			MMTImage img = FileImageReader.read(file);
 			if (img != null) {
 				otherImages.add(img);
 			}
 		}
-		return compare(referenceImage, otherImages, type, directory);
+		return compare(referenceImage, otherImages, type, directory, additionalData);
 	}
 
-	public static String compare(MMTImage referenceImage, List<MMTImage> otherImages, int type, File directory) {
+	public static String compare(MMTImage referenceImage, List<MMTImage> otherImages, int type, File directory, Object additionalData) {
 
 		final List<RatedMMTImage> scoreList = new ArrayList<RatedMMTImage>();
 
@@ -40,7 +46,12 @@ public class ImageWithImageSetComparator {
 				compareGlobalMean(referenceImage, scoreList, otherImage);
 			} else if (VARIANCE_OPTION == type) {
 				compareVariance(referenceImage, scoreList, otherImage);
-			} else {
+			} else if (HISTOGRAM_OPTION == type) {
+				compareHistogram(referenceImage, scoreList, otherImage, additionalData);
+			}
+			else if (SHAPE_BASED_OPTION == type) {
+				compareShapes(referenceImage, scoreList, otherImage, additionalData);
+			}else {
 				throw new IllegalArgumentException("invalid type!");
 			}
 		}
@@ -100,4 +111,28 @@ public class ImageWithImageSetComparator {
 		}).compareImages(referenceImage, otherImage);
 	}
 
+	/**
+	 * Use Histogram Method
+	 */
+	private static void compareHistogram(MMTImage referenceImage, final List<RatedMMTImage> scoreList, final MMTImage otherImage, Object additionalData) {
+		
+		new HistogramImageComparator(new ComparationFinishedCallback() {
+
+			@Override
+			public void comparationFinsihed(Integer comparationResult) {
+				scoreList.add(new RatedMMTImage(otherImage, (Integer) comparationResult));
+			}
+		}, ((Integer)additionalData)).compareImages(referenceImage, otherImage);
+	}
+	
+private static void compareShapes(MMTImage referenceImage, final List<RatedMMTImage> scoreList, final MMTImage otherImage, Object additionalData) {
+		
+		new ShapeImageComparator(new ComparationFinishedCallback() {
+
+			@Override
+			public void comparationFinsihed(Integer comparationResult) {
+				scoreList.add(new RatedMMTImage(otherImage, (Integer) comparationResult));
+			}
+		}, ((Integer)additionalData)).compareImages(referenceImage, otherImage);
+	}
 }
